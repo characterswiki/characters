@@ -12,23 +12,30 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 </head>
 <body>
+
   {% include header.html %}
 
-  <main class="site-main">
-    
+  <div class="wrapper site-main">
+
     <!-- Sidebar -->
     <aside class="sidebar">
       {% include sidebar.html %}
     </aside>
 
-    <!-- Article -->
+    <!-- Article Content -->
     <article class="post-content">
+
+      {% if page.image %}
+        <div class="featured-image">
+          <img src="{{ page.image }}" alt="{{ page.character_name | default: page.title }}" loading="lazy">
+        </div>
+      {% endif %}
+
       <h1>{{ page.title }}</h1>
-
       {{ content | markdownify | link_characters }}
-    </article>
 
-  </main>
+    </article>
+  </div>
 
   {% include footer.html %}
 
