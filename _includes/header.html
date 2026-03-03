@@ -5,12 +5,12 @@
 
   <nav class="site-nav">
     <ul>
-      <li><a href="{{ site.baseurl }}/">Home</a></li>
-      <li><a href="{{ site.baseurl }}/about">About</a></li>
-      <li><a href="{{ site.baseurl }}/categories">Categories</a></li>
-      <li><a href="{{ site.baseurl }}/tags">Tags</a></li>
-      <li><a href="{{ site.baseurl }}/contact">Contact</a></li>
-      <li><a href="{{ site.baseurl }}/privacy-policy">Privacy Policy</a></li>
+      <li><a href="{{ site.baseurl }}/" class="{% if page.url == '/' %}active{% endif %}">Home</a></li>
+      <li><a href="{{ site.baseurl }}/about" class="{% if page.url == '/about/' %}active{% endif %}">About</a></li>
+      <li><a href="{{ site.baseurl }}/categories" class="{% if page.url == '/categories/' %}active{% endif %}">Categories</a></li>
+      <li><a href="{{ site.baseurl }}/tags" class="{% if page.url == '/tags/' %}active{% endif %}">Tags</a></li>
+      <li><a href="{{ site.baseurl }}/contact" class="{% if page.url == '/contact/' %}active{% endif %}">Contact</a></li>
+      <li><a href="{{ site.baseurl }}/privacy-policy" class="{% if page.url == '/privacy-policy/' %}active{% endif %}">Privacy Policy</a></li>
     </ul>
   </nav>
 </header>
