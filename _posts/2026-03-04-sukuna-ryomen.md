@@ -3,10 +3,9 @@ title: Ryomen Sukuna (両面宿儺) — The King of Curses
 date: 2026-03-04
 categories: [Jujutsu Kaisen]
 tags: [Sukuna, 宿儺, Jujutsu Kaisen, Curses, Anime]
-image: /assets/images/sukona.jpg
+image: "" # No image uploaded
 excerpt: Ryomen Sukuna (両面宿儺) — Known as the King of Curses — is one of the most powerful cursed spirits in Japanese folklore and the primary antagonist in the manga/anime “Jujutsu Kaisen.”
 ---
-
 
 ## Introduction
 
@@ -107,5 +106,3 @@ Whether viewed as folklore or anime villain, Sukuna’s presence resonates with 
 
 ### Anime & Manga
 - *呪術廻戦* (*Jujutsu Kaisen*) — Manga by 芥見下々
-
----
