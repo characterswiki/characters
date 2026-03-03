@@ -138,7 +138,40 @@ body {
 .collapsible ul {
   margin-top: 10px;
 }
+/* Two-column layout */
+.site-main {
+  display: flex;
+  gap: 2rem;
+  padding: 20px;
+}
 
+/* Sidebar */
+.sidebar {
+  flex: 1;
+  max-width: 250px;
+}
+
+/* Article content */
+.post-content {
+  flex: 3;
+}
+
+/* MOBILE RESPONSIVE */
+@media screen and (max-width: 768px) {
+  .site-main {
+    display: block;
+    padding: 10px;
+  }
+
+  .sidebar {
+    max-width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .post-content {
+    flex: 1;
+  }
+}
 @media (max-width:768px) {
   .sidebar {
     margin-left: 0;
