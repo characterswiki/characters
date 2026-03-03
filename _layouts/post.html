@@ -11,18 +11,19 @@
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
   </head>
   <body>
-    {% include header.html %}
+    <header>
+      <h1>{{ page.title }}</h1>
+    </header>
 
     <main>
       <article>
-        <h1>{{ page.title }}</h1>
         {{ content }}
       </article>
-
-      {% include sidebar.html %}
     </main>
 
-    {% include footer.html %}
+    <footer>
+      <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}</p>
+    </footer>
 
     <!-- JSON-LD Schema for character post -->
     <script type="application/ld+json">
@@ -44,7 +45,5 @@
       }
     }
     </script>
-
-    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
   </body>
 </html>
