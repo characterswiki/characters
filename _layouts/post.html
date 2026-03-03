@@ -9,20 +9,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="canonical" href="{{ site.url }}{{ page.url }}">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+    <style>
+      /* Two-column layout */
+      .site-main {
+        display: flex;
+        max-width: 1200px;
+        margin: 2rem auto;
+        gap: 2rem;
+      }
+      .sidebar {
+        flex: 1;
+        min-width: 200px;
+        background: #f8f8f8;
+        padding: 1rem;
+        border-radius: 8px;
+        font-size: 0.95rem;
+      }
+      .post-content {
+        flex: 3;
+        line-height: 1.8;
+        font-size: 1rem;
+      }
+      .post-content h1, .post-content h2, .post-content h3 {
+        line-height: 1.3;
+      }
+      .post-content a {
+        color: #007bff;
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
-    <!-- Site Header -->
     {% include header.html %}
 
     <main class="site-main">
-      <!-- Post Content Only -->
+      <!-- Left sidebar -->
+      <aside class="sidebar">
+        <h3>Recent Posts</h3>
+        <ul>
+          {% for post in site.posts limit:5 %}
+            <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+
+        <h3>Categories</h3>
+        <ul>
+          {% for category in site.categories %}
+            <li><a href="{{ site.baseurl }}/categories/#{{ category[0] }}">{{ category[0] }}</a></li>
+          {% endfor %}
+        </ul>
+      </aside>
+
+      <!-- Right article content -->
       <article class="post-content">
         <h1>{{ page.title }}</h1>
-        {{ content }}
+        {{ content | replace_regex: '([A-Z][a-z]+(?: [A-Z][a-z]+)*)', '<a href="https://www.fandom.com/wiki/\\1" target="_blank">\\1</a>' }}
       </article>
     </main>
 
-    <!-- Site Footer -->
     {% include footer.html %}
 
     <!-- JSON-LD Schema for character post -->
