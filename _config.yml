@@ -10,7 +10,9 @@ permalink: /:categories/:title/
 
 markdown: kramdown
 highlighter: rouge
-
+collections:
+  pages:
+    output: true
 timezone: UTC
 
 defaults:
