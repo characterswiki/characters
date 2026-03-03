@@ -1,12 +1,66 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <meta name="description" content="{{ page.excerpt | escape }}">
+    <meta name="keywords" content="{% for tag in page.tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
+    <meta name="author" content="{{ page.creator | default: site.author }}">
 
-{% include breadcrumbs.html %}
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.excerpt | escape }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+    <meta property="og:image" content="{{ site.url }}{{ page.image | default: '/assets/images/placeholder.png' }}">
 
-<article class="post">
-  <h1>{{ page.title }}</h1>
-  <p class="meta">Published {{ page.date | date: "%B %d, %Y" }}</p>
-  <img src="{{ site.baseurl }}{{ page.image }}" alt="{{ page.title }}">
-  {{ content }}
-</article>
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ page.title }}">
+    <meta name="twitter:description" content="{{ page.excerpt | escape }}">
+    <meta name="twitter:image" content="{{ site.url }}{{ page.image | default: '/assets/images/placeholder.png' }}">
+
+    <!-- Responsive -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+  </head>
+  <body>
+    {% include header.html %}
+
+    <main>
+      <article>
+        <h1>{{ page.title }}</h1>
+        {{ content }}
+      </article>
+
+      {% include sidebar.html %}
+    </main>
+
+    {% include footer.html %}
+
+    <!-- JSON-LD Schema for character post -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "{{ page.character_name | escape }}",
+      "alternateName": "{{ page.alias | default: page.character_name | escape }}",
+      "gender": "{{ page.gender | default: 'Unknown' }}",
+      "creator": {
+        "@type": "Person",
+        "name": "{{ page.creator | default: 'Unknown' }}"
+      },
+      "url": "{{ site.url }}{{ page.url }}",
+      "image": "{{ site.url }}{{ page.image | default: '/assets/images/placeholder.png' }}",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "{{ page.series | default: site.title }}"
+      }
+    }
+    </script>
+
+    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+  </body>
+</html>
