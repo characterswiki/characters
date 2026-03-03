@@ -1,116 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <meta name="description" content="{{ page.excerpt | escape }}">
-    <meta name="keywords" content="{% for tag in page.tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
-    <meta name="author" content="{{ page.creator | default: site.author }}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-    <style>
-      /* Two-column layout */
-      .site-main {
-        display: flex;
-        max-width: 1200px;
-        margin: 2rem auto;
-        gap: 2rem;
-      }
-      .sidebar {
-        flex: 1;
-        min-width: 220px;
-        background: #f8f8f8;
-        padding: 1rem;
-        border-radius: 8px;
-        font-size: 0.95rem;
-      }
-      .post-content {
-        flex: 3;
-        line-height: 1.8;
-        font-size: 1rem;
-      }
-      .post-content h1, .post-content h2, .post-content h3 {
-        line-height: 1.3;
-      }
-      .post-content a {
-        color: #007bff;
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-    {% include header.html %}
-
-    <main class="site-main">
-      <!-- Left sidebar -->
-      <aside class="sidebar">
-        <h3>Recent Posts</h3>
-        <ul>
-          {% for post in site.posts limit:5 %}
-            <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-          {% endfor %}
-        </ul>
-
-        <h3>Categories</h3>
-        <ul>
-          {% for category in site.categories %}
-            <li><a href="{{ site.baseurl }}/categories/#{{ category[0] }}">{{ category[0] }}</a></li>
-          {% endfor %}
-        </ul>
-      </aside>
-
-      <!-- Right article content -->
-      <article class="post-content">
-  <h1>{{ page.title }}</h1>
-  {{ content | markdownify | link_characters }}
-</article>
-
-        <!-- Internal character linking -->
-        {% for character in site.data.characters %}
-          {% assign link = "<a href='" | append: site.baseurl | append: character.url | append: "' title='" | append: character.description | append: "'>" | append: character.name | append: "</a>" %}
-          {% assign content_text = content_text | replace: character.name, link %}
-        {% endfor %}
-
-        <!-- External fandom.com linking -->
-        {% for character in site.data.characters %}
-          {% assign fandom_link = "<a href='https://www.fandom.com/wiki/" | append: character.name | append: "' target='_blank'>" | append: character.name | append: "</a>" %}
-          {% assign content_text = content_text | replace: character.name, fandom_link %}
-        {% endfor %}
-
-        <!-- Category/tag linking -->
-        {% for category in site.categories %}
-          {% assign cat_link = "<a href='" | append: site.baseurl | append: "/categories/#" | append: category[0] | append: "'>" | append: category[0] | append: "</a>" %}
-          {% assign content_text = content_text | replace: category[0], cat_link %}
-        {% endfor %}
-
-        {{ content_text }}
-      </article>
-    </main>
-
-    {% include footer.html %}
-
-    <!-- JSON-LD Schema for character post -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "{{ page.character_name | escape }}",
-      "alternateName": "{{ page.alias | default: page.character_name | escape }}",
-      "gender": "{{ page.gender | default: 'Unknown' }}",
-      "creator": {
-        "@type": "Person",
-        "name": "{{ page.creator | default: 'Unknown' }}"
-      },
-      "url": "{{ site.url }}{{ page.url }}",
-      "image": "{{ site.url }}{{ page.image | default: '/assets/images/placeholder.png' }}",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "{{ page.series | default: site.title }}"
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | escape }}">
+  <meta name="keywords" content="{% for tag in page.tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
+  <meta name="author" content="{{ page.creator | default: site.author }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+  <style>
+    /* Two-column layout */
+    .site-main {
+      display: flex;
+      max-width: 1200px;
+      margin: 2rem auto;
+      gap: 2rem;
     }
-    </script>
+    .sidebar {
+      flex: 1;
+      min-width: 220px;
+      background: #f8f8f8;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 0.95rem;
+    }
+    .post-content {
+      flex: 3;
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+    .post-content h1, .post-content h2, .post-content h3 {
+      line-height: 1.3;
+    }
+    .post-content a {
+      color: #007bff;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  {% include header.html %}
 
-    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
-  </body>
+  <main class="site-main">
+    <!-- Left sidebar -->
+    <aside class="sidebar">
+      <h3>Recent Posts</h3>
+      <ul>
+        {% for post in site.posts limit:5 %}
+          <li><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+
+      <h3>Categories</h3>
+      <ul>
+        {% for category in site.categories %}
+          <li><a href="{{ site.baseurl }}/categories/#{{ category[0] }}">{{ category[0] }}</a></li>
+        {% endfor %}
+      </ul>
+    </aside>
+
+    <!-- Right article content -->
+    <article class="post-content">
+      <h1>{{ page.title }}</h1>
+      {% assign content_text = content | markdownify %}
+
+      <!-- Internal character linking -->
+      {% for character in site.data.characters %}
+        {% assign link = "<a href='" | append: site.baseurl | append: character.url | append: "' title='" | append: character.description | append: "'>" | append: character.name | append: "</a>" %}
+        {% assign content_text = content_text | replace: character.name, link %}
+      {% endfor %}
+
+      <!-- External fandom.com linking if no internal page -->
+      {% for character in site.data.characters %}
+        {% assign fandom_link = "<a href='https://www.fandom.com/wiki/" | append: character.name | append: "' target='_blank'>" | append: character.name | append: "</a>" %}
+        {% unless content_text contains "<a href='" | append: site.baseurl | append: character.url %}
+          {% assign content_text = content_text | replace: character.name, fandom_link %}
+        {% endunless %}
+      {% endfor %}
+
+      <!-- Category/tag linking -->
+      {% for category in site.categories %}
+        {% assign cat_link = "<a href='" | append: site.baseurl | append: "/categories/#" | append: category[0] | append: "'>" | append: category[0] | append: "</a>" %}
+        {% assign content_text = content_text | replace: category[0], cat_link %}
+      {% endfor %}
+
+      {{ content_text }}
+    </article>
+  </main>
+
+  {% include footer.html %}
+
+  <!-- JSON-LD Schema for character post -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "{{ page.character_name | escape }}",
+    "alternateName": "{{ page.alias | default: page.character_name | escape }}",
+    "gender": "{{ page.gender | default: 'Unknown' }}",
+    "creator": {
+      "@type": "Person",
+      "name": "{{ page.creator | default: 'Unknown' }}"
+    },
+    "url": "{{ site.url }}{{ page.url }}",
+    "image": "{{ site.url }}{{ page.image | default: '/assets/images/placeholder.png' }}",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "{{ page.series | default: site.title }}"
+    }
+  }
+  </script>
+
+  <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+</body>
 </html>
