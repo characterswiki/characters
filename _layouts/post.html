@@ -1,3 +1,8 @@
+---
+layout: default
+title: "{{ page.title }}"
+---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,53 +14,75 @@
   <meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}{% endif %}">
   <meta name="author" content="{{ page.creator | default: site.author }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 
-  <!-- Featured Image & Post Styles -->
   <style>
     body { margin:0; font-family:sans-serif; background:#f9f9f9; color:#111; }
 
-    /* Header Horizontal */
-    header.site-header {
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:1rem 2rem;
-      background:#111;
-      color:#fff;
+    /* Header */
+    .site-header {
+      background: #111;
+      color: #fff;
+      padding: 1rem 2rem;
       position: sticky;
-      top:0;
-      z-index:999;
+      top: 0;
+      z-index: 1000;
     }
-    header.site-header .logo a {
-      color:#fff; text-decoration:none; font-size:1.5rem; font-weight:bold;
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1300px;
+      margin: 0 auto;
     }
-    header.site-header nav ul {
-      display:flex;
-      gap:1.2rem;
-      list-style:none;
-      margin:0;
-      padding:0;
+    .logo a {
+      color: #1e90ff;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
     }
-    header.site-header nav ul li a {
-      color:#1e90ff;
-      text-decoration:none;
-      font-weight:500;
-      transition:color 0.3s;
+    .site-nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
     }
-    header.site-header nav ul li a:hover { color:#00bfff; }
+    .site-nav a {
+      color: #eee;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .site-nav a:hover { color: #1e90ff; }
 
-    /* Responsive Header for Mobile */
-    @media (max-width:900px){
-      header.site-header { flex-direction:column; align-items:flex-start; gap:0.8rem; }
-      header.site-header nav ul { flex-wrap:wrap; gap:0.8rem; }
+    /* Mobile menu toggle */
+    .menu-toggle {
+      display: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #1e90ff;
     }
 
-    /* Wrapper */
+    @media (max-width:900px) {
+      .site-nav ul {
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #111;
+        display: none;
+      }
+      .site-nav ul.show { display: flex; }
+      .site-nav li { padding: 1rem 2rem; border-top:1px solid #222; }
+      .menu-toggle { display: block; }
+    }
+
+    /* Wrapper & Post Content */
     .wrapper { max-width:1300px; margin:2rem auto; padding:0 1rem; }
-
-    /* Featured Image */
     .featured-image {
       width:100%;
       max-height:500px;
@@ -63,18 +90,17 @@
       border-radius:16px;
       margin-bottom:2rem;
       box-shadow:0 8px 24px rgba(0,0,0,0.15);
-      transition:transform 0.3s;
+      transition: transform 0.3s;
     }
-    .featured-image img {
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform 0.4s ease;
-    }
-    .featured-image:hover img { transform:scale(1.05); }
+    .featured-image img { width:100%; height:100%; object-fit:cover; transition: transform 0.4s ease; }
+    .featured-image:hover img { transform: scale(1.05); }
 
-    /* Post Content */
-    main.post-content { background:#fff; padding:2rem; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.08); }
+    main.post-content {
+      background:#fff;
+      padding:2rem;
+      border-radius:16px;
+      box-shadow:0 8px 32px rgba(0,0,0,0.08);
+    }
     main.post-content h1 {
       margin-bottom:1rem;
       font-size:2.5rem;
@@ -85,8 +111,6 @@
     .article-body { line-height:1.8; font-size:1rem; color:#333; }
     .article-body a { color:#1e90ff; text-decoration:underline; transition:color 0.3s; }
     .article-body a:hover { color:#0077cc; }
-
-    /* Read More buttons */
     .article-body .read-more {
       display:inline-block;
       margin-top:1rem;
@@ -95,7 +119,7 @@
       color:#fff;
       border-radius:8px;
       text-decoration:none;
-      transition:background 0.3s;
+      transition: background 0.3s;
     }
     .article-body .read-more:hover { background:#0077cc; }
 
@@ -103,15 +127,18 @@
     footer.footer { background:#111; color:#eee; padding:3rem 1rem 1rem; text-align:center; font-family:sans-serif; }
     footer.footer a { color:#1e90ff; text-decoration:none; transition:color 0.3s; }
     footer.footer a:hover { color:#00bfff; }
-    footer-footer .footer-brand h2 { color:#fff; margin-bottom:0.5rem; }
+    footer.footer .footer-brand h2 { color:#fff; margin-bottom:0.5rem; }
     footer.footer .footer-brand p { color:#ccc; font-size:0.95rem; }
+    footer.footer .footer-links ul { list-style:none; padding:0; margin:0.5rem 0; }
+    footer.footer .footer-links li { display:inline-block; margin:0 0.8rem; }
     footer.footer-bottom { margin-top:2rem; font-size:0.9rem; color:#777; border-top:1px solid #222; padding-top:1rem; }
 
-    /* Mobile Adjustments */
+    /* Responsive */
     @media (max-width:900px){
       main.post-content { padding:1rem; }
       .featured-image { max-height:300px; }
       main.post-content h1 { font-size:2rem; }
+      footer.footer .footer-links li { display:block; margin:0.5rem 0; }
     }
   </style>
 </head>
@@ -119,23 +146,24 @@
 
   <!-- Header -->
   <header class="site-header">
-    <div class="logo">
-      <a href="{{ site.baseurl }}/">{{ site.title }}</a>
+    <div class="header-container">
+      <div class="logo"><a href="{{ site.baseurl }}/">{{ site.title }}</a></div>
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="{{ site.baseurl }}/">Home</a></li>
+          <li><a href="{{ site.baseurl }}/about/">About</a></li>
+          <li><a href="{{ site.baseurl }}/categories/">Categories</a></li>
+          <li><a href="{{ site.baseurl }}/tags/">Tags</a></li>
+          <li><a href="{{ site.baseurl }}/contact/">Contact</a></li>
+          <li><a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a></li>
+          <li><a href="{{ site.baseurl }}/terms/">Terms of Service</a></li>
+        </ul>
+      </nav>
     </div>
-    <nav class="site-nav">
-      <ul>
-        <li><a href="{{ site.baseurl }}/">Home</a></li>
-        <li><a href="{{ site.baseurl }}/about/">About</a></li>
-        <li><a href="{{ site.baseurl }}/categories/">Categories</a></li>
-        <li><a href="{{ site.baseurl }}/tags/">Tags</a></li>
-        <li><a href="{{ site.baseurl }}/contact/">Contact</a></li>
-        <li><a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a></li>
-        <li><a href="{{ site.baseurl }}/terms/">Terms of Service</a></li>
-      </ul>
-    </nav>
   </header>
 
-  <!-- Post Content -->
+  <!-- Post Wrapper -->
   <div class="wrapper">
     <main class="post-content">
       {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
@@ -171,6 +199,15 @@
       &copy; {{ site.time | date: "%Y" }} {{ site.title }}. All Rights Reserved.
     </div>
   </footer>
+
+  <!-- Mobile Menu Toggle Script -->
+  <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const nav = document.querySelector('.site-nav ul');
+    menuToggle.addEventListener('click', () => {
+      nav.classList.toggle('show');
+    });
+  </script>
 
 </body>
 </html>
