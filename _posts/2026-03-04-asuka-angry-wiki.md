@@ -12,8 +12,6 @@ creator: Hideaki Anno
 series: Neon Genesis Evangelion
 ---
 
-
-
 ## Who Is Asuka Langley Soryu?
 
 Asuka Langley Soryu is the Second Child and the designated pilot of **Evangelion Unit-02** in *Neon Genesis Evangelion*, created by **Hideaki Anno**.  
