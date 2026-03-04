@@ -1,93 +1,111 @@
 <footer class="footer">
   <div class="footer-container">
 
-    <!-- Site Branding -->
+    <!-- Branding -->
     <div class="footer-brand">
       <h2>{{ site.title }}</h2>
-      <p>Explore Anime & Manga Characters in Depth</p>
+      <p>Explore detailed profiles of your favorite Anime & Manga characters.</p>
     </div>
 
     <!-- Quick Links -->
     <div class="footer-links">
       <h3>Quick Links</h3>
       <ul>
-        <li><a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a></li>
-        <li><a href="{{ site.baseurl }}/about/">About Us</a></li>
-        <li><a href="{{ site.baseurl }}/contact/">Contact</a></li>
+        <li><a href="{{ '/privacy-policy/' | relative_url }}">Privacy Policy</a></li>
+        <li><a href="{{ '/terms/' | relative_url }}">Terms of Service</a></li>
+        <li><a href="{{ '/about/' | relative_url }}">About Us</a></li>
+        <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
       </ul>
     </div>
 
   </div>
 
-  <!-- Footer Bottom -->
+  <!-- Bottom Bar -->
   <div class="footer-bottom">
-    <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}. All Rights Reserved.</p>
+    <p>
+      &copy; {{ site.time | date: "%Y" }} {{ site.title }}.
+      All Rights Reserved.
+    </p>
   </div>
 
-  <!-- Footer Styles -->
   <style>
     .footer {
-      background: #111; /* Matches header */
+      background: #111;
       color: #eee;
-      padding: 3rem 1rem 1rem;
-      font-family: sans-serif;
-    }
-
-    .footer a {
-      color: #1e90ff; /* Matches header links */
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .footer a:hover {
-      color: #00bfff;
+      padding: 3rem 1.5rem 1.5rem;
+      font-family: system-ui, -apple-system, sans-serif;
+      border-top: 1px solid #222;
     }
 
     .footer-container {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      max-width: 1300px;
+      flex-wrap: wrap;
+      max-width: 1200px;
       margin: 0 auto;
-      gap: 2rem;
+      gap: 3rem;
     }
 
     .footer-brand h2 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
+      font-size: 1.6rem;
+      margin-bottom: 0.6rem;
       color: #fff;
+      letter-spacing: 0.5px;
     }
+
     .footer-brand p {
       font-size: 0.95rem;
-      color: #ccc;
+      color: #bbb;
+      max-width: 320px;
+      line-height: 1.6;
     }
 
     .footer-links h3 {
+      font-size: 1rem;
       margin-bottom: 0.8rem;
-      font-size: 1.1rem;
       color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     .footer-links ul {
       list-style: none;
       padding: 0;
+      margin: 0;
     }
+
     .footer-links ul li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .footer a {
+      color: #1e90ff;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer a:hover {
+      color: #00bfff;
     }
 
     .footer-bottom {
       text-align: center;
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #777;
-      border-top: 1px solid #222;
+      margin-top: 2.5rem;
       padding-top: 1rem;
+      border-top: 1px solid #222;
+      font-size: 0.85rem;
+      color: #777;
     }
 
-    @media (max-width: 900px) {
+    @media (max-width: 768px) {
       .footer-container {
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 2rem;
+      }
+
+      .footer-brand p {
+        max-width: 100%;
       }
     }
   </style>
