@@ -59,11 +59,10 @@ title: Home
   </div>
 </section>
 
-<!-- Custom CSS for Responsive Cards -->
+<!-- Custom CSS for Mobile-Friendly Responsive Cards -->
 <style>
-/* Grid layout for featured posts */
-.featured-posts .posts-grid,
-.all-posts .grid {
+/* Grid layout for featured and all posts */
+.posts-grid, .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
@@ -105,50 +104,59 @@ title: Home
 
 .card h2, .featured-card h3 {
   margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
   color: #222;
 }
 
-.card p, .featured-card p {
-  margin: 0 0 1rem;
+.card p {
+  color: #555;
   font-size: 0.95rem;
-  color: #444;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
-/* Read More Button */
 .read-more {
   display: inline-block;
+  margin-top: 1rem;
   padding: 0.5rem 1rem;
-  background-color: #1e90ff;
+  background: #1e90ff;
   color: #fff;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 500;
   transition: background 0.3s;
 }
-.read-more:hover {
-  background-color: #0077cc;
+.read-more:hover { background: #0077cc; }
+
+/* Section Titles */
+.featured-posts h2, .all-posts h1 {
+  font-size: 2rem;
+  color: #111;
+  margin-bottom: 1rem;
 }
 
-/* Mobile & Responsive */
+/* Mobile Responsiveness */
 @media (max-width: 900px) {
-  .featured-posts .posts-grid,
-  .all-posts .grid {
+  .posts-grid, .grid {
     grid-template-columns: 1fr;
   }
-}
 
-@media (max-width: 500px) {
-  .featured-card img,
-  .card img {
-    height: 150px;
+  .card img, .featured-card img {
+    height: auto;
   }
+
+  .card-content, .card {
+    padding: 0.8rem;
+  }
+
+  .read-more {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .featured-posts h2, .all-posts h1 {
+    font-size: 1.7rem;
+  }
+
   .card h2, .featured-card h3 {
     font-size: 1.1rem;
-  }
-  .card p, .featured-card p {
-    font-size: 0.9rem;
   }
 }
 </style>
