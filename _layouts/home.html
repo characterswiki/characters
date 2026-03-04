@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-<!-- Featured latest posts -->
+<!-- Featured Latest Posts -->
 <section class="featured-posts">
   <h2>Latest Posts</h2>
   <div class="posts-grid">
@@ -11,7 +11,7 @@ title: Home
       <div class="post-card">
         <a href="{{ post.url | relative_url }}">
           {% if post.image %}
-            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
           {% endif %}
           <h3>{{ post.title }}</h3>
         </a>
@@ -21,33 +21,29 @@ title: Home
   </div>
 </section>
 
-<!-- Latest Posts Section -->
-<h1>Latest Characters</h1>
+<!-- All Posts Grid -->
+<section class="all-posts">
+  <h1>All Characters</h1>
+  <div class="grid">
+    {% for post in site.posts %}
+      <div class="card">
 
-<div class="grid">
-  {% for post in site.posts %}
-  <div class="card">
+        {% if post.image %}
+          <a href="{{ post.url | relative_url }}">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+          </a>
+        {% endif %}
 
-    {% if post.image %}
-      <a href="{{ post.url | relative_url }}">
-        <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
-      </a>
-    {% endif %}
+        <h2>
+          <a href="{{ post.url | relative_url }}">
+            {{ post.title }}
+          </a>
+        </h2>
 
-    <h2>
-      <a href="{{ post.url | relative_url }}">
-        {{ post.title }}
-      </a>
-    </h2>
+        <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
 
-    <p>
-      {{ post.excerpt | strip_html | truncate: 120 }}
-    </p>
-
-    <a href="{{ post.url | relative_url }}" class="read-more">
-      Read More →
-    </a>
-
+        <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
+      </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
+</section>
