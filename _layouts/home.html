@@ -40,15 +40,12 @@ title: Home
     <div class="posts-grid">
       {% for post in site.posts limit:6 %}
         <article class="card featured-card">
-
-          {% if post.image %}
-            <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
-              <img src="{{ post.image | relative_url }}"
-                   alt="{{ post.title }}"
-                   width="400" height="180"
-                   loading="lazy">
-            </a>
-          {% endif %}
+          <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
+            <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}{{ '/assets/images/default-post.jpg' | relative_url }}{% endif %}"
+                 alt="{{ post.title }}"
+                 width="400" height="180"
+                 loading="lazy">
+          </a>
 
           <div class="card-content">
             <h3>
@@ -74,25 +71,24 @@ title: Home
     <div class="grid">
       {% for post in older_posts %}
         <article class="card">
+          <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
+            <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}{{ '/assets/images/default-post.jpg' | relative_url }}{% endif %}"
+                 alt="{{ post.title }}"
+                 width="400" height="180"
+                 loading="lazy">
+          </a>
 
-          {% if post.image %}
-            <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
-              <img src="{{ post.image | relative_url }}"
-                   alt="{{ post.title }}"
-                   width="400" height="180"
-                   loading="lazy">
-            </a>
-          {% endif %}
+          <div class="card-content">
+            <h2>
+              <a href="{{ post.url | relative_url }}">
+                {{ post.title }}
+              </a>
+            </h2>
 
-          <h2>
-            <a href="{{ post.url | relative_url }}">
-              {{ post.title }}
-            </a>
-          </h2>
+            <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
 
-          <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
-
-          <a href="{{ post.url | relative_url }}" class="read-more" aria-label="Read more about {{ post.title }}">Read More →</a>
+            <a href="{{ post.url | relative_url }}" class="read-more" aria-label="Read more about {{ post.title }}">Read More →</a>
+          </div>
         </article>
       {% endfor %}
     </div>
@@ -142,7 +138,7 @@ title: Home
 }
 
 /* Card Content */
-.card-content, .card {
+.card-content {
   padding: 1rem;
 }
 
@@ -186,7 +182,7 @@ title: Home
     height: auto;
   }
 
-  .card-content, .card {
+  .card-content {
     padding: 0.8rem;
   }
 
