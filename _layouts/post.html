@@ -3,55 +3,26 @@ layout: default
 title: "{{ page.title }}"
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>{{ page.title }} | {{ site.title }}</title>
-<meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
-<meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}{% endif %}">
-<meta name="author" content="{{ page.creator | default: site.author }}">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="canonical" href="{{ site.url }}{{ page.url | relative_url }}">
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+{% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
 
+<div class="wrapper">
+  {% if featured_img %}
+  <div class="featured-image">
+    <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}" alt="{{ page.title }}" loading="lazy">
+  </div>
+  {% endif %}
+
+  <main class="post-content">
+    <h1>{{ page.title }}</h1>
+
+    <div class="article-body">
+      {{ content | markdownify }}
+    </div>
+  </main>
+</div>
+
+<!-- Post Layout Styles -->
 <style>
-/* ================= HEADER ================= */
-header.site-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:1rem 2rem;
-  background:#111;
-  color:#fff;
-  font-family:sans-serif;
-  position: sticky;
-  top:0;
-  z-index:999;
-}
-header.site-header .logo a {
-  color:#1e90ff;
-  font-weight:bold;
-  font-size:1.5rem;
-  text-decoration:none;
-}
-header.site-header nav ul {
-  display:flex;
-  flex-wrap:wrap;
-  gap:1rem;
-  list-style:none;
-  margin:0;
-  padding:0;
-}
-header.site-header nav a {
-  color:#eee;
-  font-weight:500;
-  text-decoration:none;
-  transition: color 0.3s;
-}
-header.site-header nav a:hover { color:#1e90ff; }
-
-/* ================= WRAPPER ================= */
 .wrapper {
   max-width:1300px;
   margin:2rem auto;
@@ -61,7 +32,7 @@ header.site-header nav a:hover { color:#1e90ff; }
   gap:2rem;
 }
 
-/* ================= FEATURED IMAGE ================= */
+/* Featured Image */
 .featured-image {
   width:100%;
   max-height:500px;
@@ -78,7 +49,7 @@ header.site-header nav a:hover { color:#1e90ff; }
 }
 .featured-image:hover img { transform:scale(1.05); }
 
-/* ================= POST CONTENT ================= */
+/* Post Content */
 main.post-content {
   background:#fff;
   padding:2rem;
@@ -105,7 +76,7 @@ main.post-content h1 {
 }
 .article-body a:hover { color:#0077cc; }
 
-/* ================= READ MORE BUTTON ================= */
+/* Read More Button */
 .article-body .read-more {
   display:inline-block;
   margin-top:1rem;
@@ -118,92 +89,13 @@ main.post-content h1 {
 }
 .article-body .read-more:hover { background:#0077cc; }
 
-/* ================= FOOTER ================= */
-footer.footer {
-  background:#111;
-  color:#eee;
-  padding:3rem 1rem 1rem;
-  text-align:center;
-}
-footer.footer a {
-  color:#1e90ff;
-  text-decoration:none;
-}
-footer.footer a:hover { color:#00bfff; }
-footer.footer .footer-brand h2 { margin-bottom:0.5rem; }
-footer.footer .footer-brand p { font-size:0.95rem; color:#ccc; }
-footer.footer-bottom { margin-top:2rem; font-size:0.9rem; color:#777; border-top:1px solid #222; padding-top:1rem; }
-
-/* ================= RESPONSIVE ================= */
+/* Responsive */
 @media(max-width:900px){
-  header.site-header { flex-direction:column; align-items:flex-start; gap:0.8rem; }
-  header.site-header nav ul { gap:0.6rem; }
   main.post-content { padding:1rem; }
   main.post-content h1 { font-size:2rem; }
   .featured-image { max-height:300px; }
 }
 @media(max-width:500px){
-  header.site-header nav ul { flex-direction:column; width:100%; }
-  header.site-header nav ul li { width:100%; }
+  .wrapper { padding:0 0.5rem; }
 }
 </style>
-</head>
-<body>
-
-<!-- ================= HEADER ================= -->
-<header class="site-header">
-  <div class="logo">
-    <a href="{{ site.baseurl }}/">{{ site.title }}</a>
-  </div>
-  <nav class="site-nav">
-    <ul>
-      <li><a href="{{ site.baseurl }}/">Home</a></li>
-      <li><a href="{{ site.baseurl }}/about/">About</a></li>
-      <li><a href="{{ site.baseurl }}/categories/">Categories</a></li>
-      <li><a href="{{ site.baseurl }}/tags/">Tags</a></li>
-      <li><a href="{{ site.baseurl }}/contact/">Contact</a></li>
-      <li><a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a></li>
-      <li><a href="{{ site.baseurl }}/terms/">Terms of Service</a></li>
-    </ul>
-  </nav>
-</header>
-
-<!-- ================= POST CONTENT ================= -->
-<div class="wrapper">
-  <main class="post-content">
-    {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
-    {% if featured_img %}
-    <div class="featured-image">
-      <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}" alt="{{ page.title }}" loading="lazy">
-    </div>
-    {% endif %}
-
-    <h1>{{ page.title }}</h1>
-
-    <div class="article-body">
-      {{ content | markdownify }}
-    </div>
-  </main>
-</div>
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <div class="footer-brand">
-    <h2>{{ site.title }}</h2>
-    <p>Explore Anime & Manga Characters in Depth</p>
-  </div>
-  <div class="footer-links">
-    <ul>
-      <li><a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a></li>
-      <li><a href="{{ site.baseurl }}/about/">About Us</a></li>
-      <li><a href="{{ site.baseurl }}/contact/">Contact</a></li>
-      <li><a href="{{ site.baseurl }}/terms/">Terms of Service</a></li>
-    </ul>
-  </div>
-  <div class="footer-bottom">
-    &copy; {{ site.time | date: "%Y" }} {{ site.title }}. All Rights Reserved.
-  </div>
-</footer>
-
-</body>
-</html>
