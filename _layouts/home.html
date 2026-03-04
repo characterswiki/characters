@@ -8,14 +8,25 @@ title: Home
   <h2>Latest Posts</h2>
   <div class="posts-grid">
     {% for post in site.posts limit:6 %}
-      <div class="post-card">
-        <a href="{{ post.url | relative_url }}">
-          {% if post.image %}
+      <div class="card featured-card">
+
+        {% if post.image %}
+          <a href="{{ post.url | relative_url }}">
             <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-          {% endif %}
-          <h3>{{ post.title }}</h3>
-        </a>
-        <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
+          </a>
+        {% endif %}
+
+        <div class="card-content">
+          <h3>
+            <a href="{{ post.url | relative_url }}">
+              {{ post.title }}
+            </a>
+          </h3>
+
+          <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
+
+          <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
+        </div>
       </div>
     {% endfor %}
   </div>
@@ -47,3 +58,74 @@ title: Home
     {% endfor %}
   </div>
 </section>
+
+<!-- Add Some Custom CSS -->
+<style>
+/* Featured Latest Posts */
+.featured-posts .posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.featured-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+}
+
+.featured-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.featured-card .card-content {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.featured-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+  color: #222;
+}
+
+.featured-card p {
+  flex: 1;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.featured-card .read-more {
+  text-decoration: none;
+  color: #1e90ff;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.featured-card .read-more:hover {
+  color: #0077cc;
+}
+
+/* Optional: Add hover zoom on images */
+.featured-card img {
+  transition: transform 0.3s;
+}
+.featured-card:hover img {
+  transform: scale(1.05);
+}
+</style>
