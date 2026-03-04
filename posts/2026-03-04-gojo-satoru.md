@@ -1,21 +1,8 @@
----
-title: Gojo Satoru – The Limitless Sorcerer
-date: 2026-03-04
-categories: [Jujutsu Kaisen]
-tags: [Gojo Satoru, Jujutsu Kaisen, Anime, Curses, Sorcerer]
-excerpt: In-depth analysis of Gojo Satoru, the strongest sorcerer in Jujutsu Kaisen. Personality, powers, and influence on the story.
-character_name: Gojo Satoru
-alias: Limitless Sorcerer
-gender: Male
-creator: Gege Akutami
-series: Jujutsu Kaisen
----
-
 ## Introduction
 
-Gojo Satoru is widely regarded as the strongest sorcerer in the *Jujutsu Kaisen* universe. Created by Gege Akutami, he serves as both a teacher at the Tokyo Jujutsu High and a powerful figure who shapes the events surrounding curses and sorcerers alike.  
+Gojo Satoru is widely regarded as the strongest sorcerer in the *Jujutsu Kaisen* universe. Created by Gege Akutami, he serves as both a teacher at Tokyo Jujutsu High and a powerful figure shaping the events surrounding curses and sorcerers alike.  
 
-His overwhelming strength, charismatic personality, and unpredictable behavior make him a fan-favorite and a key driver of the story.
+His overwhelming strength, charismatic personality, and unpredictable behavior make him a fan favorite and a key driver of the story.
 
 ---
 
@@ -48,28 +35,28 @@ This combination makes him both approachable and intimidating.
 
 Gojo Satoru’s abilities are legendary, making him nearly untouchable:
 
-### ✦ Limitless Cursed Technique
+### Limitless Cursed Technique
 
 Allows manipulation of space at an atomic level.  
 
 - Techniques include precise control of distance, attraction, and repulsion.  
 - Can immobilize, repel, or annihilate enemies with minimal effort.  
 
-### ✦ Infinity
+### Infinity
 
 Automatically slows and neutralizes any attack approaching him.  
 
 - Acts as a barrier between himself and the outside world.  
 - Makes physical contact with him nearly impossible.  
 
-### ✦ Hollow Purple
+### Hollow Purple
 
 A destructive technique combining attraction and repulsion into a single erasing force.  
 
 - Capable of completely obliterating targets.  
 - Represents the pinnacle of his Limitless abilities.  
 
-### ✦ Domain Expansion – Unlimited Void
+### Domain Expansion – Unlimited Void
 
 Traps opponents in a space where they are overwhelmed with infinite information.  
 
@@ -118,5 +105,6 @@ Fans often regard him as the embodiment of a near-perfect sorcerer and a charact
 ## References & Further Reading
 
 - *Jujutsu Kaisen* – Manga by Gege Akutami  
+- [Characters Wiki](https://characterswiki.github.io/characters) – Your site for character analysis  
 - Japanese sources on sorcerer folklore and cursed spirits  
 - Critical analysis and fan articles on Gojo Satoru’s abilities and personality
