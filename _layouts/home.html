@@ -1,17 +1,75 @@
 ---
 layout: default
+title: Home
 ---
 
-<h1>Latest Anime & Manga Characters</h1>
+<!-- 🔥 Featured Latest Post -->
+{% assign featured = site.posts.first %}
 
-<div class="grid">
-{% for post in site.posts %}
-  <article class="card">
-    <a href="{{ site.baseurl }}{{ post.url }}">
-      <img src="{{ site.baseurl }}{{ post.image }}" alt="{{ post.title }}">
-      <h2>{{ post.title }}</h2>
+{% if featured %}
+<div class="featured-home">
+  {% if featured.image %}
+    <a href="{{ featured.url | relative_url }}">
+      <img src="{{ featured.image }}" alt="{{ featured.title }}" loading="lazy">
     </a>
-    <p>{{ post.excerpt | strip_html | truncate: 140 }}</p>
-  </article>
-{% endfor %}
+  {% endif %}
+
+  <div class="featured-content">
+    <h2>
+      <a href="{{ featured.url | relative_url }}">
+        {{ featured.title }}
+      </a>
+    </h2>
+
+    <p>
+      {{ featured.excerpt | strip_html | truncate: 180 }}
+    </p>
+
+    <a href="{{ featured.url | relative_url }}" class="read-more">
+      Read Full Profile →
+    </a>
+  </div>
 </div>
+{% endif %}
+
+
+<!-- 🔥 Category Sections -->
+{% assign categories = site.categories %}
+
+{% for category in categories limit:3 %}
+<div class="category-section">
+
+  <h2 class="section-title">
+    <a href="{{ site.baseurl }}/categories/#{{ category[0] }}">
+      {{ category[0] | capitalize }}
+    </a>
+  </h2>
+
+  <div class="grid">
+
+    {% for post in category[1] limit:4 %}
+    <div class="card">
+
+      {% if post.image %}
+        <a href="{{ post.url | relative_url }}">
+          <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
+        </a>
+      {% endif %}
+
+      <h3>
+        <a href="{{ post.url | relative_url }}">
+          {{ post.title }}
+        </a>
+      </h3>
+
+      <p>
+        {{ post.excerpt | strip_html | truncate: 100 }}
+      </p>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+</div>
+{% endfor %}
