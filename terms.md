@@ -4,8 +4,6 @@ title: Terms of Service
 permalink: /terms/
 ---
 
-# Terms of Service
-
 Welcome to {{ site.title }}.
 
 By using this website, you agree to the following terms:
