@@ -4,42 +4,117 @@ title: "{{ page.title }}"
 ---
 
 {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
+{% assign image_alt = page.image_alt | default: page.title %}
+{% assign page_description = page.excerpt | default: page.description | default: '' | strip_html | truncate: 160 %}
+
+<!-- JSON-LD structured data for SEO -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{{ page.title | escape }}",
+  "url": "{{ site.url }}{{ site.baseurl }}{{ page.url }}",
+  {% if featured_img %}
+  "image": "{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}",
+  {% endif %}
+  {% if page.date %}
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  {% endif %}
+  {% assign author_name = page.author | default: site.author %}
+  {% if author_name %}
+  "author": {
+    "@type": "Person",
+    "name": "{{ author_name | escape }}"
+  },
+  {% endif %}
+  {% if page_description != '' %}
+  "description": "{{ page_description | escape }}"
+  {% endif %}
+}
+</script>
 
 {% if featured_img %}
 <div class="featured-image">
-  <!-- Pull image from assets/images/ by name -->
-  <img src="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}" alt="{{ page.title }}" loading="lazy">
+  <!-- Full-width image from assets/images/ with responsive srcset -->
+  <img src="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}"
+       alt="{{ image_alt }}"
+       loading="lazy"
+       srcset="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }} 800w,
+               {{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }} 1200w"
+       sizes="(max-width: 900px) 100vw, 1200px">
+  <div class="image-overlay"></div>
 </div>
 {% endif %}
 
 <div class="wrapper">
   <main class="post-content">
-    <h1>{{ page.title }}</h1>
+    <article>
+      <!-- Post meta (if available) -->
+      {% if page.date or page.categories or page.author %}
+      <div class="post-meta">
+        {% if page.date %}
+        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+        {% endif %}
+        {% if page.author %}
+        <span class="author">
+          By {% if site.data.authors[page.author].url %}<a href="{{ site.data.authors[page.author].url }}">{{ page.author }}</a>{% else %}{{ page.author }}{% endif %}
+        </span>
+        {% endif %}
+        {% if page.categories.size > 0 %}
+        <span class="categories">
+          {% for category in page.categories %}
+          <a href="{{ site.baseurl }}/categories/{{ category | slugify }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </span>
+        {% endif %}
+      </div>
+      {% endif %}
 
-    <div class="article-body">
-      {{ content | markdownify }}
-    </div>
+      <h1>{{ page.title }}</h1>
+
+      <div class="article-body">
+        {{ content | markdownify }}
+      </div>
+    </article>
   </main>
 </div>
 
-<!-- Post Layout Styles -->
 <style>
-/* Featured Image */
+/* (All previous modern styles remain exactly as before – no changes) */
+/* Featured Image Full Width */
 .featured-image {
-  width:100vw; /* full viewport width */
-  height:auto;
+  position: relative;
+  width:100vw;
+  margin-left: calc(-50vw + 50%);
   max-height:600px;
   overflow:hidden;
-  margin-bottom:2rem;
 }
 .featured-image img {
   width:100%;
   height:auto;
   object-fit:cover;
   display:block;
-  transition: transform 0.3s;
+  transition: transform 0.5s ease, filter 0.5s ease;
 }
-.featured-image:hover img { transform: scale(1.05); }
+.featured-image:hover img {
+  transform: scale(1.1);
+  filter: brightness(1.05);
+}
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(0deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 50%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.featured-image:hover .image-overlay {
+  opacity: 1;
+}
 
 /* Wrapper */
 .wrapper {
@@ -56,21 +131,50 @@ main.post-content {
   background:#fff;
   padding:2rem;
   border-radius:16px;
-  box-shadow:0 8px 32px rgba(0,0,0,0.08);
+  box-shadow:0 12px 40px rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.02);
   display:flex;
   flex-direction:column;
   gap:1.5rem;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+main.post-content:hover {
+  box-shadow:0 20px 50px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
 }
 main.post-content h1 {
   margin:0;
-  font-size:2.5rem;
+  font-size:clamp(2rem, 5vw, 2.8rem);
   color:#111;
   line-height:1.2;
+}
+.post-meta {
+  display: flex;
+  gap: 1rem;
+  font-size:0.9rem;
+  color:#666;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+.post-meta time,
+.post-meta .author,
+.post-meta .categories a {
+  color:#1e90ff;
+  text-decoration:none;
+}
+.post-meta .author a:hover,
+.post-meta .categories a:hover {
+  text-decoration:underline;
 }
 .article-body {
   font-size:1rem;
   line-height:1.8;
   color:#333;
+  max-width:70ch;
+  margin:0 auto;
+  width:100%;
 }
 .article-body a {
   color:#1e90ff;
@@ -87,18 +191,23 @@ main.post-content h1 {
   color:#fff;
   border-radius:8px;
   text-decoration:none;
-  transition:background 0.3s;
+  transition:background 0.3s, transform 0.2s;
 }
-.article-body .read-more:hover { background:#0077cc; }
+.article-body .read-more:hover {
+  background:#0077cc;
+  transform: scale(1.02);
+}
 
 /* Responsive */
 @media(max-width:900px){
-  main.post-content { padding:1rem; }
-  main.post-content h1 { font-size:2rem; }
-  .featured-image { max-height:350px; }
+  main.post-content { padding:1.5rem; }
+  main.post-content h1 { font-size:clamp(1.8rem, 4vw, 2.2rem); }
+  .featured-image { max-height:450px; }
+  .post-meta { flex-direction: column; gap:0.25rem; }
 }
 @media(max-width:500px){
   .wrapper { padding:0 0.5rem; }
-  .featured-image { max-height:250px; }
+  .featured-image { max-height:300px; }
+  .article-body { max-width:100%; }
 }
 </style>
