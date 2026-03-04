@@ -5,8 +5,6 @@ permalink: /privacy-policy/
 description: Comprehensive Privacy Policy for Anime Manga Characters Wiki. Learn how we collect, use, and protect user data while providing detailed anime and manga character information.
 ---
 
-# 🔒 Privacy Policy - Anime Manga Characters Wiki
-
 **Effective Date:** 2026-03-04  
 
 At **Anime Manga Characters Wiki**, your privacy is important to us. This privacy policy explains what information we collect, how we use it, and how we protect your data when you visit our website.
