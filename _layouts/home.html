@@ -59,73 +59,96 @@ title: Home
   </div>
 </section>
 
-<!-- Add Some Custom CSS -->
+<!-- Custom CSS for Responsive Cards -->
 <style>
-/* Featured Latest Posts */
-.featured-posts .posts-grid {
+/* Grid layout for featured posts */
+.featured-posts .posts-grid,
+.all-posts .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  gap: 1.5rem;
   margin-top: 1rem;
 }
 
-.featured-card {
-  border: 1px solid #ddd;
-  border-radius: 12px;
+/* Card Styles */
+.card, .featured-card {
+  background: #fff;
+  border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   transition: transform 0.3s, box-shadow 0.3s;
-  background-color: #fff;
   display: flex;
   flex-direction: column;
 }
 
-.featured-card:hover {
+.card:hover, .featured-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 }
 
-.featured-card img {
+/* Card Images */
+.card img, .featured-card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
+  transition: transform 0.4s;
 }
 
-.featured-card .card-content {
+.card:hover img, .featured-card:hover img {
+  transform: scale(1.05);
+}
+
+/* Card Content */
+.card-content, .card {
   padding: 1rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 
-.featured-card h3 {
+.card h2, .featured-card h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.25rem;
   color: #222;
 }
 
-.featured-card p {
-  flex: 1;
-  color: #555;
-  margin-bottom: 1rem;
+.card p, .featured-card p {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
 }
 
-.featured-card .read-more {
+/* Read More Button */
+.read-more {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #1e90ff;
+  color: #fff;
+  border-radius: 8px;
   text-decoration: none;
-  color: #1e90ff;
   font-weight: 500;
-  transition: color 0.2s;
+  transition: background 0.3s;
+}
+.read-more:hover {
+  background-color: #0077cc;
 }
 
-.featured-card .read-more:hover {
-  color: #0077cc;
+/* Mobile & Responsive */
+@media (max-width: 900px) {
+  .featured-posts .posts-grid,
+  .all-posts .grid {
+    grid-template-columns: 1fr;
+  }
 }
 
-/* Optional: Add hover zoom on images */
-.featured-card img {
-  transition: transform 0.3s;
-}
-.featured-card:hover img {
-  transform: scale(1.05);
+@media (max-width: 500px) {
+  .featured-card img,
+  .card img {
+    height: 150px;
+  }
+  .card h2, .featured-card h3 {
+    font-size: 1.1rem;
+  }
+  .card p, .featured-card p {
+    font-size: 0.9rem;
+  }
 }
 </style>
