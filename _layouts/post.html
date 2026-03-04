@@ -5,15 +5,14 @@ title: "{{ page.title }}"
 
 {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
 
+{% if featured_img %}
+<div class="featured-image">
+  <!-- Pull image from assets/images/ by name -->
+  <img src="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}" alt="{{ page.title }}" loading="lazy">
+</div>
+{% endif %}
+
 <div class="wrapper">
-
-  {% if featured_img %}
-  <div class="featured-image">
-    <!-- Pull image from assets/images/ by name -->
-    <img src="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}" alt="{{ page.title }}" loading="lazy">
-  </div>
-  {% endif %}
-
   <main class="post-content">
     <h1>{{ page.title }}</h1>
 
@@ -25,31 +24,32 @@ title: "{{ page.title }}"
 
 <!-- Post Layout Styles -->
 <style>
+/* Featured Image */
+.featured-image {
+  width:100vw; /* full viewport width */
+  height:auto;
+  max-height:600px;
+  overflow:hidden;
+  margin-bottom:2rem;
+}
+.featured-image img {
+  width:100%;
+  height:auto;
+  object-fit:cover;
+  display:block;
+  transition: transform 0.3s;
+}
+.featured-image:hover img { transform: scale(1.05); }
+
+/* Wrapper */
 .wrapper {
   max-width:1300px;
-  margin:2rem auto;
+  margin:0 auto 2rem auto;
   padding:0 1rem;
   display:flex;
   flex-direction:column;
   gap:2rem;
 }
-
-/* Featured Image */
-.featured-image {
-  width:100%;
-  max-height:500px;
-  overflow:hidden;
-  border-radius:16px;
-  margin-bottom:2rem;
-  box-shadow:0 8px 24px rgba(0,0,0,0.15);
-}
-.featured-image img {
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform 0.3s;
-}
-.featured-image:hover img { transform:scale(1.05); }
 
 /* Post Content */
 main.post-content {
@@ -95,9 +95,10 @@ main.post-content h1 {
 @media(max-width:900px){
   main.post-content { padding:1rem; }
   main.post-content h1 { font-size:2rem; }
-  .featured-image { max-height:300px; }
+  .featured-image { max-height:350px; }
 }
 @media(max-width:500px){
   .wrapper { padding:0 0.5rem; }
+  .featured-image { max-height:250px; }
 }
 </style>
