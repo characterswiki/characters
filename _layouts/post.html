@@ -107,9 +107,12 @@
 
   <div class="wrapper">
     <main class="post-content">
-      {% if page.featured_image %}
+
+      <!-- Featured Image (supports multiple front matter keys) -->
+      {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
+      {% if featured_img %}
         <div class="featured-image">
-          <img src="{{ page.featured_image }}" alt="{{ page.title }}">
+          <img src="{{ featured_img }}" alt="{{ page.title }}">
         </div>
       {% endif %}
 
@@ -118,14 +121,22 @@
       <div class="article-body">
         {{ content }}
       </div>
+
     </main>
 
     <aside class="sidebar">
-      <!-- You can add other sidebar widgets here if needed -->
+      <!-- Sidebar widgets can be added here -->
+      <!-- Related characters removed -->
     </aside>
   </div>
 
+  <!-- Footer without related characters -->
   {% include footer.html %}
+  {%- comment -%}
+    Make sure footer.html does NOT include:
+      {% include related-characters.html %}
+      or any loop over site.characters
+  {%- endcomment -%}
 
 </body>
 </html>
