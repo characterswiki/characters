@@ -6,8 +6,10 @@ title: "{{ page.title }}"
 {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
 
 <div class="wrapper">
+
   {% if featured_img %}
   <div class="featured-image">
+    <!-- Pull image from assets/images/ by name -->
     <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}" alt="{{ page.title }}" loading="lazy">
   </div>
   {% endif %}
