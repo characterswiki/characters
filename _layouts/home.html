@@ -34,7 +34,7 @@ title: Home
 
 <main id="main-content" class="home-content">
 
-  <!-- Featured Latest Posts -->
+  <!-- Featured Latest Posts (first 6 posts) -->
   <section class="featured-posts" aria-labelledby="latest-heading">
     <h2 id="latest-heading">Latest Posts</h2>
     <div class="posts-grid">
@@ -66,11 +66,13 @@ title: Home
     </div>
   </section>
 
-  <!-- All Posts Grid -->
+  <!-- All Posts (excluding the first 6, to avoid duplication) -->
+  {% assign older_posts = site.posts | offset: 6 %}
+  {% if older_posts.size > 0 %}
   <section class="all-posts" aria-labelledby="all-heading">
     <h1 id="all-heading">All Posts</h1>
     <div class="grid">
-      {% for post in site.posts %}
+      {% for post in older_posts %}
         <article class="card">
 
           {% if post.image %}
@@ -95,12 +97,13 @@ title: Home
       {% endfor %}
     </div>
   </section>
+  {% endif %}
 
 </main>
 
 <style>
 /* ----------------------------------------------------
-   EXISTING STYLES (completely unchanged – only the HTML structure above is enhanced)
+   EXISTING STYLES (completely unchanged)
    ---------------------------------------------------- */
 /* Grid layout for featured and all posts */
 .posts-grid, .grid {
