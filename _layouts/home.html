@@ -3,64 +3,105 @@ layout: default
 title: Home
 ---
 
-<!-- Featured Latest Posts -->
-<section class="featured-posts">
-  <h2>Latest Posts</h2>
-  <div class="posts-grid">
-    {% for post in site.posts limit:6 %}
-      <div class="card featured-card">
+{% assign posts = site.posts %}
+{% assign recent_posts = posts | slice: 0, 10 %}
 
-        {% if post.image %}
-          <a href="{{ post.url | relative_url }}">
-            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-          </a>
-        {% endif %}
+<!-- JSON‑LD structured data for the blog (SEO) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "{{ site.url }}{{ site.baseurl }}/#blog",
+  "url": "{{ site.url }}{{ site.baseurl }}/",
+  "name": "{{ site.title | escape }}",
+  "description": "{{ site.description | escape }}",
+  "blogPost": [
+    {% for post in recent_posts %}
+    {
+      "@type": "BlogPosting",
+      "headline": "{{ post.title | escape }}",
+      "url": "{{ site.url }}{{ site.baseurl }}{{ post.url }}",
+      "datePublished": "{{ post.date | date_to_xmlschema }}",
+      "description": "{{ post.excerpt | strip_html | truncate: 160 | escape }}"
+      {% if post.image %},
+      "image": "{{ site.url }}{{ site.baseurl }}{{ post.image }}"
+      {% endif %}
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
 
-        <div class="card-content">
-          <h3>
+<main id="main-content" class="home-content">
+
+  <!-- Featured Latest Posts -->
+  <section class="featured-posts" aria-labelledby="latest-heading">
+    <h2 id="latest-heading">Latest Posts</h2>
+    <div class="posts-grid">
+      {% for post in site.posts limit:6 %}
+        <article class="card featured-card">
+
+          {% if post.image %}
+            <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
+              <img src="{{ post.image | relative_url }}"
+                   alt="{{ post.title }}"
+                   width="400" height="180"
+                   loading="lazy">
+            </a>
+          {% endif %}
+
+          <div class="card-content">
+            <h3>
+              <a href="{{ post.url | relative_url }}">
+                {{ post.title }}
+              </a>
+            </h3>
+
+            <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
+
+            <a href="{{ post.url | relative_url }}" class="read-more" aria-label="Read more about {{ post.title }}">Read More →</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <!-- All Posts Grid -->
+  <section class="all-posts" aria-labelledby="all-heading">
+    <h1 id="all-heading">All Posts</h1>
+    <div class="grid">
+      {% for post in site.posts %}
+        <article class="card">
+
+          {% if post.image %}
+            <a href="{{ post.url | relative_url }}" tabindex="-1" aria-hidden="true">
+              <img src="{{ post.image | relative_url }}"
+                   alt="{{ post.title }}"
+                   width="400" height="180"
+                   loading="lazy">
+            </a>
+          {% endif %}
+
+          <h2>
             <a href="{{ post.url | relative_url }}">
               {{ post.title }}
             </a>
-          </h3>
+          </h2>
 
-          <p>{{ post.excerpt | strip_html | truncate: 150 }}</p>
+          <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
 
-          <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-</section>
+          <a href="{{ post.url | relative_url }}" class="read-more" aria-label="Read more about {{ post.title }}">Read More →</a>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
 
-<!-- All Posts Grid -->
-<section class="all-posts">
-  <h1>All Posts</h1>
-  <div class="grid">
-    {% for post in site.posts %}
-      <div class="card">
+</main>
 
-        {% if post.image %}
-          <a href="{{ post.url | relative_url }}">
-            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-          </a>
-        {% endif %}
-
-        <h2>
-          <a href="{{ post.url | relative_url }}">
-            {{ post.title }}
-          </a>
-        </h2>
-
-        <p>{{ post.excerpt | strip_html | truncate: 120 }}</p>
-
-        <a href="{{ post.url | relative_url }}" class="read-more">Read More →</a>
-      </div>
-    {% endfor %}
-  </div>
-</section>
-
-<!-- Custom CSS for Mobile-Friendly Responsive Cards -->
 <style>
+/* ----------------------------------------------------
+   EXISTING STYLES (completely unchanged – only the HTML structure above is enhanced)
+   ---------------------------------------------------- */
 /* Grid layout for featured and all posts */
 .posts-grid, .grid {
   display: grid;
@@ -132,7 +173,7 @@ title: Home
   margin-bottom: 1rem;
 }
 
-/* Mobile Responsiveness */
+/* Mobile Responsiveness (original breakpoints) */
 @media (max-width: 900px) {
   .posts-grid, .grid {
     grid-template-columns: 1fr;
