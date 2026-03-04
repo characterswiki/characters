@@ -1,4 +1,4 @@
-/* GLOBAL STYLES */
+7/* GLOBAL STYLES */
 body {
   margin: 0;
   font-family: system-ui, sans-serif;
@@ -211,4 +211,23 @@ body {
   height: auto;
   display: block;
   margin: auto;
+}
+@media screen and (max-width: 768px) {
+
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .site-nav ul li a {
+    display: block;
+    width: 100%;
+  }
+
 }
