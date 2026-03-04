@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Asuka Angry Wiki – The Fire Behind the Fury"
-featured_image: asuka-angry.jpg
+featured_image: assets/images/asuka-angry.jpg
 date: 2025-03-04
 categories: evangelion characters
 ---
