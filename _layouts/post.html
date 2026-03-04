@@ -5,17 +5,15 @@ title: "{{ page.title }}"
 
 {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
 
-<!-- Wrapper -->
 <div class="wrapper">
 
-  <!-- Featured Image -->
   {% if featured_img %}
   <div class="featured-image">
-    <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}" alt="{{ page.title }}" loading="lazy">
+    <!-- Pull image from assets/images/ by name -->
+    <img src="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}" alt="{{ page.title }}" loading="lazy">
   </div>
   {% endif %}
 
-  <!-- Post Content -->
   <main class="post-content">
     <h1>{{ page.title }}</h1>
 
@@ -25,9 +23,8 @@ title: "{{ page.title }}"
   </main>
 </div>
 
-<!-- Styles -->
+<!-- Post Layout Styles -->
 <style>
-/* Wrapper */
 .wrapper {
   max-width:1300px;
   margin:2rem auto;
@@ -35,7 +32,6 @@ title: "{{ page.title }}"
   display:flex;
   flex-direction:column;
   gap:2rem;
-  font-family:sans-serif;
 }
 
 /* Featured Image */
@@ -51,7 +47,7 @@ title: "{{ page.title }}"
   width:100%;
   height:100%;
   object-fit:cover;
-  transition:transform 0.3s ease;
+  transition:transform 0.3s;
 }
 .featured-image:hover img { transform:scale(1.05); }
 
@@ -79,7 +75,6 @@ main.post-content h1 {
 .article-body a {
   color:#1e90ff;
   text-decoration:underline;
-  transition: color 0.3s;
 }
 .article-body a:hover { color:#0077cc; }
 
@@ -96,67 +91,13 @@ main.post-content h1 {
 }
 .article-body .read-more:hover { background:#0077cc; }
 
-/* Header (consistent with other pages) */
-header.site-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:1rem 2rem;
-  background:#111;
-  color:#fff;
-  font-family:sans-serif;
-  position:sticky;
-  top:0;
-  z-index:999;
-}
-header.site-header .logo a {
-  color:#1e90ff;
-  font-weight:bold;
-  font-size:1.5rem;
-  text-decoration:none;
-}
-header.site-header nav ul {
-  display:flex;
-  gap:1.5rem;
-  list-style:none;
-  margin:0;
-  padding:0;
-}
-header.site-header nav a {
-  color:#eee;
-  font-weight:500;
-  text-decoration:none;
-  transition:color 0.3s;
-}
-header.site-header nav a:hover { color:#1e90ff; }
-
-/* Footer */
-footer.footer {
-  background:#111;
-  color:#eee;
-  padding:3rem 1rem 1rem;
-  text-align:center;
-  font-family:sans-serif;
-}
-footer.footer a {
-  color:#1e90ff;
-  text-decoration:none;
-}
-footer.footer a:hover { color:#00bfff; }
-footer.footer .footer-brand h2 { color:#fff; margin-bottom:0.5rem; }
-footer.footer .footer-brand p { color:#ccc; font-size:0.95rem; }
-footer.footer-bottom { margin-top:2rem; font-size:0.9rem; color:#777; border-top:1px solid #222; padding-top:1rem; }
-
 /* Responsive */
 @media(max-width:900px){
   main.post-content { padding:1rem; }
   main.post-content h1 { font-size:2rem; }
   .featured-image { max-height:300px; }
-  .wrapper { padding:0 1rem; }
 }
 @media(max-width:500px){
   .wrapper { padding:0 0.5rem; }
-  header.site-header { flex-direction:column; align-items:flex-start; gap:0.8rem; }
-  header.site-header nav ul { flex-wrap:wrap; gap:0.8rem; }
 }
 </style>
