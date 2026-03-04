@@ -48,6 +48,11 @@
     line-height: 1.7;
     color: #444;
   }
+
+  .article-body a {
+    color: #1e90ff;
+    text-decoration: underline;
+  }
   </style>
 </head>
 
@@ -70,8 +75,14 @@
 
       <h1>{{ page.title }}</h1>
 
+      <!-- Article body with auto character linking -->
       <div class="article-body">
-        {{ content | markdownify | link_characters }}
+        {% assign content_html = content | markdownify %}
+        {% for character, url in site.data.characters %}
+          {% assign replacement = "<a href='" | append: url | append: "' target='_blank'>" | append: character | append: "</a>" %}
+          {% assign content_html = content_html | replace: character, replacement %}
+        {% endfor %}
+        {{ content_html | raw }}
       </div>
 
     </main>
