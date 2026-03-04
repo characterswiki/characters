@@ -1,3 +1,15 @@
+---
+title: Gojo Satoru – The Limitless Sorcerer
+date: 2026-03-04
+categories: [Jujutsu Kaisen]
+tags: [Gojo Satoru, Jujutsu Kaisen, Anime, Curses, Sorcerer]
+excerpt: In-depth analysis of Gojo Satoru, the strongest sorcerer in Jujutsu Kaisen. Personality, powers, and influence on the story.
+character_name: Gojo Satoru
+alias: Limitless Sorcerer
+gender: Male
+creator: Gege Akutami
+series: Jujutsu Kaisen
+---
 ## Introduction
 
 Gojo Satoru is widely regarded as the strongest sorcerer in the *Jujutsu Kaisen* universe. Created by Gege Akutami, he serves as both a teacher at Tokyo Jujutsu High and a powerful figure shaping the events surrounding curses and sorcerers alike.  
