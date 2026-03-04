@@ -2,74 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
   <title>{{ page.title }} | {{ site.title }}</title>
 
-  <!-- SEO Meta -->
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
   <meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}{% endif %}">
   <meta name="author" content="{{ page.creator | default: site.author }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Canonical -->
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-
-  <!-- CSS -->
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 
   <style>
-  /* Featured image for post */
-  .featured-image {
-    width: 100%;
-    max-height: 450px;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    border-radius: 12px;
-  }
-
-  .featured-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s;
-  }
-
-  .featured-image:hover img {
-    transform: scale(1.05);
-  }
-
-  .post-content h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-    color: #222;
-  }
-
-  .article-body {
-    line-height: 1.7;
-    color: #444;
-  }
-
-  .article-body a {
-    color: #1e90ff;
-    text-decoration: underline;
-  }
+    .featured-image { width:100%; max-height:450px; overflow:hidden; margin-bottom:1.5rem; border-radius:12px;}
+    .featured-image img { width:100%; height:100%; object-fit:cover; transition:transform 0.3s;}
+    .featured-image:hover img { transform:scale(1.05);}
+    .post-content h1 { margin-bottom:0.5rem; font-size:2rem; color:#222;}
+    .article-body { line-height:1.7; color:#444;}
+    .article-body a { color:#1e90ff; text-decoration:underline;}
   </style>
 </head>
-
 <body>
 
   {% include header.html %}
 
   <div class="wrapper">
 
-    <!-- LEFT: Article -->
     <main class="post-content">
 
       {% if page.image %}
         <div class="featured-image">
-          <img src="{{ page.image | relative_url }}"
-               alt="{{ page.character_name | default: page.title }}"
-               loading="lazy">
+          <img src="{{ page.image | relative_url }}" alt="{{ page.character_name | default: page.title }}" loading="lazy">
         </div>
       {% endif %}
 
@@ -77,17 +38,11 @@
 
       <!-- Article body with auto character linking -->
       <div class="article-body">
-        {% assign content_html = content | markdownify %}
-        {% for character, url in site.data.characters %}
-          {% assign replacement = "<a href='" | append: url | append: "' target='_blank'>" | append: character | append: "</a>" %}
-          {% assign content_html = content_html | replace: character, replacement %}
-        {% endfor %}
-        {{ content_html | raw }}
+        {{ content | markdownify | replace_character_links }}
       </div>
 
     </main>
 
-    <!-- RIGHT: Sidebar -->
     <aside class="sidebar">
       {% include sidebar.html %}
     </aside>
@@ -96,7 +51,7 @@
 
   {% include footer.html %}
 
-  <!-- Structured Data (ONLY for character posts) -->
+  <!-- Structured Data -->
   {% if page.character_name %}
   <script type="application/ld+json">
   {
@@ -105,20 +60,35 @@
     "name": "{{ page.character_name | escape }}",
     "alternateName": "{{ page.alias | default: page.character_name | escape }}",
     "gender": "{{ page.gender | default: 'Unknown' }}",
-    "creator": {
-      "@type": "Person",
-      "name": "{{ page.creator | default: 'Unknown' }}"
-    },
+    "creator": { "@type": "Person", "name": "{{ page.creator | default: 'Unknown' }}" },
     "url": "{{ site.url }}{{ page.url }}",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "{{ page.series | default: site.title }}"
-    }
+    "worksFor": { "@type": "Organization", "name": "{{ page.series | default: site.title }}" }
   }
   </script>
   {% endif %}
 
   <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+
+  <!-- Safe character linking script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function(){
+      var chars = {
+        "Asuka Langley":"https://en.wikipedia.org/wiki/Asuka_Langley_Soryu",
+        "Naruto Uzumaki":"https://naruto.fandom.com/wiki/Naruto_Uzumaki",
+        "Goku":"https://dragonball.fandom.com/wiki/Goku",
+        "Levi Ackerman":"https://attackontitan.fandom.com/wiki/Levi_Ackerman",
+        "Sailor Moon":"https://sailormoon.fandom.com/wiki/Sailor_Moon"
+      };
+      var body = document.querySelector(".article-body");
+      if(body){
+        Object.keys(chars).forEach(function(name){
+          var url = chars[name];
+          var regex = new RegExp("\\b" + name + "\\b", "g");
+          body.innerHTML = body.innerHTML.replace(regex, '<a href="'+url+'" target="_blank">'+name+'</a>');
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>
