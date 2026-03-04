@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>{{ page.title }} | {{ site.title }}</title>
 
+  <!-- SEO Meta -->
   <meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
   <meta name="keywords" content="{% if page.tags %}{{ page.tags | join: ', ' }}{% endif %}">
   <meta name="author" content="{{ page.creator | default: site.author }}">
@@ -12,12 +13,92 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 
   <style>
-    .featured-image { width:100%; max-height:450px; overflow:hidden; margin-bottom:1.5rem; border-radius:12px;}
-    .featured-image img { width:100%; height:100%; object-fit:cover; transition:transform 0.3s;}
-    .featured-image:hover img { transform:scale(1.05);}
-    .post-content h1 { margin-bottom:0.5rem; font-size:2rem; color:#222;}
-    .article-body { line-height:1.7; color:#444;}
-    .article-body a { color:#1e90ff; text-decoration:underline;}
+    /* Featured Image */
+    .featured-image {
+      width: 100%;
+      max-height: 500px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .featured-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .featured-image:hover img {
+      transform: scale(1.08);
+    }
+
+    /* Post Content */
+    .post-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      margin-bottom: 2rem;
+    }
+    .post-content h1 {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      color: #111;
+      line-height: 1.2;
+      text-transform: capitalize;
+    }
+    .article-body {
+      line-height: 1.8;
+      color: #333;
+      font-size: 1rem;
+    }
+    .article-body a {
+      color: #1e90ff;
+      text-decoration: underline;
+      transition: color 0.3s;
+    }
+    .article-body a:hover {
+      color: #0077cc;
+    }
+
+    /* Layout */
+    .wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    main.post-content {
+      flex: 1 1 700px;
+      min-width: 300px;
+    }
+    aside.sidebar {
+      flex: 0 0 300px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .wrapper { flex-direction: column; }
+      aside.sidebar { flex: 1 1 auto; }
+    }
+
+    /* Read More Buttons / Links */
+    .article-body .read-more {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.5rem 1rem;
+      background: #1e90ff;
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .article-body .read-more:hover {
+      background: #0077cc;
+    }
   </style>
 </head>
 <body>
@@ -26,23 +107,27 @@
 
   <div class="wrapper">
 
+    <!-- LEFT: Article -->
     <main class="post-content">
 
       {% if page.image %}
         <div class="featured-image">
-          <img src="{{ page.image | relative_url }}" alt="{{ page.character_name | default: page.title }}" loading="lazy">
+          <img src="{{ page.image | relative_url }}"
+               alt="{{ page.character_name | default: page.title }}"
+               loading="lazy">
         </div>
       {% endif %}
 
       <h1>{{ page.title }}</h1>
 
-      <!-- Article body with auto character linking -->
+      <!-- Article Body with auto character linking -->
       <div class="article-body">
-        {{ content | markdownify | replace_character_links }}
+        {{ content | markdownify }}
       </div>
 
     </main>
 
+    <!-- RIGHT: Sidebar -->
     <aside class="sidebar">
       {% include sidebar.html %}
     </aside>
@@ -69,7 +154,7 @@
 
   <script src="{{ site.baseurl }}/assets/js/main.js"></script>
 
-  <!-- Safe character linking script -->
+  <!-- Auto Character Linking 2026 style -->
   <script>
     document.addEventListener("DOMContentLoaded", function(){
       var chars = {
@@ -78,6 +163,7 @@
         "Goku":"https://dragonball.fandom.com/wiki/Goku",
         "Levi Ackerman":"https://attackontitan.fandom.com/wiki/Levi_Ackerman",
         "Sailor Moon":"https://sailormoon.fandom.com/wiki/Sailor_Moon"
+        // Add more characters here or import from a JSON for full DB
       };
       var body = document.querySelector(".article-body");
       if(body){
