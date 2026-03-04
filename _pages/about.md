@@ -4,7 +4,7 @@ title: About Anime Manga Characters Wiki
 permalink: /about/
 description: Learn about Anime Manga Characters Wiki. Discover detailed anime and manga character biographies, powers, story arcs and affiliations.
 ---
-# 📚 About Anime Manga Characters Wiki
+
 
 ## Welcome to Anime Manga Characters Wiki
 
