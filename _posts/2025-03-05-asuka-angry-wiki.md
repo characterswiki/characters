@@ -9,13 +9,6 @@ tags: [asuka langley soryu, evangelion, anime characters]
 permalink: /characters/asuka-langley-soryu/
 ---
 
-{% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
-
-{% if featured_img %}
-![{{ page.title }}]({{ site.baseurl }}/assets/images/{{ featured_img }}){: loading="lazy" alt="{{ page.title }}"}
-{% endif %}
-
-# 🧬 Asuka Langley Soryu – Profile & Overview
 
 **Asuka Langley Soryu** is the fiery Second Child and pilot of **Eva Unit‑02** in *Neon Genesis Evangelion*. Known for her fierce attitude and complex psychology, she has become one of anime’s most iconic characters.
 
