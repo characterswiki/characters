@@ -3,73 +3,33 @@ layout: default
 title: Home
 ---
 
-<!-- 🔥 Featured Latest Post -->
-{% assign featured = site.posts.first %}
+<!-- Latest Posts Section -->
+<h1>Latest Characters</h1>
 
-{% if featured %}
-<div class="featured-home">
-  {% if featured.image %}
-    <a href="{{ featured.url | relative_url }}">
-      <img src="{{ featured.image }}" alt="{{ featured.title }}" loading="lazy">
-    </a>
-  {% endif %}
+<div class="grid">
+  {% for post in site.posts %}
+  <div class="card">
 
-  <div class="featured-content">
+    {% if post.image %}
+      <a href="{{ post.url | relative_url }}">
+        <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
+      </a>
+    {% endif %}
+
     <h2>
-      <a href="{{ featured.url | relative_url }}">
-        {{ featured.title }}
+      <a href="{{ post.url | relative_url }}">
+        {{ post.title }}
       </a>
     </h2>
 
     <p>
-      {{ featured.excerpt | strip_html | truncate: 180 }}
+      {{ post.excerpt | strip_html | truncate: 120 }}
     </p>
 
-    <a href="{{ featured.url | relative_url }}" class="read-more">
-      Read Full Profile →
+    <a href="{{ post.url | relative_url }}" class="read-more">
+      Read More →
     </a>
-  </div>
-</div>
-{% endif %}
-
-
-<!-- 🔥 Category Sections -->
-{% assign categories = site.categories %}
-
-{% for category in categories limit:3 %}
-<div class="category-section">
-
-  <h2 class="section-title">
-    <a href="{{ site.baseurl }}/categories/#{{ category[0] }}">
-      {{ category[0] | capitalize }}
-    </a>
-  </h2>
-
-  <div class="grid">
-
-    {% for post in category[1] limit:4 %}
-    <div class="card">
-
-      {% if post.image %}
-        <a href="{{ post.url | relative_url }}">
-          <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
-        </a>
-      {% endif %}
-
-      <h3>
-        <a href="{{ post.url | relative_url }}">
-          {{ post.title }}
-        </a>
-      </h3>
-
-      <p>
-        {{ post.excerpt | strip_html | truncate: 100 }}
-      </p>
-
-    </div>
-    {% endfor %}
 
   </div>
-
+  {% endfor %}
 </div>
-{% endfor %}
