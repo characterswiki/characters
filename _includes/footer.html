@@ -1,4 +1,121 @@
 <footer class="footer">
-<p>&copy; {{ site.time | date: "%Y" }} Anime Manga Characters Wiki</p>
-<a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a>
+  <div class="footer-container">
+
+    <!-- Site Branding -->
+    <div class="footer-brand">
+      <h2>{{ site.title }}</h2>
+      <p>Explore Anime & Manga Characters in Depth</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-links">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="{{ site.baseurl }}/privacy-policy/">Privacy Policy</a></li>
+        <li><a href="{{ site.baseurl }}/terms/">Terms of Service</a></li>
+        <li><a href="{{ site.baseurl }}/about/">About Us</a></li>
+        <li><a href="{{ site.baseurl }}/contact/">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Social Links (Optional) -->
+    <div class="footer-social">
+      <h3>Follow Us</h3>
+      <a href="#" target="_blank" aria-label="Facebook"><img src="{{ site.baseurl }}/assets/icons/facebook.svg" alt="Facebook"></a>
+      <a href="#" target="_blank" aria-label="Twitter"><img src="{{ site.baseurl }}/assets/icons/twitter.svg" alt="Twitter"></a>
+      <a href="#" target="_blank" aria-label="Instagram"><img src="{{ site.baseurl }}/assets/icons/instagram.svg" alt="Instagram"></a>
+    </div>
+
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom">
+    <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}. All Rights Reserved.</p>
+  </div>
+
+  <!-- Footer Styles -->
+  <style>
+    .footer {
+      background: #111;
+      color: #eee;
+      padding: 3rem 1rem 1rem;
+      font-family: sans-serif;
+    }
+
+    .footer a {
+      color: #1e90ff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer a:hover {
+      color: #00bfff;
+    }
+
+    .footer-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      max-width: 1300px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    .footer-brand h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+    .footer-brand p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+
+    .footer-links h3,
+    .footer-social h3 {
+      margin-bottom: 0.8rem;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .footer-links ul {
+      list-style: none;
+      padding: 0;
+    }
+    .footer-links ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-social a {
+      display: inline-block;
+      margin-right: 0.8rem;
+      width: 30px;
+      height: 30px;
+    }
+    .footer-social a img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      transition: filter 0.3s;
+    }
+    .footer-social a:hover img {
+      filter: brightness(0) invert(0.6);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #777;
+      border-top: 1px solid #222;
+      padding-top: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .footer-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+  </style>
 </footer>
