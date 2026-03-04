@@ -28,7 +28,9 @@
       top:0;
       z-index:999;
     }
-    header.site-header .logo a { color:#fff; text-decoration:none; font-size:1.5rem; font-weight:bold; }
+    header.site-header .logo a {
+      color:#fff; text-decoration:none; font-size:1.5rem; font-weight:bold;
+    }
     header.site-header nav ul {
       display:flex;
       gap:1.2rem;
@@ -43,6 +45,12 @@
       transition:color 0.3s;
     }
     header.site-header nav ul li a:hover { color:#00bfff; }
+
+    /* Responsive Header for Mobile */
+    @media (max-width:900px){
+      header.site-header { flex-direction:column; align-items:flex-start; gap:0.8rem; }
+      header.site-header nav ul { flex-wrap:wrap; gap:0.8rem; }
+    }
 
     /* Wrapper */
     .wrapper { max-width:1300px; margin:2rem auto; padding:0 1rem; }
@@ -95,14 +103,12 @@
     footer.footer { background:#111; color:#eee; padding:3rem 1rem 1rem; text-align:center; font-family:sans-serif; }
     footer.footer a { color:#1e90ff; text-decoration:none; transition:color 0.3s; }
     footer.footer a:hover { color:#00bfff; }
-    footer.footer .footer-brand h2 { color:#fff; margin-bottom:0.5rem; }
+    footer-footer .footer-brand h2 { color:#fff; margin-bottom:0.5rem; }
     footer.footer .footer-brand p { color:#ccc; font-size:0.95rem; }
     footer.footer-bottom { margin-top:2rem; font-size:0.9rem; color:#777; border-top:1px solid #222; padding-top:1rem; }
 
-    /* Responsive */
+    /* Mobile Adjustments */
     @media (max-width:900px){
-      header.site-header { flex-direction:column; align-items:flex-start; gap:0.8rem; }
-      header.site-header nav ul { flex-wrap:wrap; gap:0.8rem; }
       main.post-content { padding:1rem; }
       .featured-image { max-height:300px; }
       main.post-content h1 { font-size:2rem; }
@@ -129,6 +135,7 @@
     </nav>
   </header>
 
+  <!-- Post Content -->
   <div class="wrapper">
     <main class="post-content">
       {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
