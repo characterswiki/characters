@@ -16,7 +16,7 @@ title: "{{ page.title }}"
 <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 
 <style>
-/* Header */
+/* ================= HEADER ================= */
 header.site-header {
   display:flex;
   justify-content:space-between;
@@ -37,7 +37,8 @@ header.site-header .logo a {
 }
 header.site-header nav ul {
   display:flex;
-  gap:1.5rem;
+  flex-wrap:wrap;
+  gap:1rem;
   list-style:none;
   margin:0;
   padding:0;
@@ -46,18 +47,21 @@ header.site-header nav a {
   color:#eee;
   font-weight:500;
   text-decoration:none;
-  transition:color 0.3s;
+  transition: color 0.3s;
 }
 header.site-header nav a:hover { color:#1e90ff; }
 
-/* Wrapper */
+/* ================= WRAPPER ================= */
 .wrapper {
   max-width:1300px;
   margin:2rem auto;
   padding:0 1rem;
+  display:flex;
+  flex-direction:column;
+  gap:2rem;
 }
 
-/* Featured Image */
+/* ================= FEATURED IMAGE ================= */
 .featured-image {
   width:100%;
   max-height:500px;
@@ -72,16 +76,20 @@ header.site-header nav a:hover { color:#1e90ff; }
   object-fit:cover;
   transition:transform 0.3s;
 }
+.featured-image:hover img { transform:scale(1.05); }
 
-/* Post Content */
+/* ================= POST CONTENT ================= */
 main.post-content {
   background:#fff;
   padding:2rem;
   border-radius:16px;
   box-shadow:0 8px 32px rgba(0,0,0,0.08);
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
 }
 main.post-content h1 {
-  margin-bottom:1rem;
+  margin:0;
   font-size:2.5rem;
   color:#111;
   line-height:1.2;
@@ -97,7 +105,7 @@ main.post-content h1 {
 }
 .article-body a:hover { color:#0077cc; }
 
-/* Read More */
+/* ================= READ MORE BUTTON ================= */
 .article-body .read-more {
   display:inline-block;
   margin-top:1rem;
@@ -106,10 +114,11 @@ main.post-content h1 {
   color:#fff;
   border-radius:8px;
   text-decoration:none;
+  transition:background 0.3s;
 }
 .article-body .read-more:hover { background:#0077cc; }
 
-/* Footer */
+/* ================= FOOTER ================= */
 footer.footer {
   background:#111;
   color:#eee;
@@ -121,20 +130,27 @@ footer.footer a {
   text-decoration:none;
 }
 footer.footer a:hover { color:#00bfff; }
+footer.footer .footer-brand h2 { margin-bottom:0.5rem; }
+footer.footer .footer-brand p { font-size:0.95rem; color:#ccc; }
+footer.footer-bottom { margin-top:2rem; font-size:0.9rem; color:#777; border-top:1px solid #222; padding-top:1rem; }
 
-/* Responsive */
+/* ================= RESPONSIVE ================= */
 @media(max-width:900px){
   header.site-header { flex-direction:column; align-items:flex-start; gap:0.8rem; }
-  header.site-header nav ul { flex-wrap:wrap; gap:0.8rem; }
+  header.site-header nav ul { gap:0.6rem; }
   main.post-content { padding:1rem; }
-  .featured-image { max-height:300px; }
   main.post-content h1 { font-size:2rem; }
+  .featured-image { max-height:300px; }
+}
+@media(max-width:500px){
+  header.site-header nav ul { flex-direction:column; width:100%; }
+  header.site-header nav ul li { width:100%; }
 }
 </style>
 </head>
 <body>
 
-<!-- Header -->
+<!-- ================= HEADER ================= -->
 <header class="site-header">
   <div class="logo">
     <a href="{{ site.baseurl }}/">{{ site.title }}</a>
@@ -152,7 +168,7 @@ footer.footer a:hover { color:#00bfff; }
   </nav>
 </header>
 
-<!-- Post Wrapper -->
+<!-- ================= POST CONTENT ================= -->
 <div class="wrapper">
   <main class="post-content">
     {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
@@ -170,7 +186,7 @@ footer.footer a:hover { color:#00bfff; }
   </main>
 </div>
 
-<!-- Footer -->
+<!-- ================= FOOTER ================= -->
 <footer class="footer">
   <div class="footer-brand">
     <h2>{{ site.title }}</h2>
