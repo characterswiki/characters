@@ -16,34 +16,39 @@
     /* Featured Image */
     .featured-image {
       width: 100%;
-      max-height: 500px;
+      max-height: 550px;
       overflow: hidden;
       margin-bottom: 2rem;
       border-radius: 16px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
     .featured-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s ease;
+      border-radius: 16px;
     }
     .featured-image:hover img {
-      transform: scale(1.08);
+      transform: scale(1.1);
     }
 
     /* Post Content */
     .post-content {
       background: #fff;
-      padding: 2rem;
+      padding: 2.5rem;
       border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
       margin-bottom: 2rem;
+      transition: box-shadow 0.3s;
+    }
+    .post-content:hover {
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12);
     }
     .post-content h1 {
       margin-bottom: 1rem;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       color: #111;
       line-height: 1.2;
       text-transform: capitalize;
@@ -61,19 +66,32 @@
     .article-body a:hover {
       color: #0077cc;
     }
+    .article-body .read-more {
+      display: inline-block;
+      margin-top: 1.2rem;
+      padding: 0.6rem 1.2rem;
+      background: #1e90ff;
+      color: #fff;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .article-body .read-more:hover {
+      background: #0077cc;
+    }
 
     /* Layout */
     .wrapper {
       display: flex;
       flex-wrap: wrap;
-      gap: 2rem;
+      gap: 2.5rem;
       max-width: 1300px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
     main.post-content {
       flex: 1 1 700px;
-      min-width: 300px;
+      min-width: 320px;
     }
     aside.sidebar {
       flex: 0 0 300px;
@@ -84,21 +102,6 @@
       .wrapper { flex-direction: column; }
       aside.sidebar { flex: 1 1 auto; }
     }
-
-    /* Read More Buttons / Links */
-    .article-body .read-more {
-      display: inline-block;
-      margin-top: 1rem;
-      padding: 0.5rem 1rem;
-      background: #1e90ff;
-      color: #fff;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.3s;
-    }
-    .article-body .read-more:hover {
-      background: #0077cc;
-    }
   </style>
 </head>
 <body>
@@ -108,11 +111,12 @@
   <div class="wrapper">
     <main class="post-content">
 
-      <!-- Featured Image (supports multiple front matter keys) -->
+      <!-- Featured Image -->
       {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
       {% if featured_img %}
         <div class="featured-image">
-          <img src="{{ featured_img }}" alt="{{ page.title }}">
+          <img src="{{ '/assets/images/' | append: featured_img | relative_url }}" 
+               alt="{{ page.title | escape }}" loading="lazy">
         </div>
       {% endif %}
 
@@ -125,18 +129,11 @@
     </main>
 
     <aside class="sidebar">
-      <!-- Sidebar widgets can be added here -->
-      <!-- Related characters removed -->
+      {% include sidebar.html %}
     </aside>
   </div>
 
-  <!-- Footer without related characters -->
   {% include footer.html %}
-  {%- comment -%}
-    Make sure footer.html does NOT include:
-      {% include related-characters.html %}
-      or any loop over site.characters
-  {%- endcomment -%}
 
 </body>
 </html>
