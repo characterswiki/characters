@@ -1,34 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <meta name="description" content="{{ page.excerpt | default: site.description | escape }}">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+---
+layout: default
+title: Home
+---
 
-  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-</head>
-<body>
+<div class="grid">
 
-  {% include header.html %}
+  {% for post in site.posts %}
+  <div class="card">
 
-  <div class="wrapper">
+    {% if post.image %}
+      <a href="{{ post.url | relative_url }}">
+        <img src="{{ post.image }}" 
+             alt="{{ post.title }}" 
+             loading="lazy">
+      </a>
+    {% endif %}
 
-    <!-- LEFT CONTENT -->
-    <main class="content">
-      <h1>{{ page.title }}</h1>
-      {{ content }}
-    </main>
+    <h2>
+      <a href="{{ post.url | relative_url }}">
+        {{ post.title }}
+      </a>
+    </h2>
 
-    <!-- RIGHT SIDEBAR -->
-    <aside class="sidebar">
-      {% include sidebar.html %}
-    </aside>
+    <p>
+      {{ post.excerpt | strip_html | truncate: 120 }}
+    </p>
+
+    <a href="{{ post.url | relative_url }}" class="read-more">
+      Read More →
+    </a>
 
   </div>
+  {% endfor %}
 
-  {% include footer.html %}
-
-</body>
-</html>
+</div>
