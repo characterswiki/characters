@@ -1,36 +1,36 @@
----
-layout: default
-title: Home
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | escape }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div class="grid">
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+</head>
 
-  {% for post in site.posts %}
-  <div class="card">
+<body>
 
-    {% if post.image %}
-      <a href="{{ post.url | relative_url }}">
-        <img src="{{ post.image }}" 
-             alt="{{ post.title }}" 
-             loading="lazy">
-      </a>
-    {% endif %}
+  {% include header.html %}
 
-    <h2>
-      <a href="{{ post.url | relative_url }}">
-        {{ post.title }}
-      </a>
-    </h2>
+  <main class="site-main">
 
-    <p>
-      {{ post.excerpt | strip_html | truncate: 120 }}
-    </p>
+    <!-- LEFT CONTENT -->
+    <section class="post-content">
+      {{ content }}
+    </section>
 
-    <a href="{{ post.url | relative_url }}" class="read-more">
-      Read More →
-    </a>
+    <!-- RIGHT SIDEBAR -->
+    <aside class="sidebar">
+      {% include sidebar.html %}
+    </aside>
 
-  </div>
-  {% endfor %}
+  </main>
 
-</div>
+  {% include footer.html %}
+
+  <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+
+</body>
+</html>
