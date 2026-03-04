@@ -12,10 +12,7 @@ creator: Hideaki Anno
 series: Neon Genesis Evangelion
 ---
 
-<!-- Insert manually uploaded image here -->
-<p align="center">
-  <img src="/assets/images/asuka-angry.jpg" alt="Asuka Langley Soryu Angry" width="600">
-</p>
+
 
 ## Who Is Asuka Langley Soryu?
 
