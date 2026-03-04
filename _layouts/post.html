@@ -13,27 +13,27 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
 
   <style>
-    /* === Post Layout === */
     body {
-      background: #f5f5f5;
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      color: #333;
+      background: #f5f5f5;
       margin: 0;
       padding: 0;
+      color: #333;
     }
 
+    /* Wrapper matches homepage style */
     .wrapper {
       max-width: 1300px;
       margin: 0 auto;
       padding: 2rem 1rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 2.5rem;
+      gap: 2rem;
     }
 
+    /* Main post content */
     main.post-content {
       flex: 1 1 700px;
-      min-width: 320px;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 12px 36px rgba(0,0,0,0.08);
@@ -45,33 +45,33 @@
       box-shadow: 0 16px 48px rgba(0,0,0,0.12);
     }
 
-    /* === Featured Image === */
+    /* Featured Image like homepage cards */
     .featured-image {
       width: 100%;
       max-height: 400px;
       overflow: hidden;
-      position: relative;
+      border-bottom: 1px solid #eee;
     }
     .featured-image img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.5s ease;
+      transition: transform 0.4s ease;
     }
     .featured-image:hover img {
       transform: scale(1.08);
     }
 
-    /* === Post Title === */
+    /* Post title */
     main.post-content h1 {
+      font-size: 2.5rem;
       margin: 1.5rem 2rem 1rem;
-      font-size: 2.6rem;
-      color: #111;
       line-height: 1.2;
+      color: #111;
       text-transform: capitalize;
     }
 
-    /* === Article Body === */
+    /* Article body matching homepage card style */
     .article-body {
       padding: 0 2rem 2rem;
       font-size: 1rem;
@@ -88,7 +88,7 @@
     }
     .article-body .read-more {
       display: inline-block;
-      margin-top: 1.2rem;
+      margin-top: 1rem;
       padding: 0.6rem 1.2rem;
       background: #1e90ff;
       color: #fff;
@@ -100,40 +100,20 @@
       background: #0077cc;
     }
 
-    /* === Sidebar === */
+    /* Sidebar like homepage right column */
     aside.sidebar {
       flex: 0 0 300px;
       min-width: 280px;
     }
 
-    /* === Footer Override if Needed === */
-    footer.footer {
-      margin-top: 3rem;
-    }
-
-    /* === Responsive Mobile Fix === */
+    /* Responsive adjustments */
     @media (max-width: 900px) {
-      .wrapper {
-        flex-direction: column;
-        padding: 1rem;
-      }
-      main.post-content {
-        width: 100%;
-      }
-      aside.sidebar {
-        width: 100%;
-      }
-      .featured-image {
-        max-height: 300px;
-      }
-      main.post-content h1 {
-        font-size: 2rem;
-        margin: 1rem 1rem 1rem;
-      }
-      .article-body {
-        padding: 0 1rem 1.5rem;
-        font-size: 0.95rem;
-      }
+      .wrapper { flex-direction: column; padding: 1rem; }
+      main.post-content { width: 100%; }
+      aside.sidebar { width: 100%; }
+      .featured-image { max-height: 300px; }
+      main.post-content h1 { font-size: 2rem; margin: 1rem; }
+      .article-body { padding: 0 1rem 1.5rem; font-size: 0.95rem; }
     }
   </style>
 </head>
@@ -143,7 +123,7 @@
 
   <div class="wrapper">
 
-    <!-- === Main Article === -->
+    <!-- Main Post -->
     <main class="post-content">
 
       <!-- Featured Image -->
@@ -165,7 +145,7 @@
 
     </main>
 
-    <!-- === Sidebar === -->
+    <!-- Sidebar like homepage -->
     <aside class="sidebar">
       {% include sidebar.html %}
     </aside>
