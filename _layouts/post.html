@@ -111,20 +111,6 @@ layout: default
         {{ content | markdownify }}
       </div>
 
-      <!-- FEATURED IMAGE NOW AT THE END OF THE ARTICLE -->
-      {% if featured_img %}
-      <div class="featured-image">
-        <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}"
-             alt="{{ image_alt | escape }}"
-             loading="lazy"
-             fetchpriority="low"
-             srcset="{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-800w.' }} 800w,
-                     {{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-1200w.' }} 1200w"
-             sizes="(max-width: 900px) 100vw, 1200px"
-             onerror="this.onerror=null; this.srcset=''; this.src='{{ site.baseurl }}/assets/images/{{ featured_img }}';">
-      </div>
-      {% endif %}
-
       <!-- Share buttons -->
       <div class="share-buttons">
         <span>Share this post:</span>
@@ -184,7 +170,7 @@ layout: default
   top: 0;
 }
 
-/* Featured image – now at the end of the article */
+/* Featured image styles are kept for use on the home page (if needed) */
 .featured-image {
   width: 100%;
   margin: 2rem 0 1rem 0;
@@ -398,9 +384,6 @@ main.post-content h1 {
   main.post-content h1 {
     font-size: clamp(1.8rem, 4vw, 2.2rem);
   }
-  .featured-image {
-    max-height: 450px;
-  }
   .post-meta {
     flex-direction: column;
     gap: 0.25rem;
@@ -412,9 +395,6 @@ main.post-content h1 {
 @media (max-width: 500px) {
   .wrapper {
     padding: 0 0.5rem;
-  }
-  .featured-image {
-    max-height: 300px;
   }
   .article-body {
     max-width: 100%;
