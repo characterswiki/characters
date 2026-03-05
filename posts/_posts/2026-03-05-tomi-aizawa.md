@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Tomi Aizawa – The Steadfast Operative of Ergo Proxy"
-date: 2026-03-04
+date: 2026-03-05
 categories: [Ergo Proxy]
 tags: [Tomi Aizawa, Ergo Proxy, Anime, Character Analysis, Psychological Drama, Tactical Intelligence]
 excerpt: In-depth character analysis of Tomi Aizawa from *Ergo Proxy* based on Japanese primary sources. Exploring psychology, tactical competence, emotional depth, and narrative significance.
