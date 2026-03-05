@@ -1,12 +1,12 @@
 ---
 layout: default
-title: "Yasushi Takagi – The Strategic Mind of Neon Genesis Evangelion"
+title: "Yasushi Takagi – The Tactical Mind Behind NERV"
 date: 2026-03-03
 categories: [Neon Genesis Evangelion]
-tags: [Yasushi Takagi, Evangelion, Anime, Character Analysis, Psychological Drama]
-excerpt: In-depth character analysis of Yasushi Takagi from Neon Genesis Evangelion. Exploring his strategic role, personality, and narrative significance based on Japanese sources.
+tags: [Yasushi Takagi, Evangelion, Anime, Character Analysis, Tactical Intelligence]
+excerpt: In-depth character analysis of Yasushi Takagi from Neon Genesis Evangelion. Exploring his tactical intelligence, leadership, and role within NERV based on Japanese sources.
 character_name: Yasushi Takagi
-alias: "The Strategist"
+alias: The Tactical Mind
 gender: Male
 creator: Hideaki Anno
 series: Neon Genesis Evangelion
