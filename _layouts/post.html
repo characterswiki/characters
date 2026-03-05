@@ -10,422 +10,285 @@ layout: default
 {% assign author_url = author_data.url | default: '' %}
 {% assign author_twitter = author_data.twitter | default: '' %}
 
-<!-- JSON-LD structured data -->
+<!-- SEO JSON-LD -->
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}#article",
-  "url": "{{ site.url }}{{ site.baseurl }}{{ page.url }}",
-  "headline": {{ page.title | jsonify }},
-  {% if page_description != "" %}
-  "description": {{ page_description | jsonify }},
-  {% endif %}
-  {% if featured_img %}
-  "image": {
-    "@type": "ImageObject",
-    "url": "{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img }}",
-    "height": 1200,
-    "width": 1600
-  },
-  {% endif %}
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-  "author": {
-    "@type": "Person",
-    "name": {{ author_name | jsonify }}{% if author_url != "" %},
-    "sameAs": {{ author_url | jsonify }}
-    {% endif %}
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": {{ site.title | jsonify }},
-    "url": "{{ site.url }}{{ site.baseurl }}/"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
-  }
+ "@context":"https://schema.org",
+ "@type":"Article",
+ "@id":"{{ site.url }}{{ page.url }}#article",
+ "url":"{{ site.url }}{{ page.url }}",
+ "headline":{{ page.title | jsonify }},
+ {% if page_description != "" %}
+ "description":{{ page_description | jsonify }},
+ {% endif %}
+ {% if featured_img %}
+ "image":{
+   "@type":"ImageObject",
+   "url":"{{ site.url }}/assets/images/{{ featured_img }}",
+   "width":1600,
+   "height":1200
+ },
+ {% endif %}
+ "datePublished":"{{ page.date | date_to_xmlschema }}",
+ "dateModified":"{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+ "author":{
+   "@type":"Person",
+   "name":{{ author_name | jsonify }}
+ },
+ "publisher":{
+   "@type":"Organization",
+   "name":{{ site.title | jsonify }},
+   "url":"{{ site.url }}"
+ },
+ "mainEntityOfPage":{
+   "@type":"WebPage",
+   "@id":"{{ site.url }}{{ page.url }}"
+ }
 }
 </script>
 
-<!-- Social & Open Graph meta -->
+<!-- Open Graph -->
 <meta property="og:title" content="{{ page.title | escape }}">
 <meta property="og:type" content="article">
-<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
 {% if featured_img %}
-<meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img }}">
+<meta property="og:image" content="{{ site.url }}/assets/images/{{ featured_img }}">
 {% endif %}
 {% if page_description != "" %}
 <meta property="og:description" content="{{ page_description | escape }}">
 {% endif %}
 <meta property="og:site_name" content="{{ site.title }}">
+
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="{{ page.title | escape }}">
 {% if author_twitter %}
 <meta name="twitter:creator" content="@{{ author_twitter }}">
 {% endif %}
 
-<!-- Skip to content link (accessibility) -->
-<a href="#main-content" class="skip-link">Skip to main content</a>
+<a href="#main-content" class="skip-link">Skip to content</a>
 
 <div class="wrapper">
-  {% if featured_img %}
-  <div class="featured-image">
-    <!-- 
-      Responsive image with width variants (e.g., image-800w.jpg, image-1200w).
-      Adjust the pattern to match your naming convention or use a plugin.
-      Fallback to the original image.
-    -->
-    <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}"
-         alt="{{ image_alt | escape }}"
-         loading="eager"
-         fetchpriority="high"
-         srcset="{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-800w.' }} 800w,
-                 {{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-1200w.' }} 1200w"
-         sizes="(max-width: 900px) 100vw, 1200px"
-         onerror="this.onerror=null; this.srcset=''; this.src='{{ site.baseurl }}/assets/images/{{ featured_img }}';">
-    <div class="image-overlay" aria-hidden="true"></div>
-  </div>
-  {% endif %}
 
-  <main id="main-content" class="post-content" tabindex="-1">
-    <article>
-      <!-- Post meta -->
-      {% if page.date or page.categories or author_name %}
-      <div class="post-meta">
-        {% if page.date %}
-        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-        {% endif %}
-        {% if author_name %}
-        <span class="author">
-          By {% if author_url %}<a href="{{ author_url }}" rel="author">{{ author_name }}</a>{% else %}{{ author_name }}{% endif %}
-        </span>
-        {% endif %}
-        {% if page.categories.size > 0 %}
-        <span class="categories">
-          {% for category in page.categories %}
-          <a href="{{ site.baseurl }}/categories/{{ category | slugify }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
-          {% endfor %}
-        </span>
-        {% endif %}
-        {% if page.reading_time %}
-        <span class="reading-time">{{ page.content | reading_time }} min read</span>
-        {% endif %}
-      </div>
-      {% endif %}
+<main id="main-content" class="post-content">
 
-      <h1>{{ page.title }}</h1>
+<article class="post-article">
 
-      <!-- Optional: Table of contents -->
-      {% if page.toc %}
-      <details class="toc">
-        <summary>Table of Contents</summary>
-        {% include toc.html html=content %}
-      </details>
-      {% endif %}
+<!-- Meta -->
+<div class="post-meta">
 
-      <!-- Article body -->
-      <div class="article-body">
-        {{ content | markdownify }}
-      </div>
+{% if page.date %}
+<time datetime="{{ page.date | date_to_xmlschema }}">
+{{ page.date | date: "%B %d, %Y" }}
+</time>
+{% endif %}
 
-      <!-- Share buttons -->
-      <div class="share-buttons">
-        <span>Share this post:</span>
-        <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}&via={{ author_twitter }}" target="_blank" rel="noopener">Twitter</a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}&title={{ page.title | url_encode }}" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}" target="_blank" rel="noopener">Facebook</a>
-      </div>
-    </article>
+{% if author_name %}
+<span class="author">
+By {% if author_url %}
+<a href="{{ author_url }}" rel="author">{{ author_name }}</a>
+{% else %}
+{{ author_name }}
+{% endif %}
+</span>
+{% endif %}
 
-    <!-- Related posts (based on categories/tags) -->
-    {% if site.related_posts and page.related_posts != false %}
-    <aside class="related-posts" aria-label="Related posts">
-      <h2>You might also like</h2>
-      <ul>
-        {% for related in site.related_posts limit:3 %}
-        <li>
-          <a href="{{ related.url | relative_url }}">{{ related.title }}</a>
-          <small>{{ related.date | date: "%b %d, %Y" }}</small>
-        </li>
-        {% endfor %}
-      </ul>
-    </aside>
-    {% endif %}
+{% if page.categories.size > 0 %}
+<span class="categories">
+{% for category in page.categories %}
+<a href="{{ site.baseurl }}/categories/{{ category | slugify }}">
+{{ category }}
+</a>{% unless forloop.last %}, {% endunless %}
+{% endfor %}
+</span>
+{% endif %}
 
-    <!-- Back to top button -->
-    <a href="#" class="back-to-top">↑ Back to top</a>
-  </main>
+</div>
+
+<!-- Title -->
+<h1 class="post-title">{{ page.title }}</h1>
+
+<!-- Featured Image UNDER TITLE -->
+{% if featured_img %}
+<div class="featured-image">
+<img
+src="{{ site.baseurl }}/assets/images/{{ featured_img }}"
+alt="{{ image_alt | escape }}"
+loading="eager"
+fetchpriority="high"
+srcset="
+{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-800w.' }} 800w,
+{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-1200w.' }} 1200w"
+sizes="(max-width: 900px) 100vw, 1200px"
+onerror="this.onerror=null;this.srcset='';this.src='{{ site.baseurl }}/assets/images/{{ featured_img }}';">
+</div>
+{% endif %}
+
+<!-- TOC -->
+{% if page.toc %}
+<details class="toc">
+<summary>Table of Contents</summary>
+{% include toc.html html=content %}
+</details>
+{% endif %}
+
+<!-- Article Body -->
+<div class="article-body">
+{{ content | markdownify }}
+</div>
+
+<!-- Share -->
+<div class="share-buttons">
+<span>Share:</span>
+
+<a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ page.url | url_encode }}" target="_blank" rel="noopener">
+Twitter
+</a>
+
+<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ page.url | url_encode }}&title={{ page.title | url_encode }}" target="_blank" rel="noopener">
+LinkedIn
+</a>
+
+<a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ page.url | url_encode }}" target="_blank" rel="noopener">
+Facebook
+</a>
+
+</div>
+
+</article>
+
+<!-- Related Posts -->
+{% if site.related_posts %}
+<aside class="related-posts">
+
+<h2>You might also like</h2>
+
+<ul>
+
+{% for related in site.related_posts limit:3 %}
+
+<li>
+<a href="{{ related.url | relative_url }}">
+{{ related.title }}
+</a>
+
+<small>
+{{ related.date | date: "%b %d, %Y" }}
+</small>
+
+</li>
+
+{% endfor %}
+
+</ul>
+
+</aside>
+{% endif %}
+
+<a href="#" class="back-to-top">↑ Back to top</a>
+
+</main>
 </div>
 
 <style>
-/* ===== MODERN POST LAYOUT STYLES ===== */
-:root {
-  --accent-color: #1e90ff;
-  --text-color: #333;
-  --light-bg: #fff;
-  --shadow-sm: 0 12px 40px rgba(0,0,0,0.1);
-  --shadow-hover: 0 20px 50px rgba(0,0,0,0.12);
-  --border-radius: 16px;
-  --max-width: 1300px;
-  --content-width: 70ch;
+
+:root{
+--accent:#1e90ff;
+--text:#333;
+--radius:16px;
+--shadow:0 12px 40px rgba(0,0,0,.08);
+--max-width:900px;
 }
 
-* {
-  box-sizing: border-box;
+.wrapper{
+max-width:var(--max-width);
+margin:auto;
+padding:20px;
 }
 
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: #000;
-  color: white;
-  padding: 8px;
-  z-index: 100;
-}
-.skip-link:focus {
-  top: 0;
+.post-title{
+font-size:2.4rem;
+margin-bottom:15px;
 }
 
-/* Featured image – now contained within wrapper */
-.featured-image {
-  width: 100%;
-  margin: 2rem 0 1rem 0; /* spacing above/below */
-  border-radius: calc(var(--border-radius) / 2);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  aspect-ratio: 16 / 9;
-  transition: box-shadow 0.3s ease;
-}
-.featured-image:hover {
-  box-shadow: var(--shadow-hover);
-}
-.featured-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.5s ease;
-}
-.featured-image:hover img {
-  transform: scale(1.05);
-}
-.image-overlay {
-  display: none; /* removed, not needed for contained image */
-}
-@media (prefers-reduced-motion: reduce) {
-  .featured-image img {
-    transition: none;
-  }
+.post-meta{
+color:#777;
+font-size:.9rem;
+margin-bottom:15px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
 }
 
-/* Wrapper */
-.wrapper {
-  max-width: var(--max-width);
-  margin: 0 auto 2rem;
-  padding: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.featured-image{
+margin:25px 0;
+border-radius:var(--radius);
+overflow:hidden;
+box-shadow:var(--shadow);
 }
 
-/* Main content card */
-main.post-content {
-  background: var(--light-bg);
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(0,0,0,0.02);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-main.post-content:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-}
-main.post-content:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
-}
-main.post-content h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  color: #111;
-  line-height: 1.2;
-  text-wrap: pretty;
+.featured-image img{
+width:100%;
+display:block;
 }
 
-/* Post meta */
-.post-meta {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.9rem;
-  color: #666;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.25rem;
-  flex-wrap: wrap;
-}
-.post-meta time,
-.post-meta .author,
-.post-meta .categories a {
-  color: var(--accent-color);
-  text-decoration: none;
-}
-.post-meta .author a:hover,
-.post-meta .categories a:hover {
-  text-decoration: underline;
+.article-body{
+font-size:1.05rem;
+line-height:1.8;
+color:var(--text);
 }
 
-/* Table of contents */
-.toc {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border-left: 4px solid var(--accent-color);
-}
-.toc summary {
-  font-weight: bold;
-  cursor: pointer;
-}
-.toc ul {
-  margin-top: 1rem;
-  padding-left: 1.5rem;
+.article-body img{
+max-width:100%;
+border-radius:10px;
 }
 
-/* Article body */
-.article-body {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--text-color);
-  max-width: var(--content-width);
-  margin: 2rem auto;
-  width: 100%;
-}
-.article-body a {
-  color: var(--accent-color);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-.article-body a:hover {
-  color: #0077cc;
-}
-.article-body h2,
-.article-body h3 {
-  scroll-margin-top: 1rem;
-  text-wrap: balance;
+.share-buttons{
+margin-top:40px;
+display:flex;
+gap:15px;
+align-items:center;
+font-size:.9rem;
 }
 
-/* Share buttons */
-.share-buttons {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-.share-buttons a {
-  padding: 0.4rem 0.8rem;
-  background: var(--accent-color);
-  color: white;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background 0.2s;
-}
-.share-buttons a:hover {
-  background: #0077cc;
+.share-buttons a{
+color:var(--accent);
+text-decoration:none;
 }
 
-/* Related posts */
-.related-posts {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: #f5f5f5;
-  border-radius: 12px;
-}
-.related-posts h2 {
-  margin-top: 0;
-  font-size: 1.4rem;
-}
-.related-posts ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.related-posts li {
-  flex: 1 1 200px;
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.related-posts a {
-  font-weight: 500;
-  text-decoration: none;
-  color: #222;
-}
-.related-posts a:hover {
-  color: var(--accent-color);
-}
-.related-posts small {
-  display: block;
-  color: #666;
-  font-size: 0.8rem;
+.related-posts{
+margin-top:60px;
+padding-top:20px;
+border-top:1px solid #eee;
 }
 
-/* Back to top */
-.back-to-top {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1px solid var(--accent-color);
-  color: var(--accent-color);
-  border-radius: 30px;
-  text-decoration: none;
-  align-self: flex-start;
-  transition: background 0.2s, color 0.2s;
-}
-.back-to-top:hover {
-  background: var(--accent-color);
-  color: white;
+.related-posts ul{
+list-style:none;
+padding:0;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  main.post-content {
-    padding: 1.5rem;
-  }
-  main.post-content h1 {
-    font-size: clamp(1.8rem, 4vw, 2.2rem);
-  }
-  .featured-image {
-    max-height: 450px;
-  }
-  .post-meta {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  .related-posts ul {
-    flex-direction: column;
-  }
+.related-posts li{
+margin-bottom:12px;
 }
-@media (max-width: 500px) {
-  .wrapper {
-    padding: 0 0.5rem;
-  }
-  .featured-image {
-    max-height: 300px;
-  }
-  .article-body {
-    max-width: 100%;
-  }
+
+.back-to-top{
+display:inline-block;
+margin-top:40px;
+text-decoration:none;
+font-size:.9rem;
 }
+
+.skip-link{
+position:absolute;
+left:-999px;
+}
+
+.skip-link:focus{
+left:20px;
+top:20px;
+background:#000;
+color:#fff;
+padding:10px;
+z-index:999;
+}
+
 </style>
