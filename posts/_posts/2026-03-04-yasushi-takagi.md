@@ -14,10 +14,6 @@ image: /assets/images/takagi.jpg
 permalink: /characters/yasushi-takagi/
 ---
 
-# Yasushi Takagi – The Strategic Mind of Neon Genesis Evangelion
-
-![Yasushi Takagi](/assets/images/yasushi-takagi.jpg)
-
 ## Role and Personality
 
 Yasushi Takagi serves as one of NERV’s key strategists, responsible for coordinating operational planning and providing critical insights during Eva missions. Japanese production notes and artbooks portray him as a composed, analytical, and highly disciplined character, whose presence ensures that high-stakes decisions are made with minimal error.
