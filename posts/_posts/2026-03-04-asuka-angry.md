@@ -9,7 +9,7 @@ alias: The Fiery Pilot
 gender: Female
 creator: Hideaki Anno
 series: Neon Genesis Evangelion
-image: /assets/images/asuka-angry.jpg
+image: /assets/images/angry.jpg
 permalink: /characters/asuka-angry/
 ---
 
