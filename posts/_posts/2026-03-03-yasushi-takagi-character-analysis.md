@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Yasushi Takagi – The Strategic Mind of Neon Genesis Evangelion"
-date: 2026-03-04
+date: 2026-03-03
 categories: [Neon Genesis Evangelion]
 tags: [Yasushi Takagi, Evangelion, Anime, Character Analysis, Psychological Drama]
 excerpt: In-depth character analysis of Yasushi Takagi from Neon Genesis Evangelion. Exploring his strategic role, personality, and narrative significance based on Japanese sources.
