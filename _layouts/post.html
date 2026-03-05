@@ -69,26 +69,26 @@ layout: default
 <!-- Skip to content link (accessibility) -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-{% if featured_img %}
-<div class="featured-image">
-  <!-- 
-    Responsive image with width variants (e.g., image-800w.jpg, image-1200w).
-    Adjust the pattern to match your naming convention or use a plugin.
-    Fallback to the original image.
-  -->
-  <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}"
-       alt="{{ image_alt | escape }}"
-       loading="eager"
-       fetchpriority="high"
-       srcset="{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-800w.' }} 800w,
-               {{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-1200w.' }} 1200w"
-       sizes="(max-width: 900px) 100vw, 1200px"
-       onerror="this.onerror=null; this.srcset=''; this.src='{{ site.baseurl }}/assets/images/{{ featured_img }}';">
-  <div class="image-overlay" aria-hidden="true"></div>
-</div>
-{% endif %}
-
 <div class="wrapper">
+  {% if featured_img %}
+  <div class="featured-image">
+    <!-- 
+      Responsive image with width variants (e.g., image-800w.jpg, image-1200w).
+      Adjust the pattern to match your naming convention or use a plugin.
+      Fallback to the original image.
+    -->
+    <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}"
+         alt="{{ image_alt | escape }}"
+         loading="eager"
+         fetchpriority="high"
+         srcset="{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-800w.' }} 800w,
+                 {{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-1200w.' }} 1200w"
+         sizes="(max-width: 900px) 100vw, 1200px"
+         onerror="this.onerror=null; this.srcset=''; this.src='{{ site.baseurl }}/assets/images/{{ featured_img }}';">
+    <div class="image-overlay" aria-hidden="true"></div>
+  </div>
+  {% endif %}
+
   <main id="main-content" class="post-content" tabindex="-1">
     <article>
       <!-- Post meta -->
@@ -189,40 +189,34 @@ layout: default
   top: 0;
 }
 
-/* Featured image */
+/* Featured image – now contained within wrapper */
 .featured-image {
-  position: relative;
-  width: 100vw;
-  margin-left: calc(-50vw + 50%);
-  max-height: 600px;
-  aspect-ratio: 16 / 9;
+  width: 100%;
+  margin: 2rem 0 1rem 0; /* spacing above/below */
+  border-radius: calc(var(--border-radius) / 2);
   overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  aspect-ratio: 16 / 9;
+  transition: box-shadow 0.3s ease;
+}
+.featured-image:hover {
+  box-shadow: var(--shadow-hover);
 }
 .featured-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease, filter 0.5s ease;
+  transition: transform 0.5s ease;
 }
 .featured-image:hover img {
-  transform: scale(1.1);
-  filter: brightness(1.05);
+  transform: scale(1.05);
 }
 .image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(0deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 50%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-.featured-image:hover .image-overlay {
-  opacity: 1;
+  display: none; /* removed, not needed for contained image */
 }
 @media (prefers-reduced-motion: reduce) {
-  .featured-image img,
-  .image-overlay {
+  .featured-image img {
     transition: none;
   }
 }
