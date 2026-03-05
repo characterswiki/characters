@@ -1,64 +1,105 @@
 ---
 layout: default
-title: "{{ page.title }}"
 ---
 
 {% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
 {% assign image_alt = page.image_alt | default: page.title %}
-{% assign page_description = page.excerpt | default: page.description | default: '' | strip_html | truncate: 160 %}
+{% assign page_description = page.excerpt | default: page.description | default: '' | strip_html | normalize_whitespace | truncate: 160 %}
+{% assign author_data = site.data.authors[page.author] %}
+{% assign author_name = author_data.name | default: page.author | default: site.author %}
+{% assign author_url = author_data.url | default: '' %}
+{% assign author_twitter = author_data.twitter | default: '' %}
 
-<!-- JSON-LD structured data for SEO -->
+<!-- JSON-LD structured data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "{{ page.title | escape }}",
+  "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}#article",
   "url": "{{ site.url }}{{ site.baseurl }}{{ page.url }}",
+  "headline": {{ page.title | jsonify }},
+  {% if page_description != "" %}
+  "description": {{ page_description | jsonify }},
+  {% endif %}
   {% if featured_img %}
-  "image": "{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}",
-  {% endif %}
-  {% if page.date %}
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-  {% endif %}
-  {% assign author_name = page.author | default: site.author %}
-  {% if author_name %}
-  "author": {
-    "@type": "Person",
-    "name": "{{ author_name | escape }}"
+  "image": {
+    "@type": "ImageObject",
+    "url": "{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img }}",
+    "height": 1200,
+    "width": 1600
   },
   {% endif %}
-  {% if page_description != '' %}
-  "description": "{{ page_description | escape }}"
-  {% endif %}
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Person",
+    "name": {{ author_name | jsonify }}{% if author_url != "" %},
+    "sameAs": {{ author_url | jsonify }}
+    {% endif %}
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.title | jsonify }},
+    "url": "{{ site.url }}{{ site.baseurl }}/"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
+  }
 }
 </script>
 
+<!-- Social & Open Graph meta -->
+<meta property="og:title" content="{{ page.title | escape }}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
+{% if featured_img %}
+<meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img }}">
+{% endif %}
+{% if page_description != "" %}
+<meta property="og:description" content="{{ page_description | escape }}">
+{% endif %}
+<meta property="og:site_name" content="{{ site.title }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title | escape }}">
+{% if author_twitter %}
+<meta name="twitter:creator" content="@{{ author_twitter }}">
+{% endif %}
+
+<!-- Skip to content link (accessibility) -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
 {% if featured_img %}
 <div class="featured-image">
-  <!-- Full-width image from assets/images/ with responsive srcset -->
-  <img src="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }}"
-       alt="{{ image_alt }}"
-       loading="lazy"
-       srcset="{{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }} 800w,
-               {{ site.baseurl }}/assets/images/{{ featured_img | split: '/' | last }} 1200w"
-       sizes="(max-width: 900px) 100vw, 1200px">
-  <div class="image-overlay"></div>
+  <!-- 
+    Responsive image with width variants (e.g., image-800w.jpg, image-1200w).
+    Adjust the pattern to match your naming convention or use a plugin.
+    Fallback to the original image.
+  -->
+  <img src="{{ site.baseurl }}/assets/images/{{ featured_img }}"
+       alt="{{ image_alt | escape }}"
+       loading="eager"
+       fetchpriority="high"
+       srcset="{{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-800w.' }} 800w,
+               {{ site.baseurl }}/assets/images/{{ featured_img | replace: '.', '-1200w.' }} 1200w"
+       sizes="(max-width: 900px) 100vw, 1200px"
+       onerror="this.onerror=null; this.srcset=''; this.src='{{ site.baseurl }}/assets/images/{{ featured_img }}';">
+  <div class="image-overlay" aria-hidden="true"></div>
 </div>
 {% endif %}
 
 <div class="wrapper">
-  <main class="post-content">
+  <main id="main-content" class="post-content" tabindex="-1">
     <article>
-      <!-- Post meta (if available) -->
-      {% if page.date or page.categories or page.author %}
+      <!-- Post meta -->
+      {% if page.date or page.categories or author_name %}
       <div class="post-meta">
         {% if page.date %}
         <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
         {% endif %}
-        {% if page.author %}
+        {% if author_name %}
         <span class="author">
-          By {% if site.data.authors[page.author].url %}<a href="{{ site.data.authors[page.author].url }}">{{ page.author }}</a>{% else %}{{ page.author }}{% endif %}
+          By {% if author_url %}<a href="{{ author_url }}" rel="author">{{ author_name }}</a>{% else %}{{ author_name }}{% endif %}
         </span>
         {% endif %}
         {% if page.categories.size > 0 %}
@@ -68,33 +109,100 @@ title: "{{ page.title }}"
           {% endfor %}
         </span>
         {% endif %}
+        {% if page.reading_time %}
+        <span class="reading-time">{{ page.content | reading_time }} min read</span>
+        {% endif %}
       </div>
       {% endif %}
 
       <h1>{{ page.title }}</h1>
 
+      <!-- Optional: Table of contents -->
+      {% if page.toc %}
+      <details class="toc">
+        <summary>Table of Contents</summary>
+        {% include toc.html html=content %}
+      </details>
+      {% endif %}
+
+      <!-- Article body -->
       <div class="article-body">
         {{ content | markdownify }}
       </div>
+
+      <!-- Share buttons -->
+      <div class="share-buttons">
+        <span>Share this post:</span>
+        <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}&via={{ author_twitter }}" target="_blank" rel="noopener">Twitter</a>
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}&title={{ page.title | url_encode }}" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}" target="_blank" rel="noopener">Facebook</a>
+      </div>
     </article>
+
+    <!-- Related posts (based on categories/tags) -->
+    {% if site.related_posts and page.related_posts != false %}
+    <aside class="related-posts" aria-label="Related posts">
+      <h2>You might also like</h2>
+      <ul>
+        {% for related in site.related_posts limit:3 %}
+        <li>
+          <a href="{{ related.url | relative_url }}">{{ related.title }}</a>
+          <small>{{ related.date | date: "%b %d, %Y" }}</small>
+        </li>
+        {% endfor %}
+      </ul>
+    </aside>
+    {% endif %}
+
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top">↑ Back to top</a>
   </main>
 </div>
 
 <style>
-/* (All previous modern styles remain exactly as before – no changes) */
-/* Featured Image Full Width */
+/* ===== MODERN POST LAYOUT STYLES ===== */
+:root {
+  --accent-color: #1e90ff;
+  --text-color: #333;
+  --light-bg: #fff;
+  --shadow-sm: 0 12px 40px rgba(0,0,0,0.1);
+  --shadow-hover: 0 20px 50px rgba(0,0,0,0.12);
+  --border-radius: 16px;
+  --max-width: 1300px;
+  --content-width: 70ch;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #000;
+  color: white;
+  padding: 8px;
+  z-index: 100;
+}
+.skip-link:focus {
+  top: 0;
+}
+
+/* Featured image */
 .featured-image {
   position: relative;
-  width:100vw;
+  width: 100vw;
   margin-left: calc(-50vw + 50%);
-  max-height:600px;
-  overflow:hidden;
+  max-height: 600px;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
 }
 .featured-image img {
-  width:100%;
-  height:auto;
-  object-fit:cover;
-  display:block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
   transition: transform 0.5s ease, filter 0.5s ease;
 }
 .featured-image:hover img {
@@ -103,10 +211,7 @@ title: "{{ page.title }}"
 }
 .image-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(0deg, rgba(0,0,0,0.02) 0%, rgba(0,0,0,0) 50%);
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -115,44 +220,54 @@ title: "{{ page.title }}"
 .featured-image:hover .image-overlay {
   opacity: 1;
 }
+@media (prefers-reduced-motion: reduce) {
+  .featured-image img,
+  .image-overlay {
+    transition: none;
+  }
+}
 
 /* Wrapper */
 .wrapper {
-  max-width:1300px;
-  margin:0 auto 2rem auto;
-  padding:0 1rem;
-  display:flex;
-  flex-direction:column;
-  gap:2rem;
+  max-width: var(--max-width);
+  margin: 0 auto 2rem;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
-/* Post Content */
+/* Main content card */
 main.post-content {
-  background:#fff;
-  padding:2rem;
-  border-radius:16px;
-  box-shadow:0 12px 40px rgba(0,0,0,0.1);
+  background: var(--light-bg);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
   border: 1px solid rgba(0,0,0,0.02);
-  display:flex;
-  flex-direction:column;
-  gap:1.5rem;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
+main.post-content:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
 main.post-content:hover {
-  box-shadow:0 20px 50px rgba(0,0,0,0.12);
+  box-shadow: var(--shadow-hover);
   transform: translateY(-2px);
 }
 main.post-content h1 {
-  margin:0;
-  font-size:clamp(2rem, 5vw, 2.8rem);
-  color:#111;
-  line-height:1.2;
+  margin: 0 0 0.5rem 0;
+  font-size: clamp(2rem, 5vw, 2.8rem);
+  color: #111;
+  line-height: 1.2;
+  text-wrap: pretty;
 }
+
+/* Post meta */
 .post-meta {
   display: flex;
   gap: 1rem;
-  font-size:0.9rem;
-  color:#666;
+  font-size: 0.9rem;
+  color: #666;
   border-bottom: 1px solid #eee;
   padding-bottom: 0.75rem;
   margin-bottom: 0.25rem;
@@ -161,53 +276,162 @@ main.post-content h1 {
 .post-meta time,
 .post-meta .author,
 .post-meta .categories a {
-  color:#1e90ff;
-  text-decoration:none;
+  color: var(--accent-color);
+  text-decoration: none;
 }
 .post-meta .author a:hover,
 .post-meta .categories a:hover {
-  text-decoration:underline;
+  text-decoration: underline;
 }
+
+/* Table of contents */
+.toc {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid var(--accent-color);
+}
+.toc summary {
+  font-weight: bold;
+  cursor: pointer;
+}
+.toc ul {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+/* Article body */
 .article-body {
-  font-size:1rem;
-  line-height:1.8;
-  color:#333;
-  max-width:70ch;
-  margin:0 auto;
-  width:100%;
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--text-color);
+  max-width: var(--content-width);
+  margin: 2rem auto;
+  width: 100%;
 }
 .article-body a {
-  color:#1e90ff;
-  text-decoration:underline;
+  color: var(--accent-color);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
 }
-.article-body a:hover { color:#0077cc; }
+.article-body a:hover {
+  color: #0077cc;
+}
+.article-body h2,
+.article-body h3 {
+  scroll-margin-top: 1rem;
+  text-wrap: balance;
+}
 
-/* Read More Button */
-.article-body .read-more {
-  display:inline-block;
-  margin-top:1rem;
-  padding:0.5rem 1rem;
-  background:#1e90ff;
-  color:#fff;
-  border-radius:8px;
-  text-decoration:none;
-  transition:background 0.3s, transform 0.2s;
+/* Share buttons */
+.share-buttons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
 }
-.article-body .read-more:hover {
-  background:#0077cc;
-  transform: scale(1.02);
+.share-buttons a {
+  padding: 0.4rem 0.8rem;
+  background: var(--accent-color);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+.share-buttons a:hover {
+  background: #0077cc;
+}
+
+/* Related posts */
+.related-posts {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f5f5f5;
+  border-radius: 12px;
+}
+.related-posts h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+.related-posts ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.related-posts li {
+  flex: 1 1 200px;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.related-posts a {
+  font-weight: 500;
+  text-decoration: none;
+  color: #222;
+}
+.related-posts a:hover {
+  color: var(--accent-color);
+}
+.related-posts small {
+  display: block;
+  color: #666;
+  font-size: 0.8rem;
+}
+
+/* Back to top */
+.back-to-top {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  border-radius: 30px;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: background 0.2s, color 0.2s;
+}
+.back-to-top:hover {
+  background: var(--accent-color);
+  color: white;
 }
 
 /* Responsive */
-@media(max-width:900px){
-  main.post-content { padding:1.5rem; }
-  main.post-content h1 { font-size:clamp(1.8rem, 4vw, 2.2rem); }
-  .featured-image { max-height:450px; }
-  .post-meta { flex-direction: column; gap:0.25rem; }
+@media (max-width: 900px) {
+  main.post-content {
+    padding: 1.5rem;
+  }
+  main.post-content h1 {
+    font-size: clamp(1.8rem, 4vw, 2.2rem);
+  }
+  .featured-image {
+    max-height: 450px;
+  }
+  .post-meta {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .related-posts ul {
+    flex-direction: column;
+  }
 }
-@media(max-width:500px){
-  .wrapper { padding:0 0.5rem; }
-  .featured-image { max-height:300px; }
-  .article-body { max-width:100%; }
+@media (max-width: 500px) {
+  .wrapper {
+    padding: 0 0.5rem;
+  }
+  .featured-image {
+    max-height: 300px;
+  }
+  .article-body {
+    max-width: 100%;
+  }
 }
 </style>
