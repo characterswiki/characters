@@ -1,16 +1,16 @@
 ---
-title: Konata Izumi – The Otaku Observer
+title: Rei Ayanami – The Silent Soul
 date: 2026-03-04
-categories: [Lucky Star]
-tags: [Konata Izumi, Lucky Star, Anime, Character Analysis, Slice of Life]
-excerpt: In-depth character analysis of Konata Izumi from Lucky Star. Exploring her otaku identity, social intelligence, humor mechanics, and cultural significance in modern anime.
-character_name: Konata Izumi
-alias: The Otaku Observer
+categories: [Neon Genesis Evangelion]
+tags: [Rei Ayanami, Evangelion, Anime, Character Analysis, Psychological]
+excerpt: In-depth character analysis of Rei Ayanami from Neon Genesis Evangelion. Exploring her identity crisis, symbolism, emotional evolution, and philosophical significance in anime.
+character_name: Rei Ayanami
+alias: The Silent Soul
 gender: Female
-creator: Kagami Yoshimizu
-series: Lucky Star
-image: /assets/images/izomi.jpg
-permalink: /characters/konata-izumi/
+creator: Hideaki Anno
+series: Neon Genesis Evangelion
+image: /assets/images/ayanami.jpg
+permalink: /characters/rei-ayanami/
 ---
 
 ## Introduction
