@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Yasushi Takagi – The Tactical Mind Behind NERV"
-date: 2026-03-03
+date: 2026-03-05
 categories: [Neon Genesis Evangelion]
 tags: [Yasushi Takagi, Evangelion, Anime, Character Analysis, Tactical Intelligence]
 excerpt: In-depth character analysis of Yasushi Takagi from Neon Genesis Evangelion. Exploring his tactical intelligence, leadership, and role within NERV based on Japanese sources.
@@ -13,7 +13,6 @@ series: Neon Genesis Evangelion
 image: /assets/images/takagi.jpg
 permalink: /characters/yasushi-takagi/
 ---
-
 ## Role and Personality
 
 Yasushi Takagi serves as one of NERV’s key strategists, responsible for coordinating operational planning and providing critical insights during Eva missions. Japanese production notes and artbooks portray him as a composed, analytical, and highly disciplined character, whose presence ensures that high-stakes decisions are made with minimal error.
