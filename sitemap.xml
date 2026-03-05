@@ -4,14 +4,41 @@ layout: null
 
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-{% for page in site.pages %}
-<url>
-<loc>{{ site.url }}{{ site.baseurl }}{{ page.url }}</loc>
-</url>
-{% endfor %}
-{% for post in site.posts %}
-<url>
-<loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
-</url>
-{% endfor %}
+
+  <!-- Pages -->
+  {% for page in site.pages %}
+    {% if page.url != '/sitemap.xml' %}
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}{{ page.url | remove: 'index.html' }}</loc>
+    {% if page.date %}
+    <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
+    {% endif %}
+  </url>
+    {% endif %}
+  {% endfor %}
+
+  <!-- Posts -->
+  {% for post in site.posts %}
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
+  </url>
+  {% endfor %}
+
+  <!-- Categories -->
+  {% for category in site.categories %}
+    {% assign cat_name = category[0] %}
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}/categories/{{ cat_name | slugify }}/</loc>
+  </url>
+  {% endfor %}
+
+  <!-- Tags -->
+  {% for tag in site.tags %}
+    {% assign tag_name = tag[0] %}
+  <url>
+    <loc>{{ site.url }}{{ site.baseurl }}/tags/{{ tag_name | slugify }}/</loc>
+  </url>
+  {% endfor %}
+
 </urlset>
