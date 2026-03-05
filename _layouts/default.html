@@ -12,32 +12,12 @@
 
 <body>
 
-  {% include header.html %}
-
-  <main class="site-main">
-
-    <!-- LEFT CONTENT -->
-    <section class="post-content">
-      {{ content }}
-    </section>
-
-    <!-- RIGHT SIDEBAR -->
-    <aside class="sidebar">
-      {% include sidebar.html %}
-    </aside>
-
-  </main>
-
-  {% include footer.html %}
-
-  <script src="{{ site.baseurl }}/assets/js/main.js"></script>
-  <!-- Cookie Consent Popup -->
-<div id="cookie-consent" class="cookie-popup">
+  <div id="cookie-consent" class="cookie-popup">
   <div class="cookie-content">
     <p>
       We use cookies to improve your experience on our site. By continuing to browse, you agree to our 
-      <a href="/privacy-policy" target="_blank">Privacy Policy</a> and 
-      <a href="/terms" target="_blank">Terms of Service</a>.
+      <a href="/characters/privacy-policy/" target="_blank">Privacy Policy</a> and 
+      <a href="/characters/terms/" target="_blank">Terms of Service</a>.
     </p>
     <div class="cookie-actions">
       <button id="accept-cookies">Accept</button>
@@ -58,7 +38,7 @@
   border-radius: 12px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.15);
   padding: 1rem 1.5rem;
-  font-family: sans-serif;
+  font-family: system-ui, sans-serif;
   font-size: 0.95rem;
   color: #333;
   display: none; /* Hidden by default */
@@ -87,6 +67,7 @@
   display: flex;
   gap: 0.5rem;
   justify-content: flex-end;
+  flex-wrap: wrap;
 }
 
 .cookie-actions button {
@@ -103,44 +84,26 @@
   color: #fff;
 }
 
-#accept-cookies:hover {
-  background-color: #0077cc;
-}
-
 #manage-cookies {
   background-color: #f0f0f0;
   color: #333;
 }
-
-#manage-cookies:hover {
-  background-color: #e0e0e0;
-}
 </style>
 
 <script>
-// Cookie Consent Script
-document.addEventListener('DOMContentLoaded', function () {
-  const cookiePopup = document.getElementById('cookie-consent');
-  const acceptBtn = document.getElementById('accept-cookies');
-  const manageBtn = document.getElementById('manage-cookies');
-
-  // Show popup if no consent yet
-  if (!localStorage.getItem('cookieConsent')) {
-    cookiePopup.classList.add('show');
+// Show popup if cookies not accepted
+document.addEventListener('DOMContentLoaded', function() {
+  if (!localStorage.getItem('cookiesAccepted')) {
+    document.getElementById('cookie-consent').classList.add('show');
   }
 
-  // Accept cookies
-  acceptBtn.addEventListener('click', function () {
-    localStorage.setItem('cookieConsent', 'accepted');
-    cookiePopup.classList.remove('show');
+  document.getElementById('accept-cookies').addEventListener('click', function() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    document.getElementById('cookie-consent').classList.remove('show');
   });
 
-  // Manage cookies - redirect to preferences or privacy
-  manageBtn.addEventListener('click', function () {
-    window.location.href = '/privacy-policy'; // Change to your manage cookies page
+  document.getElementById('manage-cookies').addEventListener('click', function() {
+    alert('Cookie preferences management coming soon.');
   });
 });
 </script>
-
-</body>
-</html>
