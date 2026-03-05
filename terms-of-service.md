@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Terms of Service
-permalink: /terms-of-service/
+permalink: /terms/
 ---
 
 Welcome to {{ site.title }}.
