@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <title>{{ page.title }} | {{ site.title }}</title>
   <meta name="description" content="{{ page.excerpt | strip_html | escape }}">
+  <meta name="keywords" content="{% for tag in page.tags %}{{ tag }}{% unless forloop.last %}, {% endunless %}{% endfor %}">
+  <meta name="author" content="{{ page.creator | default: site.author }}">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
@@ -12,98 +14,87 @@
 
 <body>
 
+  <!-- Header -->
+  {% include header.html %}
+
+  <!-- Main Content with Sidebar -->
+  <main class="wrapper site-main">
+
+    <!-- Article Section -->
+    <article class="post-content">
+      {% if page.image %}
+        <div class="featured-image">
+          <img src="{{ page.image }}" alt="{{ page.character_name | default: page.title }}" loading="lazy">
+        </div>
+      {% endif %}
+
+      <h1>{{ page.title }}</h1>
+      {{ content | markdownify | link_characters }}
+    </article>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      {% include sidebar.html %}
+    </aside>
+
+  </main>
+
+  <!-- Footer -->
+  {% include footer.html %}
+
+  <!-- Cookie Consent Popup -->
   <div id="cookie-consent" class="cookie-popup">
-  <div class="cookie-content">
-    <p>
-      We use cookies to improve your experience on our site. By continuing to browse, you agree to our 
-      <a href="/characters/privacy-policy/" target="_blank">Privacy Policy</a> and 
-      <a href="/characters/terms/" target="_blank">Terms of Service</a>.
-    </p>
-    <div class="cookie-actions">
-      <button id="accept-cookies">Accept</button>
-      <button id="manage-cookies">Manage Preferences</button>
+    <div class="cookie-content">
+      <p>
+        We use cookies to improve your experience on our site. By continuing to browse, you agree to our
+        <a href="{{ site.baseurl }}/characters/privacy-policy/" target="_blank">Privacy Policy</a> and
+        <a href="{{ site.baseurl }}/characters/terms/" target="_blank">Terms of Service</a>.
+      </p>
+      <div class="cookie-actions">
+        <button id="accept-cookies">Accept</button>
+        <button id="manage-cookies">Manage Preferences</button>
+      </div>
     </div>
   </div>
-</div>
 
-<style>
-/* Cookie Popup Styles */
-.cookie-popup {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  right: 20px;
-  max-width: 500px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
-  padding: 1rem 1.5rem;
-  font-family: system-ui, sans-serif;
-  font-size: 0.95rem;
-  color: #333;
-  display: none; /* Hidden by default */
-  z-index: 9999;
-  transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-.cookie-popup.show {
-  display: block;
-  transform: translateY(0);
-  opacity: 1;
-}
-
-.cookie-content p {
-  margin: 0 0 1rem 0;
-  line-height: 1.5;
-}
-
-.cookie-content a {
-  color: #1e90ff;
-  text-decoration: underline;
-}
-
-.cookie-actions {
-  text-align: right;
-  display: flex;
-  gap: 0.5rem;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-}
-
-.cookie-actions button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background 0.3s, color 0.3s;
-}
-
-#accept-cookies {
-  background-color: #1e90ff;
-  color: #fff;
-}
-
-#manage-cookies {
-  background-color: #f0f0f0;
-  color: #333;
-}
-</style>
-
-<script>
-// Show popup if cookies not accepted
-document.addEventListener('DOMContentLoaded', function() {
-  if (!localStorage.getItem('cookiesAccepted')) {
-    document.getElementById('cookie-consent').classList.add('show');
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "{{ page.title }}",
+    "url": "{{ site.url }}{{ page.url }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ page.creator | default: site.author }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.title }}"
+    },
+    "description": "{{ page.excerpt | strip_html | escape }}"
   }
+  </script>
 
-  document.getElementById('accept-cookies').addEventListener('click', function() {
-    localStorage.setItem('cookiesAccepted', 'true');
-    document.getElementById('cookie-consent').classList.remove('show');
-  });
+  <!-- Cookie Popup Script -->
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('cookie-consent');
 
-  document.getElementById('manage-cookies').addEventListener('click', function() {
-    alert('Cookie preferences management coming soon.');
+    if (!localStorage.getItem('cookiesAccepted')) {
+      setTimeout(() => popup.classList.add('show'), 500);
+    }
+
+    document.getElementById('accept-cookies').addEventListener('click', function() {
+      localStorage.setItem('cookiesAccepted', 'true');
+      popup.classList.remove('show');
+    });
+
+    document.getElementById('manage-cookies').addEventListener('click', function() {
+      alert('Cookie preferences management coming soon.');
+    });
   });
-});
-</script>
+  </script>
+
+</body>
+</html>
