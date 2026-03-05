@@ -10,7 +10,7 @@ alias: The Tactical Mind
 gender: Male
 creator: Hideaki Anno
 series: Neon Genesis Evangelion
-image: /assets/images/yusushi.jpg
+image: /assets/images/yasushi.jpg
 permalink: /characters/yasushi-takagi/
 ---
 
