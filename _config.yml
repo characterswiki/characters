@@ -1,19 +1,21 @@
 title: Anime Manga Characters Wiki
 description: Explore detailed anime and manga character biographies, powers, abilities, story arcs, affiliations and origins.
-baseurl: "/characters"
-url: "https://characterswiki.github.io"
+
+url: https://characters.nxen.uk
+baseurl: ""
 
 author: Characters Wiki
 lang: en
+timezone: UTC
 
 permalink: /:categories/:title/
 
 markdown: kramdown
 highlighter: rouge
+
 collections:
   pages:
     output: true
-timezone: UTC
 
 defaults:
   - scope:
