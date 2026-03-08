@@ -1,40 +1,104 @@
+# ==============================================
+# Characters Wiki - Modern SEO & Mobile-Friendly Config
+# ==============================================
+
 title: "Characters Wiki"
-email: your-email@example.com
-description: >-
-  Explore amazing characters from anime, games, and comics!
-baseurl: "/characters"   # MUST match your repository name
+description: "The ultimate professional anime/manga character database."
 url: "https://characterswiki.github.io"
-twitter_username: your-twitter
-github_username:  characterswiki
+baseurl: "/characters"  # Important: matches your GitHub Pages subpath
+twitter_username: "characterswiki"
+github_username: "characterswiki"
+logo: "/assets/images/logo.png" # optional site logo for SEO & social
+favicon: "/assets/images/favicon.ico" # optional favicon
 
-# Build settings
-theme: null
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
+# ==============================================
+# Build & Layout Settings
+# ==============================================
+markdown: kramdown
+highlighter: rouge
+permalink: "/:categories/:title/"  # SEO-friendly permalinks
 
-# Permalinks – ensure clean URLs without .html
-permalink: pretty
-
-# Default front matter
+# Default Layouts
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
-      author: "admin"
-      image: "https://via.placeholder.com/800x400?text=Anime+Character"
   - scope:
       path: ""
       type: "pages"
     values:
-      layout: "page"
+      layout: "default"
 
-# Exclude from processing
+# ==============================================
+# Collections (for advanced structure)
+# ==============================================
+collections:
+  posts:
+    output: true
+  characters:
+    output: true
+    permalink: "/characters/:title/"
+
+# ==============================================
+# SEO Enhancements
+# ==============================================
+plugins:
+  - jekyll-seo-tag     # Auto meta tags, Twitter Cards, OpenGraph
+  - jekyll-feed        # RSS feed for SEO & subscribers
+  - jekyll-sitemap     # Sitemap.xml for Google indexing
+  - jekyll-paginate    # Pagination for blog pages
+  - jekyll-archives    # Category & tag archive pages
+
+# Optional SEO metadata defaults
+seo:
+  title: "Characters Wiki"
+  description: "The ultimate professional anime/manga character database."
+  twitter:
+    card: summary_large_image
+  og:
+    type: website
+    image: "/assets/images/seo-image.png" # default OpenGraph image
+
+# ==============================================
+# Markdown & Code Highlighting
+# ==============================================
+kramdown:
+  input: GFM
+  syntax_highlighter_opts:
+    line_numbers: true
+    span: true
+
+# ==============================================
+# Pagination
+# ==============================================
+paginate: 10
+paginate_path: "/page/:num/"
+
+# ==============================================
+# Theme & Styling
+# ==============================================
+theme: null # custom modern theme
+sass:
+  style: compressed
+
+# ==============================================
+# Exclude / Include
+# ==============================================
 exclude:
-  - Gemfile
-  - Gemfile.lock
   - node_modules
   - vendor
-  - .gitignore
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+
+include:
+  - _pages
+
+# ==============================================
+# Future-Proofing & Performance
+# ==============================================
+future: true
+incremental: true
+lsi: false
