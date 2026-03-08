@@ -1,35 +1,32 @@
 <aside class="sidebar">
-
-  <div class="sidebar-card">
-    <h3>Search Characters</h3>
-    <input type="text" id="sidebarSearch" placeholder="Search characters...">
-  </div>
-
-  <div class="sidebar-card collapsible">
-    <h3 onclick="toggleSection(this)">Categories</h3>
+  <div class="sidebar-widget">
+    <h3>Categories</h3>
     <ul>
-      {% for category in site.categories %}
-      <li>
-        <a href="{{ site.baseurl }}/categories/#{{ category[0] }}">
-          {{ category[0] }}
-          <span class="count">{{ category[1].size }}</span>
-        </a>
-      </li>
+      {% assign sorted_cats = site.categories | sort %}
+      {% for category in sorted_cats limit:10 %}
+        <li><a href="{{ '/categories/#' | append: category[0] | slugify | relative_url }}">{{ category[0] }} ({{ category[1].size }})</a></li>
       {% endfor %}
+      <li><a href="{{ '/categories/' | relative_url }}">View all →</a></li>
     </ul>
   </div>
 
-  <div class="sidebar-card collapsible">
-    <h3 onclick="toggleSection(this)">Recent Characters</h3>
-    <ul id="recentList">
-      {% for post in site.posts limit:8 %}
-      <li>
-        <a href="{{ site.baseurl }}{{ post.url }}">
-          {{ post.title }}
-        </a>
-      </li>
+  <div class="sidebar-widget">
+    <h3>Popular Tags</h3>
+    <div class="tag-cloud">
+      {% assign sorted_tags = site.tags | sort %}
+      {% for tag in sorted_tags limit:15 %}
+        <a href="{{ '/tags/#' | append: tag[0] | slugify | relative_url }}" class="tag" style="font-size: {{ tag[1].size | times: 10 | plus: 80 }}%">#{{ tag[0] }}</a>
+      {% endfor %}
+    </div>
+    <p><a href="{{ '/tags/' | relative_url }}">All tags →</a></p>
+  </div>
+
+  <div class="sidebar-widget">
+    <h3>Recent Posts</h3>
+    <ul>
+      {% for post in site.posts limit:5 %}
+        <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
       {% endfor %}
     </ul>
   </div>
-
 </aside>
