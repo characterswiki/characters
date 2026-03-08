@@ -1,43 +1,71 @@
 <header class="site-header">
 
-  <div class="container header-container">
-
-    <!-- Logo -->
-    <div class="site-brand">
-      <a href="{{ '/' | relative_url }}">
-        {{ site.title }}
-      </a>
-    </div>
-
-    <!-- Mobile Menu Button -->
-    <button class="menu-toggle" id="menu-toggle">
-      ☰
-    </button>
-
-    <!-- Navigation -->
-    <nav class="nav" id="main-nav">
-
-      <a href="{{ '/' | relative_url }}">Home</a>
-
-      <a href="{{ '/categories/' | relative_url }}">Categories</a>
-
-      <a href="{{ '/tags/' | relative_url }}">Tags</a>
-
-      <a href="{{ '/about/' | relative_url }}">About</a>
-
-      <a href="{{ '/contact/' | relative_url }}">Contact</a>
-
-      <a href="{{ '/privacy-policy/' | relative_url }}">Privacy</a>
-
-      <a href="{{ '/terms/' | relative_url }}">Terms</a>
-
-      <!-- Theme Toggle -->
-      <button id="theme-toggle" class="theme-btn">
-        🌙
-      </button>
-
-    </nav>
-
+  <!-- Logo -->
+  <div class="logo">
+    <a href="{{ '/' | relative_url }}">
+      {{ site.title }}
+    </a>
   </div>
+
+  <!-- Navigation -->
+  <nav class="site-nav">
+
+    <ul>
+
+      <li>
+        <a href="{{ '/' | relative_url }}"
+           class="{% if page.url == '/' %}active{% endif %}">
+           Home
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ '/categories/' | relative_url }}"
+           class="{% if page.url contains 'category' %}active{% endif %}">
+           Categories
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ '/tags/' | relative_url }}"
+           class="{% if page.url contains 'tag' %}active{% endif %}">
+           Tags
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ '/about/' | relative_url }}"
+           class="{% if page.url contains 'about' %}active{% endif %}">
+           About
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ '/contact/' | relative_url }}"
+           class="{% if page.url contains 'contact' %}active{% endif %}">
+           Contact
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ '/privacy-policy/' | relative_url }}">
+          Privacy
+        </a>
+      </li>
+
+      <li>
+        <a href="{{ '/terms/' | relative_url }}">
+          Terms
+        </a>
+      </li>
+
+      <!-- Dark Mode Button -->
+      <li>
+        <button id="theme-toggle">🌙</button>
+      </li>
+
+    </ul>
+
+  </nav>
 
 </header>
