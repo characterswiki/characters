@@ -1,12 +1,44 @@
 title: "Characters Wiki"
-description: "A Wiki of Anime, Game, and Manga Characters"
-baseurl: "/characters" # your repo name
+email: your-email@example.com
+description: >-
+  Explore amazing characters from anime, games, and comics!
+baseurl: "/characters"  # important: matches your GitHub Pages subpath
 url: "https://characterswiki.github.io"
-author: "Your Name"
-theme: minima
+twitter_username: your-twitter
+github_username:  characterswiki
+
+# Build settings
+theme: null
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-paginate
-paginate: 8
+
+# Permalinks
+permalink: /:title.html
+
+# Collections (optional if you want to separate characters from posts)
+collections:
+  characters:
+    output: true
+
+# Default front matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Admin"
+      image: "https://via.placeholder.com/800x400?text=Anime+Character"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
