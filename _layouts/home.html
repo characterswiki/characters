@@ -1,87 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ page.title }} | {{ site.title }}</title>
-<meta name="description" content="{{ page.description | default: site.description }}">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-<style>
-/* Base */
-body { margin:0; font-family:'Outfit', sans-serif; background:#f8fafc; color:#0f172a; }
-.app-container { display:flex; min-height:100vh; flex-wrap:wrap; }
+  <style>
+    body { margin:0; font-family:'Outfit', sans-serif; background:#f8fafc; color:#0f172a; line-height:1.6; }
+    .app-container { display:flex; min-height:100vh; flex-wrap:wrap; }
 
-/* Header */
-.site-header { position:sticky; top:0; background:#1e293b; padding:1rem 2rem; z-index:1000; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
-.site-header .site-logo { color:white; font-weight:600; text-decoration:none; font-size:1.5rem; display:flex; align-items:center; }
-.site-header .search-container { margin-top:0.5rem; width:250px; max-width:100%; }
-.site-header .search-container input { width:100%; padding:0.5rem 1rem; border-radius:8px; border:none; }
+    /* Header */
+    .site-header { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:#1e293b; color:white; position:sticky; top:0; z-index:1000; flex-wrap:wrap; }
+    .site-header .site-logo { font-weight:600; font-size:1.5rem; display:flex; align-items:center; }
+    .site-header .search-container { margin-top:0.5rem; width:250px; max-width:100%; }
+    .site-header .search-container input { width:100%; padding:0.5rem 1rem; border-radius:8px; border:none; }
+    .hamburger { display:none; background:none; border:none; color:white; font-size:1.8rem; cursor:pointer; }
 
-/* Sidebar */
-.sidebar { width:260px; background:#1e293b; color:white; padding:2rem; box-sizing:border-box; height:100%; }
-.sidebar-widget { margin-bottom:2.5rem; }
-.sidebar-widget h3 { color:#ff4757; margin-bottom:0.8rem; border-bottom:1px solid #334155; padding-bottom:0.3rem; }
-.sidebar-widget ul { list-style:none; padding:0; }
-.sidebar-widget ul li { margin-bottom:0.5rem; }
-.sidebar-widget ul li a { color:#cbd5e1; text-decoration:none; transition:0.3s; }
-.sidebar-widget ul li a:hover { color:#ff4757; padding-left:5px; }
-.tag-cloud { display:flex; flex-wrap:wrap; gap:6px; }
-.tag-cloud .tag { background:rgba(255,71,87,0.15); color:#ff4757; padding:4px 10px; border-radius:12px; text-decoration:none; transition: transform 0.2s, background 0.2s; }
-.tag-cloud .tag:hover { background:#ff4757; color:#fff; transform:scale(1.1); }
+    /* Sidebar */
+    .sidebar { width:260px; background:#1e293b; color:white; padding:2rem; box-sizing:border-box; height:100vh; overflow-y:auto; transition: transform 0.3s ease; }
+    .sidebar-widget { margin-bottom:2.5rem; }
+    .sidebar-widget h3 { color:#ff4757; margin-bottom:0.8rem; border-bottom:1px solid #334155; padding-bottom:0.3rem; }
+    .sidebar-widget ul { list-style:none; padding:0; margin:0; }
+    .sidebar-widget ul li { margin-bottom:0.5rem; }
+    .sidebar-widget ul li a { color:#cbd5e1; text-decoration:none; transition:0.3s; display:block; }
+    .sidebar-widget ul li a:hover { color:#ff4757; padding-left:5px; }
+    .tag-cloud { display:flex; flex-wrap:wrap; gap:6px; }
+    .tag-cloud .tag { background:rgba(255,71,87,0.15); color:#ff4757; padding:4px 10px; border-radius:12px; text-decoration:none; transition: transform 0.2s, background 0.2s; }
+    .tag-cloud .tag:hover { background:#ff4757; color:#fff; transform:scale(1.1); }
 
-/* Content Area */
-.content-area { flex:1; padding:2rem; min-width:0; }
+    /* Content Area */
+    .content-area { flex:1; padding:2rem; min-width:0; }
 
-/* Character Grid */
-.character-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:30px; margin-top:40px; }
-.character-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:all 0.3s; border:1px solid #eee; text-decoration:none; color:inherit; }
-.character-card:hover { transform:translateY(-8px); box-shadow:0 15px 35px rgba(0,0,0,0.15); border-color:#ff4757; }
-.card-img-wrapper { width:100%; height:350px; overflow:hidden; position:relative; }
-.card-img-wrapper img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
-.character-card:hover .card-img-wrapper img { transform:scale(1.05); }
-.card-category { position:absolute; top:15px; left:15px; background:rgba(26,26,46,0.9); color:#fff; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; backdrop-filter:blur(4px); }
-.card-info { padding:1.5rem; }
-.card-title { margin:0.5rem 0 0; font-size:1.4rem; color:#1a1a2e; }
-.read-more { font-weight:600; color:#ff4757; font-size:0.85rem; margin-top:5px; display:inline-block; }
+    /* Character Grid */
+    .character-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:30px; margin-top:40px; }
+    .character-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:all 0.3s; border:1px solid #eee; text-decoration:none; color:inherit; }
+    .character-card:hover { transform:translateY(-8px); box-shadow:0 15px 35px rgba(0,0,0,0.15); border-color:#ff4757; }
+    .card-img-wrapper { width:100%; height:350px; overflow:hidden; position:relative; }
+    .card-img-wrapper img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+    .character-card:hover .card-img-wrapper img { transform:scale(1.05); }
+    .card-category { position:absolute; top:15px; left:15px; background:rgba(26,26,46,0.9); color:#fff; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; backdrop-filter:blur(4px); }
+    .card-info { padding:1.5rem; }
+    .card-title { margin:0.5rem 0 0; font-size:1.4rem; color:#1a1a2e; }
+    .read-more { font-weight:600; color:#ff4757; font-size:0.85rem; margin-top:5px; display:inline-block; }
 
-/* Footer */
-.site-footer { background:#1e293b; color:white; padding:2rem; font-size:0.9rem; margin-top:2rem; }
-.footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-bottom:1.5rem; }
-.footer-section h4 { font-size:1.1rem; margin-bottom:0.8rem; color:#ff4757; }
-.footer-section p, .footer-section ul li a { color:#cbd5e1; }
-.footer-section ul { list-style:none; padding:0; margin:0; }
-.footer-section ul li a { text-decoration:none; margin:0.3rem 0; display:block; transition:color 0.3s; }
-.footer-section ul li a:hover { color:#ff4757; }
-.footer-bottom { text-align:center; border-top:1px solid #334155; padding-top:1rem; color:#94a3b8; font-size:0.8rem; }
+    /* Footer */
+    .site-footer { background:#1e293b; color:white; padding:2rem; font-size:0.9rem; margin-top:2rem; }
+    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-bottom:1.5rem; }
+    .footer-section h4 { font-size:1.1rem; margin-bottom:0.8rem; color:#ff4757; }
+    .footer-section p, .footer-section ul li a { color:#cbd5e1; }
+    .footer-section ul { list-style:none; padding:0; margin:0; }
+    .footer-section ul li a { text-decoration:none; margin:0.3rem 0; display:block; transition:color 0.3s; }
+    .footer-section ul li a:hover { color:#ff4757; }
+    .footer-bottom { text-align:center; border-top:1px solid #334155; padding-top:1rem; color:#94a3b8; font-size:0.8rem; }
 
-/* --- MOBILE / TABLET --- */
-@media (max-width: 1024px) {
-  .app-container { flex-direction:column; }
-  .sidebar { width:100%; height:auto; padding:1.5rem; }
-  .content-area { padding:1.5rem; }
-  .site-header { flex-direction:column; align-items:flex-start; gap:0.5rem; }
-  .site-header .search-container { width:100%; }
-}
-
-@media (max-width: 768px) {
-  .character-grid { grid-template-columns:1fr; gap:20px; }
-  .card-img-wrapper { height:280px; }
-}
-
-@media (max-width: 480px) {
-  .card-img-wrapper { height:220px; }
-  .card-info { padding:1rem; }
-  .card-title { font-size:1.2rem; }
-}
-</style>
+    /* Mobile / Tablet */
+    @media(max-width:1024px){
+      .app-container { flex-direction:column; }
+      .sidebar { position:fixed; top:0; left:0; height:100%; transform:translateX(-100%); z-index:2000; }
+      .sidebar.active { transform:translateX(0); }
+      .hamburger { display:block; }
+      .content-area { padding:1.5rem; }
+      .site-header { flex-direction:column; align-items:flex-start; gap:0.5rem; }
+      .site-header .search-container { width:100%; }
+    }
+    @media(max-width:768px){
+      .character-grid { grid-template-columns:1fr; gap:20px; }
+      .card-img-wrapper { height:280px; }
+    }
+    @media(max-width:480px){
+      .card-img-wrapper { height:220px; }
+      .card-info { padding:1rem; }
+      .card-title { font-size:1.2rem; }
+    }
+  </style>
 </head>
 <body>
 
 <!-- Header -->
 <header class="site-header">
   <a href="{{ '/' | relative_url }}" class="site-logo"><span class="icon">🏮</span>CharactersWiki</a>
+  <button class="hamburger" aria-label="Toggle navigation">☰</button>
   <div class="search-container">
     <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search characters">
   </div>
@@ -89,12 +90,43 @@ body { margin:0; font-family:'Outfit', sans-serif; background:#f8fafc; color:#0f
 
 <div class="app-container">
   <!-- Sidebar -->
-  {% include sidebar.html %}
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-widget">
+        <h3>Categories</h3>
+        <ul>
+          {% assign sorted_cats = site.categories | sort %}
+          {% for category in sorted_cats limit:10 %}
+            <li><a href="{{ '/categories/#' | append: category[0] | slugify | relative_url }}">{{ category[0] }} ({{ category[1].size }})</a></li>
+          {% endfor %}
+          <li><a href="{{ '/categories/' | relative_url }}">View all →</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Popular Tags</h3>
+        <div class="tag-cloud">
+          {% assign sorted_tags = site.tags | sort %}
+          {% for tag in sorted_tags limit:15 %}
+            {% assign font_size = tag[1].size | times: 10 | plus: 80 %}
+            <a href="{{ '/tags/#' | append: tag[0] | slugify | relative_url }}" class="tag" style="font-size:{{ font_size }}%;">#{{ tag[0] }}</a>
+          {% endfor %}
+        </div>
+        <p><a href="{{ '/tags/' | relative_url }}">All tags →</a></p>
+      </div>
+      <div class="sidebar-widget">
+        <h3>Recent Posts</h3>
+        <ul>
+          {% for post in site.posts limit:5 %}
+            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </nav>
+  </aside>
 
-  <!-- Main Content -->
+  <!-- Content Area -->
   <main class="content-area">
     {{ content }}
-
     <div class="character-grid">
       {% for post in site.posts %}
       <a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
@@ -122,18 +154,42 @@ body { margin:0; font-family:'Outfit', sans-serif; background:#f8fafc; color:#0f
 </div>
 
 <!-- Footer -->
-{% include footer.html %}
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-section">
+      <h4>About Wiki</h4>
+      <p>The largest community-driven database for character lore and statistics.</p>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
+        <li><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></li>
+        <li><a href="{{ '/rss.xml' | relative_url }}">RSS Feed</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; {{ site.time | date: '%Y' }} Characters Wiki. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>.
+  </div>
+</footer>
 
 <script>
-  const searchInput = document.getElementById('search-input');
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-    const cards = document.querySelectorAll('.character-card');
-    cards.forEach(card => {
-      const title = card.querySelector('.card-title').textContent.toLowerCase();
-      card.style.display = title.includes(query) ? '' : 'none';
-    });
+// Hamburger toggle for mobile
+const hamburger = document.querySelector('.hamburger');
+const sidebar = document.querySelector('.sidebar');
+hamburger.addEventListener('click', () => sidebar.classList.toggle('active'));
+
+// Live search
+const searchInput = document.getElementById('search-input');
+searchInput.addEventListener('input', () => {
+  const query = searchInput.value.toLowerCase();
+  const cards = document.querySelectorAll('.character-card');
+  cards.forEach(card => {
+    const title = card.querySelector('.card-title').textContent.toLowerCase();
+    card.style.display = title.includes(query) ? '' : 'none';
   });
+});
 </script>
 </body>
 </html>
