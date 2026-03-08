@@ -1,71 +1,42 @@
 <header class="site-header">
 
-  <!-- Logo -->
-  <div class="logo">
-    <a href="{{ '/' | relative_url }}">
-      {{ site.title }}
-    </a>
-  </div>
+<div class="container header-container">
 
-  <!-- Navigation -->
-  <nav class="site-nav">
+<!-- Logo -->
+<div class="logo">
+<a href="{{ '/' | relative_url }}">
+{{ site.title }}
+</a>
+</div>
 
-    <ul>
+<!-- Mobile Menu Button -->
+<button class="menu-toggle" id="menu-toggle">
+☰
+</button>
 
-      <li>
-        <a href="{{ '/' | relative_url }}"
-           class="{% if page.url == '/' %}active{% endif %}">
-           Home
-        </a>
-      </li>
+<!-- Navigation -->
+<nav class="main-nav" id="main-nav">
 
-      <li>
-        <a href="{{ '/categories/' | relative_url }}"
-           class="{% if page.url contains 'category' %}active{% endif %}">
-           Categories
-        </a>
-      </li>
+<a href="{{ '/' | relative_url }}">Home</a>
 
-      <li>
-        <a href="{{ '/tags/' | relative_url }}"
-           class="{% if page.url contains 'tag' %}active{% endif %}">
-           Tags
-        </a>
-      </li>
+<a href="{{ '/categories/' | relative_url }}">Categories</a>
 
-      <li>
-        <a href="{{ '/about/' | relative_url }}"
-           class="{% if page.url contains 'about' %}active{% endif %}">
-           About
-        </a>
-      </li>
+<a href="{{ '/tags/' | relative_url }}">Tags</a>
 
-      <li>
-        <a href="{{ '/contact/' | relative_url }}"
-           class="{% if page.url contains 'contact' %}active{% endif %}">
-           Contact
-        </a>
-      </li>
+<a href="{{ '/about/' | relative_url }}">About</a>
 
-      <li>
-        <a href="{{ '/privacy-policy/' | relative_url }}">
-          Privacy
-        </a>
-      </li>
+<a href="{{ '/contact/' | relative_url }}">Contact</a>
 
-      <li>
-        <a href="{{ '/terms/' | relative_url }}">
-          Terms
-        </a>
-      </li>
+<a href="{{ '/privacy-policy/' | relative_url }}">Privacy</a>
 
-      <!-- Dark Mode Button -->
-      <li>
-        <button id="theme-toggle">🌙</button>
-      </li>
+<a href="{{ '/terms/' | relative_url }}">Terms</a>
 
-    </ul>
+<button id="theme-toggle" class="theme-toggle">
+🌙
+</button>
 
-  </nav>
+</nav>
+
+</div>
 
 </header>
