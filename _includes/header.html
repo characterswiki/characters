@@ -1,25 +1,43 @@
 <header class="site-header">
-<div class="container">
 
-<a class="logo" href="{{ '/' | relative_url }}">
-Characters Wiki
-</a>
+  <div class="container header-container">
 
-<nav class="nav">
+    <!-- Logo -->
+    <div class="site-brand">
+      <a href="{{ '/' | relative_url }}">
+        {{ site.title }}
+      </a>
+    </div>
 
-<a href="{{ '/' | relative_url }}">Home</a>
+    <!-- Mobile Menu Button -->
+    <button class="menu-toggle" id="menu-toggle">
+      ☰
+    </button>
 
-<a href="{{ '/categories/' | relative_url }}">Categories</a>
+    <!-- Navigation -->
+    <nav class="nav" id="main-nav">
 
-<a href="{{ '/tags/' | relative_url }}">Tags</a>
+      <a href="{{ '/' | relative_url }}">Home</a>
 
-<a href="{{ '/about/' | relative_url }}">About</a>
+      <a href="{{ '/categories/' | relative_url }}">Categories</a>
 
-<a href="{{ '/contact/' | relative_url }}">Contact</a>
+      <a href="{{ '/tags/' | relative_url }}">Tags</a>
 
-<button id="theme-toggle">🌙</button>
+      <a href="{{ '/about/' | relative_url }}">About</a>
 
-</nav>
+      <a href="{{ '/contact/' | relative_url }}">Contact</a>
 
-</div>
+      <a href="{{ '/privacy-policy/' | relative_url }}">Privacy</a>
+
+      <a href="{{ '/terms/' | relative_url }}">Terms</a>
+
+      <!-- Theme Toggle -->
+      <button id="theme-toggle" class="theme-btn">
+        🌙
+      </button>
+
+    </nav>
+
+  </div>
+
 </header>
