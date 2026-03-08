@@ -1,18 +1,92 @@
 <header class="site-header">
-  <div class="header-wrapper">
-    <div class="site-title">
-      <a href="{{ '/' | relative_url }}">{{ site.title }}</a>
+  <div class="header-container">
+    <!-- Logo -->
+    <a href="{{ '/' | relative_url }}" class="site-logo">
+      <span class="icon">🏮</span> Characters<strong>Wiki</strong>
+    </a>
+
+    <!-- Search -->
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search characters">
     </div>
-    <nav class="main-nav" aria-label="Main navigation">
-      <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-      <ul class="nav-list">
-        <li{% if page.url == '/' %} class="active"{% endif %}><a href="{{ '/' | relative_url }}">Home</a></li>
-        <li{% if page.url contains '/categories' %} class="active"{% endif %}><a href="{{ '/categories/' | relative_url }}">Categories</a></li>
-        <li{% if page.url contains '/tags' %} class="active"{% endif %}><a href="{{ '/tags/' | relative_url }}">Tags</a></li>
-        <li{% if page.url contains '/about' %} class="active"{% endif %}><a href="{{ '/about/' | relative_url }}">About</a></li>
-        <li{% if page.url contains '/contact' %} class="active"{% endif %}><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
-      </ul>
-    </nav>
-    <button class="theme-toggle" aria-label="Toggle dark mode">🌓</button>
   </div>
 </header>
+
+<!-- Optional: Search Results Container -->
+<div id="search-results" class="search-results" aria-live="polite"></div>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    background: var(--sidebar-bg);
+    padding: 1rem 2rem;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+
+  .header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .site-logo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+  }
+  .site-logo .icon {
+    margin-right: 0.5rem;
+  }
+
+  .search-container input {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+    width: 250px;
+    max-width: 100%;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .search-container input:focus {
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .header-container {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .search-container input {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  // Simple live search for character cards
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const cards = document.querySelectorAll('.character-card');
+    cards.forEach(card => {
+      const title = card.querySelector('.card-title').textContent.toLowerCase();
+      if (title.includes(query)) {
+        card.style.display = '';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  });
+</script>
