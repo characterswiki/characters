@@ -1,117 +1,209 @@
----
-layout: default
----
-{% assign featured_img = page.image | default: page.thumbnail %}
-{% assign image_alt = page.image_alt | default: page.title %}
-{% assign page_description = page.excerpt | default: page.description | default: '' | strip_html | normalize_whitespace | truncate: 160 %}
-{% assign author_data = site.data.authors[page.author] %}
-{% assign author_name = author_data.name | default: page.author | default: site.author %}
-{% assign author_url = author_data.url | default: '' %}
-{% assign author_twitter = author_data.twitter | default: '' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 150 | default: page.description }}">
+  <meta name="robots" content="index, follow">
+  {% seo %}
 
-<!-- JSON-LD structured data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}#article",
-  "url": "{{ site.url }}{{ site.baseurl }}{{ page.url }}",
-  "headline": {{ page.title | jsonify }},
-  {% if page_description != "" %}
-  "description": {{ page_description | jsonify }},
-  {% endif %}
-  {% if featured_img %}
-  "image": {
-    "@type": "ImageObject",
-    "url": "{{ featured_img | absolute_url }}",
-    "height": 1200,
-    "width": 1600
-  },
-  {% endif %}
-  "datePublished": "{{ page.date | date_to_xmlschema }}",
-  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-  "author": {
-    "@type": "Person",
-    "name": {{ author_name | jsonify }}{% if author_url != "" %},
-    "sameAs": {{ author_url | jsonify }}
-    {% endif %}
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": {{ site.title | jsonify }},
-    "url": "{{ site.url }}{{ site.baseurl }}/"
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
-  }
-}
-</script>
+  <!-- Fonts & CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-<a href="#main-content" class="skip-link">Skip to main content</a>
+  <style>
+    body { margin:0; font-family:'Outfit',sans-serif; background:#f8fafc; color:#0f172a; line-height:1.6; }
+    .app-container { display:flex; min-height:100vh; }
 
-<div class="content-wrapper">
-  <main id="main-content" class="main-content post-content" tabindex="-1">
-    <article class="post">
+    /* Sidebar */
+    .sidebar { width:260px; background:#1e293b; color:white; position:sticky; top:0; height:100vh; padding:2rem; box-sizing:border-box; }
+    .sidebar .logo { font-size:2rem; margin-bottom:2rem; font-weight:600; }
+    .sidebar .logo span { color:#ff4757; }
+    .sidebar nav ul { list-style:none; padding:0; }
+    .sidebar nav ul li a { color:#cbd5e1; text-decoration:none; display:block; padding:10px 0; transition:0.3s; }
+    .sidebar nav ul li a:hover { color:#ff4757; padding-left:5px; }
+
+    /* Header */
+    .site-header { position:sticky; top:0; background:#1e293b; padding:1rem 2rem; z-index:1000; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
+    .site-header .site-logo { color:white; font-weight:600; text-decoration:none; font-size:1.5rem; }
+    .site-header .site-logo .icon { margin-right:0.5rem; }
+    .site-header .search-container input { padding:0.5rem 1rem; border-radius:8px; border:none; outline:none; width:250px; max-width:100%; }
+
+    /* Content Area */
+    .content-area { flex:1; padding:2rem; }
+
+    /* Breadcrumbs */
+    .breadcrumbs { font-size:0.85rem; margin-bottom:1rem; }
+    .breadcrumbs a { text-decoration:none; color:#64748b; }
+    .breadcrumbs a:hover { color:#ff4757; }
+    .breadcrumbs span { margin:0 0.3rem; }
+
+    /* Post Header */
+    .post-header { margin-bottom:2rem; }
+    .post-header h1 { margin:0; font-size:2rem; color:#1a1a2e; }
+    .post-meta { font-size:0.85rem; color:#64748b; margin-top:0.5rem; }
+    .post-meta span { margin-right:1rem; }
+
+    /* Featured Image */
+    .post-image { width:100%; max-height:500px; overflow:hidden; border-radius:16px; margin-bottom:2rem; }
+    .post-image img { width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease; }
+    .post-image:hover img { transform: scale(1.05); }
+
+    /* Post Content */
+    .post-content { font-size:1rem; color:#1a1a2e; line-height:1.75; }
+    .post-content h2 { font-size:1.5rem; margin-top:2rem; }
+    .post-content img { max-width:100%; border-radius:12px; margin:1rem 0; }
+    .post-content a { color:#ff4757; text-decoration:none; }
+    .post-content a:hover { text-decoration:underline; }
+
+    /* Category Badge */
+    .post-category { display:inline-block; background:#ff4757; color:white; padding:3px 10px; font-size:0.75rem; font-weight:600; border-radius:12px; margin-bottom:1rem; }
+
+    /* Related Posts */
+    .related-posts { margin-top:4rem; }
+    .related-posts h3 { font-size:1.2rem; margin-bottom:1rem; color:#1a1a2e; }
+    .related-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:20px; }
+    .related-card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.08); transition:0.3s; }
+    .related-card:hover { transform:translateY(-6px); box-shadow:0 10px 25px rgba(0,0,0,0.12); }
+    .related-card img { width:100%; height:150px; object-fit:cover; }
+    .related-card h4 { font-size:1rem; margin:0.5rem 1rem; color:#1a1a2e; }
+    .related-card a { text-decoration:none; }
+
+    /* Footer */
+    .site-footer { background:#1e293b; color:white; padding:2rem; font-size:0.9rem; margin-top:2rem; }
+    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-bottom:1.5rem; }
+    .footer-section h4 { font-size:1.1rem; margin-bottom:0.8rem; color:#ff4757; }
+    .footer-section p, .footer-section ul li a { color:#cbd5e1; }
+    .footer-section ul { list-style:none; padding:0; margin:0; }
+    .footer-section ul li a { text-decoration:none; margin:0.3rem 0; display:block; transition:color 0.3s; }
+    .footer-section ul li a:hover { color:#ff4757; }
+    .footer-bottom { text-align:center; border-top:1px solid #334155; padding-top:1rem; color:#94a3b8; font-size:0.8rem; }
+
+    /* Responsive */
+    @media (max-width:1024px){.app-container{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}}
+    @media (max-width:600px){.site-header{flex-direction:column;align-items:flex-start;gap:0.5rem;}.site-header .search-container input{width:100%;}}
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="site-header">
+    <a href="{{ '/' | relative_url }}" class="site-logo"><span class="icon">🏮</span>CharactersWiki</a>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search characters">
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h1 class="logo"><a href="{{ '/' | relative_url }}">Wiki<span>.</span></a></h1>
+      <nav>
+        <p class="label">Navigation</p>
+        <ul>
+          <li><a href="{{ '/' | relative_url }}">🏠 Home</a></li>
+          <li><a href="{{ '/categories' | relative_url }}">📂 Categories</a></li>
+        </ul>
+        <p class="label">Top Series</p>
+        <ul>
+          {% assign sorted_categories = site.categories | sort %}
+          {% for category in sorted_categories limit:5 %}
+            <li><a href="{{ '/categories#' | append: category | first | slugify | relative_url }}">🔥 {{ category | first }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content-area">
+      <!-- Breadcrumbs -->
+      <div class="breadcrumbs">
+        <a href="{{ '/' | relative_url }}">Home</a> <span>›</span>
+        {% for cat in page.categories %}
+          <a href="{{ '/categories#' | append: cat | slugify | relative_url }}">{{ cat }}</a>{% unless forloop.last %} <span>›</span> {% endunless %}
+        {% endfor %}
+        <span>›</span> {{ page.title }}
+      </div>
+
+      <!-- Post Header -->
       <header class="post-header">
+        {% if page.categories.size > 0 %}
+          <span class="post-category">{{ page.categories | first }}</span>
+        {% endif %}
         <h1>{{ page.title }}</h1>
         <div class="post-meta">
-          {% if page.date %}
-            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-          {% endif %}
-          {% if author_name %}
-            <span class="author">
-              By {% if author_url %}<a href="{{ author_url }}" rel="author">{{ author_name }}</a>{% else %}{{ author_name }}{% endif %}
-            </span>
-          {% endif %}
-          {% if page.categories.size > 0 %}
-            <span class="categories">
-              {% for category in page.categories %}
-                <a href="{{ '/categories/#' | append: category | slugify | relative_url }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
-              {% endfor %}
-            </span>
-          {% endif %}
+          <span>Published: {{ page.date | date: "%B %d, %Y" }}</span>
         </div>
       </header>
 
-      {% if featured_img %}
-        <div class="post-image">
-          <img src="{{ featured_img }}" alt="{{ image_alt }}" loading="lazy">
-        </div>
+      <!-- Featured Image -->
+      {% if page.image %}
+      <div class="post-image">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" loading="lazy" decoding="async">
+      </div>
       {% endif %}
 
-      {% if page.toc %}
-        <details class="toc">
-          <summary>Table of Contents</summary>
-          {% include toc.html html=content %}
-        </details>
-      {% endif %}
-
+      <!-- Post Content -->
       <div class="post-content">
         {{ content }}
       </div>
 
-      <footer class="post-footer">
-        {% if page.tags.size > 0 %}
-          <div class="post-tags">
-            <strong>Tags:</strong>
-            {% for tag in page.tags %}
-              <a href="{{ '/tags/#' | append: tag | slugify | relative_url }}" class="tag">#{{ tag }}</a>
-            {% endfor %}
-          </div>
-        {% endif %}
-
-        <div class="post-navigation">
-          {% if page.previous.url %}
-            <a class="prev" href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>
-          {% endif %}
-          {% if page.next.url %}
-            <a class="next" href="{{ page.next.url | relative_url }}">{{ page.next.title }} →</a>
-          {% endif %}
+      <!-- Related Posts -->
+      {% assign related = site.posts | where_exp:"p","p.categories contains page.categories[0]" | where_exp:"p","p.url != page.url" | limit:4 %}
+      {% if related.size > 0 %}
+      <div class="related-posts">
+        <h3>Related Characters</h3>
+        <div class="related-grid">
+          {% for rpost in related %}
+          <a href="{{ rpost.url | relative_url }}" class="related-card">
+            {% if rpost.image %}
+            <img src="{{ rpost.image | relative_url }}" alt="{{ rpost.title }}" loading="lazy" decoding="async">
+            {% else %}
+            <img src="{{ '/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" loading="lazy" decoding="async">
+            {% endif %}
+            <h4>{{ rpost.title }}</h4>
+          </a>
+          {% endfor %}
         </div>
-      </footer>
-    </article>
-  </main>
+      </div>
+      {% endif %}
+    </main>
+  </div>
 
-  {% include sidebar.html %}
-</div>
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h4>About Wiki</h4>
+        <p>The largest community-driven database for character lore and statistics.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
+          <li><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></li>
+          <li><a href="{{ '/rss.xml' | relative_url }}">RSS Feed</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; {{ site.time | date: '%Y' }} Characters Wiki. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>.
+    </div>
+  </footer>
+
+  <script>
+    // Live Search
+    const searchInput = document.getElementById('search-input');
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const cards = document.querySelectorAll('.character-card');
+      cards.forEach(card => {
+        const title = card.querySelector('.character-name').textContent.toLowerCase();
+        card.style.display = title.includes(query) ? '' : 'none';
+      });
+    });
+  </script>
+
+</body>
+</html>
