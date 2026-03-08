@@ -1,42 +1,36 @@
-<header class="site-header">
+<header class="header">
+  <div class="logo">
+    <a href="{{ '/' | relative_url }}">CharactersWiki</a>
+  </div>
 
-<div class="container header-container">
+  <nav class="nav">
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <div class="dropdown">
+      <a href="{{ '/categories.md' | relative_url }}">Categories <i class="fa fa-caret-down"></i></a>
+      <div class="dropdown-content">
+        {% assign cats = site.categories %}
+        {% for cat in cats %}
+          <a href="{{ '/categories.md' | relative_url }}">{{ cat[0] }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    <a href="{{ '/about.md' | relative_url }}">About</a>
+    <a href="#" class="search-toggle"><i class="fa fa-search"></i></a>
+  </nav>
 
-<!-- Logo -->
-<div class="logo">
-<a href="{{ '/' | relative_url }}">
-{{ site.title }}
-</a>
-</div>
+  <div class="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 
-<!-- Mobile Menu Button -->
-<button class="menu-toggle" id="menu-toggle">
-☰
-</button>
+  <div class="mobile-menu">
+    <a href="{{ '/' | relative_url }}">Home</a>
+    <a href="{{ '/categories.md' | relative_url }}">Categories</a>
+    <a href="{{ '/about.md' | relative_url }}">About</a>
+  </div>
 
-<!-- Navigation -->
-<nav class="main-nav" id="main-nav">
-
-<a href="{{ '/' | relative_url }}">Home</a>
-
-<a href="{{ '/categories/' | relative_url }}">Categories</a>
-
-<a href="{{ '/tags/' | relative_url }}">Tags</a>
-
-<a href="{{ '/about/' | relative_url }}">About</a>
-
-<a href="{{ '/contact/' | relative_url }}">Contact</a>
-
-<a href="{{ '/privacy-policy/' | relative_url }}">Privacy</a>
-
-<a href="{{ '/terms/' | relative_url }}">Terms</a>
-
-<button id="theme-toggle" class="theme-toggle">
-🌙
-</button>
-
-</nav>
-
-</div>
-
+  <div class="search-bar">
+    <input type="text" id="headerSearch" placeholder="Search posts...">
+  </div>
 </header>
