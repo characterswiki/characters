@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Contact Us
-permalink: /contact/
+permalink: characters/contact/
 description: Contact Anime Manga Characters Wiki for inquiries, corrections or suggestions.
 ---
 
