@@ -1,158 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <meta name="description" content="{{ page.description | default: site.description }}">
-  <meta name="robots" content="index, follow">
-  {% seo %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} | {{ site.title }}</title>
+<meta name="description" content="{{ page.description | default: site.description }}">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-  <!-- Google Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<style>
+/* Base */
+body { margin:0; font-family:'Outfit', sans-serif; background:#f8fafc; color:#0f172a; }
+.app-container { display:flex; min-height:100vh; flex-wrap:wrap; }
 
-  <style>
-    body { margin:0; font-family:'Outfit',sans-serif; background:#f8fafc; color:#0f172a; line-height:1.6; }
-    .app-container { display:flex; min-height:100vh; }
+/* Header */
+.site-header { position:sticky; top:0; background:#1e293b; padding:1rem 2rem; z-index:1000; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; }
+.site-header .site-logo { color:white; font-weight:600; text-decoration:none; font-size:1.5rem; display:flex; align-items:center; }
+.site-header .search-container { margin-top:0.5rem; width:250px; max-width:100%; }
+.site-header .search-container input { width:100%; padding:0.5rem 1rem; border-radius:8px; border:none; }
 
-    /* Sidebar */
-    .sidebar { width:260px; background:#1e293b; color:white; position:sticky; top:0; height:100vh; padding:2rem; box-sizing:border-box; }
-    .sidebar .logo { font-size:2rem; margin-bottom:2rem; font-weight:600; }
-    .sidebar .logo span { color:#ff4757; }
-    .sidebar nav ul { list-style:none; padding:0; }
-    .sidebar nav ul li a { color:#cbd5e1; text-decoration:none; display:block; padding:10px 0; transition:0.3s; }
-    .sidebar nav ul li a:hover { color:#ff4757; padding-left:5px; }
+/* Sidebar */
+.sidebar { width:260px; background:#1e293b; color:white; padding:2rem; box-sizing:border-box; height:100%; }
+.sidebar-widget { margin-bottom:2.5rem; }
+.sidebar-widget h3 { color:#ff4757; margin-bottom:0.8rem; border-bottom:1px solid #334155; padding-bottom:0.3rem; }
+.sidebar-widget ul { list-style:none; padding:0; }
+.sidebar-widget ul li { margin-bottom:0.5rem; }
+.sidebar-widget ul li a { color:#cbd5e1; text-decoration:none; transition:0.3s; }
+.sidebar-widget ul li a:hover { color:#ff4757; padding-left:5px; }
+.tag-cloud { display:flex; flex-wrap:wrap; gap:6px; }
+.tag-cloud .tag { background:rgba(255,71,87,0.15); color:#ff4757; padding:4px 10px; border-radius:12px; text-decoration:none; transition: transform 0.2s, background 0.2s; }
+.tag-cloud .tag:hover { background:#ff4757; color:#fff; transform:scale(1.1); }
 
-    /* Header */
-    .site-header { position:sticky; top:0; background:#1e293b; padding:1rem 2rem; z-index:1000; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-    .site-header .site-logo { color:white; font-weight:600; text-decoration:none; font-size:1.5rem; }
-    .site-header .site-logo .icon { margin-right:0.5rem; }
-    .site-header .search-container input { padding:0.5rem 1rem; border-radius:8px; border:none; outline:none; width:250px; max-width:100%; }
+/* Content Area */
+.content-area { flex:1; padding:2rem; min-width:0; }
 
-    /* Content Area */
-    .content-area { flex:1; padding:2rem; }
+/* Character Grid */
+.character-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:30px; margin-top:40px; }
+.character-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition:all 0.3s; border:1px solid #eee; text-decoration:none; color:inherit; }
+.character-card:hover { transform:translateY(-8px); box-shadow:0 15px 35px rgba(0,0,0,0.15); border-color:#ff4757; }
+.card-img-wrapper { width:100%; height:350px; overflow:hidden; position:relative; }
+.card-img-wrapper img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
+.character-card:hover .card-img-wrapper img { transform:scale(1.05); }
+.card-category { position:absolute; top:15px; left:15px; background:rgba(26,26,46,0.9); color:#fff; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; backdrop-filter:blur(4px); }
+.card-info { padding:1.5rem; }
+.card-title { margin:0.5rem 0 0; font-size:1.4rem; color:#1a1a2e; }
+.read-more { font-weight:600; color:#ff4757; font-size:0.85rem; margin-top:5px; display:inline-block; }
 
-    /* Character Grid */
-    .character-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:30px; margin-top:40px; }
-    .character-card { background:#fff; border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border:1px solid #eee; text-decoration:none; color:inherit; }
-    .character-card:hover { transform:translateY(-12px); box-shadow:0 15px 35px rgba(0,0,0,0.15); border-color:#ff4757; }
-    .card-img-wrapper { width:100%; height:350px; overflow:hidden; position:relative; }
-    .card-img-wrapper img { width:100%; height:100%; object-fit:cover; transition:transform 0.5s ease; }
-    .character-card:hover .card-img-wrapper img { transform:scale(1.1); }
-    .card-category { position:absolute; top:15px; left:15px; background:rgba(26,26,46,0.9); color:#fff; padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700; text-transform:uppercase; backdrop-filter:blur(4px); }
-    .card-info { padding:1.5rem; }
-    .card-title { margin:0.5rem 0 0; font-size:1.4rem; color:#1a1a2e; }
-    .read-more { font-weight:600; color:#ff4757; font-size:0.85rem; margin-top:5px; display:inline-block; }
+/* Footer */
+.site-footer { background:#1e293b; color:white; padding:2rem; font-size:0.9rem; margin-top:2rem; }
+.footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-bottom:1.5rem; }
+.footer-section h4 { font-size:1.1rem; margin-bottom:0.8rem; color:#ff4757; }
+.footer-section p, .footer-section ul li a { color:#cbd5e1; }
+.footer-section ul { list-style:none; padding:0; margin:0; }
+.footer-section ul li a { text-decoration:none; margin:0.3rem 0; display:block; transition:color 0.3s; }
+.footer-section ul li a:hover { color:#ff4757; }
+.footer-bottom { text-align:center; border-top:1px solid #334155; padding-top:1rem; color:#94a3b8; font-size:0.8rem; }
 
-    /* Footer */
-    .site-footer { background:#1e293b; color:white; padding:2rem; font-size:0.9rem; margin-top:2rem; }
-    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-bottom:1.5rem; }
-    .footer-section h4 { font-size:1.1rem; margin-bottom:0.8rem; color:#ff4757; }
-    .footer-section p, .footer-section ul li a { color:#cbd5e1; }
-    .footer-section ul { list-style:none; padding:0; margin:0; }
-    .footer-section ul li a { text-decoration:none; margin:0.3rem 0; display:block; transition:color 0.3s; }
-    .footer-section ul li a:hover { color:#ff4757; }
-    .footer-bottom { text-align:center; border-top:1px solid #334155; padding-top:1rem; color:#94a3b8; font-size:0.8rem; }
+/* --- MOBILE / TABLET --- */
+@media (max-width: 1024px) {
+  .app-container { flex-direction:column; }
+  .sidebar { width:100%; height:auto; padding:1.5rem; }
+  .content-area { padding:1.5rem; }
+  .site-header { flex-direction:column; align-items:flex-start; gap:0.5rem; }
+  .site-header .search-container { width:100%; }
+}
 
-    /* Responsive */
-    @media (max-width:1024px){.app-container{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}}
-    @media (max-width:600px){.character-grid{grid-template-columns:1fr;}.site-header{flex-direction:column;align-items:flex-start;gap:0.5rem;}.site-header .search-container input{width:100%;}}
-  </style>
+@media (max-width: 768px) {
+  .character-grid { grid-template-columns:1fr; gap:20px; }
+  .card-img-wrapper { height:280px; }
+}
+
+@media (max-width: 480px) {
+  .card-img-wrapper { height:220px; }
+  .card-info { padding:1rem; }
+  .card-title { font-size:1.2rem; }
+}
+</style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="site-header">
-    <a href="{{ '/' | relative_url }}" class="site-logo"><span class="icon">🏮</span>CharactersWiki</a>
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search characters">
-    </div>
-  </header>
-
-  <div class="app-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h1 class="logo"><a href="{{ '/' | relative_url }}">Wiki<span>.</span></a></h1>
-      <nav>
-        <p class="label">Navigation</p>
-        <ul>
-          <li><a href="{{ '/' | relative_url }}">🏠 Home</a></li>
-          <li><a href="{{ '/categories' | relative_url }}">📂 Categories</a></li>
-        </ul>
-        <p class="label">Top Series</p>
-        <ul>
-          {% assign sorted_categories = site.categories | sort %}
-          {% for category in sorted_categories limit:5 %}
-            <li><a href="{{ '/categories#' | append: category | first | slugify | relative_url }}">🔥 {{ category | first }}</a></li>
-          {% endfor %}
-        </ul>
-      </nav>
-    </aside>
-
-    <!-- Content Area -->
-    <main class="content-area">
-      {{ content }}
-
-      <!-- Character Grid -->
-      <div class="character-grid">
-        {% for post in site.posts %}
-        <a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
-          <div class="card-img-wrapper">
-            {% if post.image %}
-              <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" decoding="async">
-            {% else %}
-              <img src="{{ '/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" loading="lazy" decoding="async">
-            {% endif %}
-            {% if post.categories.size > 0 %}
-              <span class="card-category">{{ post.categories | first }}</span>
-            {% endif %}
-          </div>
-          <div class="card-info">
-            <h3 class="card-title">{{ post.title }}</h3>
-            {% if post.excerpt %}
-            <p>{{ post.excerpt | strip_html | truncate: 75 }}</p>
-            {% endif %}
-            <span class="read-more">View Profile →</span>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-    </main>
+<!-- Header -->
+<header class="site-header">
+  <a href="{{ '/' | relative_url }}" class="site-logo"><span class="icon">🏮</span>CharactersWiki</a>
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search characters">
   </div>
+</header>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-section">
-        <h4>About Wiki</h4>
-        <p>The largest community-driven database for character lore and statistics.</p>
-      </div>
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
-          <li><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></li>
-          <li><a href="{{ '/rss.xml' | relative_url }}">RSS Feed</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; {{ site.time | date: '%Y' }} Characters Wiki. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>.
-    </div>
-  </footer>
+<div class="app-container">
+  <!-- Sidebar -->
+  {% include sidebar.html %}
 
-  <script>
-    // Live Search
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      const cards = document.querySelectorAll('.character-card');
-      cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        card.style.display = title.includes(query) ? '' : 'none';
-      });
+  <!-- Main Content -->
+  <main class="content-area">
+    {{ content }}
+
+    <div class="character-grid">
+      {% for post in site.posts %}
+      <a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
+        <div class="card-img-wrapper">
+          {% if post.image %}
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" decoding="async">
+          {% else %}
+            <img src="{{ '/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" loading="lazy" decoding="async">
+          {% endif %}
+          {% if post.categories.size > 0 %}
+            <span class="card-category">{{ post.categories | first }}</span>
+          {% endif %}
+        </div>
+        <div class="card-info">
+          <h3 class="card-title">{{ post.title }}</h3>
+          {% if post.excerpt %}
+          <p>{{ post.excerpt | strip_html | truncate:75 }}</p>
+          {% endif %}
+          <span class="read-more">View Profile →</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </main>
+</div>
+
+<!-- Footer -->
+{% include footer.html %}
+
+<script>
+  const searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const cards = document.querySelectorAll('.character-card');
+    cards.forEach(card => {
+      const title = card.querySelector('.card-title').textContent.toLowerCase();
+      card.style.display = title.includes(query) ? '' : 'none';
     });
-  </script>
+  });
+</script>
 </body>
 </html>
