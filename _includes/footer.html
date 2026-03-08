@@ -1,29 +1,55 @@
 <footer class="footer">
-  <div class="container footer-container">
 
-    <!-- Branding -->
-    <div class="footer-brand">
-      <h2>{{ site.title }}</h2>
-      <p>Explore detailed profiles of your favorite Anime & Manga characters.</p>
-    </div>
+<div class="container footer-grid">
 
-    <!-- Quick Links -->
-    <div class="footer-links">
-      <h3>Quick Links</h3>
-      <ul>
-        <li><a href="{{ '/privacy-policy/' | relative_url }}">Privacy Policy</a></li>
-        <li><a href="{{ '/terms/' | relative_url }}">Terms of Service</a></li>
-        <li><a href="{{ '/about/' | relative_url }}">About Us</a></li>
-        <li><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
-      </ul>
-    </div>
+<!-- Brand -->
+<div class="footer-brand">
 
-  </div>
+<h2>{{ site.title }}</h2>
 
-  <!-- Bottom -->
-  <div class="footer-bottom">
-    <p>
-      &copy; {{ site.time | date: "%Y" }} {{ site.title }}. All Rights Reserved.
-    </p>
-  </div>
+<p>
+Explore detailed profiles of your favorite Anime & Manga characters.
+</p>
+
+</div>
+
+<!-- Explore -->
+<div class="footer-links">
+
+<h3>Explore</h3>
+
+<a href="{{ '/' | relative_url }}">Home</a>
+
+<a href="{{ '/categories/' | relative_url }}">Categories</a>
+
+<a href="{{ '/tags/' | relative_url }}">Tags</a>
+
+</div>
+
+<!-- Site -->
+<div class="footer-links">
+
+<h3>Site</h3>
+
+<a href="{{ '/about/' | relative_url }}">About</a>
+
+<a href="{{ '/contact/' | relative_url }}">Contact</a>
+
+<a href="{{ '/privacy-policy/' | relative_url }}">Privacy Policy</a>
+
+<a href="{{ '/terms/' | relative_url }}">Terms</a>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<p>
+© {{ site.time | date: "%Y" }} {{ site.title }}.
+All Rights Reserved.
+</p>
+
+</div>
+
 </footer>
