@@ -1,5 +1,5 @@
 <footer class="footer">
-  <div class="footer-container">
+  <div class="container footer-container">
 
     <!-- Branding -->
     <div class="footer-brand">
@@ -20,93 +20,10 @@
 
   </div>
 
-  <!-- Bottom Bar -->
+  <!-- Bottom -->
   <div class="footer-bottom">
     <p>
-      &copy; {{ site.time | date: "%Y" }} {{ site.title }}.
-      All Rights Reserved.
+      &copy; {{ site.time | date: "%Y" }} {{ site.title }}. All Rights Reserved.
     </p>
   </div>
-
-  <style>
-    .footer {
-      background: #111;
-      color: #eee;
-      padding: 3rem 1.5rem 1.5rem;
-      font-family: system-ui, -apple-system, sans-serif;
-      border-top: 1px solid #222;
-    }
-
-    .footer-container {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      max-width: 1200px;
-      margin: 0 auto;
-      gap: 3rem;
-    }
-
-    .footer-brand h2 {
-      font-size: 1.6rem;
-      margin-bottom: 0.6rem;
-      color: #fff;
-      letter-spacing: 0.5px;
-    }
-
-    .footer-brand p {
-      font-size: 0.95rem;
-      color: #bbb;
-      max-width: 320px;
-      line-height: 1.6;
-    }
-
-    .footer-links h3 {
-      font-size: 1rem;
-      margin-bottom: 0.8rem;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .footer-links ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .footer-links ul li {
-      margin-bottom: 0.6rem;
-    }
-
-    .footer a {
-      color: #1e90ff;
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.3s ease;
-    }
-
-    .footer a:hover {
-      color: #00bfff;
-    }
-
-    .footer-bottom {
-      text-align: center;
-      margin-top: 2.5rem;
-      padding-top: 1rem;
-      border-top: 1px solid #222;
-      font-size: 0.85rem;
-      color: #777;
-    }
-
-    @media (max-width: 768px) {
-      .footer-container {
-        flex-direction: column;
-        gap: 2rem;
-      }
-
-      .footer-brand p {
-        max-width: 100%;
-      }
-    }
-  </style>
 </footer>
