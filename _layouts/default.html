@@ -11,15 +11,6 @@
 
 {% include header.html %}
 
-{% if page.url == "/" %}
-<section class="hero">
-  <div class="hero-content">
-    <h1>Welcome to Characters Wiki</h1>
-    <p>Explore amazing characters from anime, games, and comics!</p>
-  </div>
-</section>
-{% endif %}
-
 <div class="container">
   <main class="content">
     {{ content }}
@@ -28,7 +19,7 @@
   <aside class="sidebar">
     <div class="widget">
       <h3>Search</h3>
-      <input type="text" id="searchInput" placeholder="Search posts...">
+      <input type="text" id="searchInput" placeholder="Search characters...">
     </div>
 
     <div class="widget">
