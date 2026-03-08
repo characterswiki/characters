@@ -1,50 +1,69 @@
 ---
-layout: home
-title: Character Database
-description: "Browse the complete database of anime and manga characters with detailed stats and lore."
+layout: default
+title: "Characters Wiki"
+description: "Explore the complete database of anime, manga, game, and movie characters with stats and lore."
 ---
 
-<!-- ========================
-     Home Intro Section
-======================== -->
-<section class="home-intro">
-  <h1>Character Archive</h1>
-  <p>Welcome to the <strong>Characters Wiki</strong>, your ultimate source for anime and manga character profiles. Explore our growing collection of legendary heroes, villains, and side characters.</p>
-  <p>Use the sidebar to filter by series, category, or origin, or browse the cards below to discover detailed stats, powers, and lore for each character.</p>
+<!-- INTRO -->
+<section style="max-width:1200px;margin:30px auto;padding:0 20px;text-align:center;">
+  <h1>Welcome to CharactersWiki</h1>
+  <p>Discover legendary heroes, villains, and side characters from anime, manga, games, and movies. Use the grid below to browse, or explore by <a href="{{ '/characters/categories/' | relative_url }}">categories</a> and <a href="{{ '/characters/tags/' | relative_url }}">tags</a>.</p>
 </section>
 
-<!-- ========================
-     Character Cards Grid
-======================== -->
-<section class="card-grid">
-  {% for post in site.posts %}
-  <a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
-    <div class="card-img-wrapper">
-      <img src="{{ post.fandom_url }}" alt="{{ post.title }} image" loading="lazy" decoding="async">
-    </div>
-    <div class="card-info">
-      {% if post.categories.size > 0 %}
-      <span class="card-category">{{ post.categories | first }}</span>
-      {% endif %}
-      <h2 class="card-title">{{ post.title }}</h2>
-    </div>
-  </a>
-  {% endfor %}
+<!-- CHARACTER GRID -->
+<section class="character-grid">
+
+{% assign posts = site.posts | sort: "title" %}
+
+{% for post in posts %}
+<a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
+
+  <div class="card-img-wrapper">
+    {% if post.image %}
+      {% assign img = post.image | remove_first:'/' %}
+      <img src="{{ img | relative_url }}" alt="{{ post.title }} character image" loading="lazy" decoding="async" width="400" height="500" onerror="this.src='{{ '/characters/assets/images/placeholder.jpg' | relative_url }}';">
+    {% else %}
+      <img src="{{ '/characters/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" loading="lazy" width="400" height="500">
+    {% endif %}
+
+    {% if post.categories and post.categories.size > 0 %}
+      <span class="card-category">
+        <a href="{{ '/characters/categories/#' | append: post.categories | first | slugify | relative_url }}" style="color:white;">{{ post.categories | first }}</a>
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="card-info">
+    <h3 class="card-title">{{ post.title }}</h3>
+    {% if post.excerpt %}
+      <p class="card-excerpt">{{ post.excerpt | strip_html | truncate:80 }}</p>
+    {% endif %}
+    <span class="read-more">View Profile →</span>
+  </div>
+
+</a>
+{% endfor %}
+
 </section>
 
-<!-- ========================
-     Pagination (Optional)
-======================== -->
-{% if paginator.total_pages > 1 %}
-<nav class="pagination" role="navigation" aria-label="Pagination">
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | relative_url }}" class="prev">&larr; Previous</a>
-  {% endif %}
-  {% for page in (1..paginator.total_pages) %}
-    <a href="{{ paginator.paginate_path | replace: ':num', page }}" class="{% if page == paginator.page %}active{% endif %}">{{ page }}</a>
-  {% endfor %}
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | relative_url }}" class="next">Next &rarr;</a>
-  {% endif %}
-</nav>
-{% endif %}
+<!-- OPTIONAL: POPULAR CATEGORIES -->
+<section style="max-width:1200px;margin:50px auto;padding:0 20px;">
+<h2>Popular Categories</h2>
+<div style="display:flex;flex-wrap:wrap;gap:10px;">
+{% assign sorted_cats = site.categories | sort %}
+{% for category in sorted_cats limit:8 %}
+  <a href="{{ '/characters/categories/#' | append: category[0] | slugify | relative_url }}" style="background:#ff4757;color:white;padding:6px 12px;border-radius:8px;font-size:14px;">{{ category[0] }} ({{ category[1].size }})</a>
+{% endfor %}
+</div>
+</section>
+
+<!-- OPTIONAL: POPULAR TAGS -->
+<section style="max-width:1200px;margin:50px auto;padding:0 20px;">
+<h2>Popular Tags</h2>
+<div style="display:flex;flex-wrap:wrap;gap:8px;">
+{% assign sorted_tags = site.tags | sort %}
+{% for tag in sorted_tags limit:15 %}
+  <a href="{{ '/characters/tags/#' | append: tag[0] | slugify | relative_url }}" style="background:#1f2937;color:white;padding:5px 10px;border-radius:6px;font-size:13px;">#{{ tag[0] }}</a>
+{% endfor %}
+</div>
+</section>
