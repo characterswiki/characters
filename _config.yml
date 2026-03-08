@@ -2,24 +2,28 @@ title: "Characters Wiki"
 email: your-email@example.com
 description: >-
   Explore amazing characters from anime, games, and comics!
-baseurl: "/characters"  # important: matches your GitHub Pages subpath
+baseurl: "/characters"        # important for GitHub Pages subpath
 url: "https://characterswiki.github.io"
 twitter_username: your-twitter
-github_username:  characterswiki
+github_username: characterswiki
 
 # Build settings
 theme: null
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+  - jekyll-paginate           # for paginated homepage
 
-# Permalinks
-permalink: /:title.html
+paginate: 8                   # posts per page
 
-# Collections (optional if you want to separate characters from posts)
+# Default permalink for posts and collection items
+permalink: /:title/
+
+# Collections
 collections:
   characters:
     output: true
+    permalink: /:title/       # character pages accessible as /characters/character-name/
 
 # Default front matter
 defaults:
@@ -30,13 +34,15 @@ defaults:
       layout: "post"
       author: "Admin"
       image: "https://via.placeholder.com/800x400?text=Anime+Character"
+      permalink: /:title/      # ensures posts are accessible as /characters/post-title/
   - scope:
       path: ""
       type: "pages"
     values:
       layout: "page"
+      permalink: /:title/      # ensures pages like About, Categories, etc. work without .md
 
-# Exclude from processing
+# Exclude unnecessary files
 exclude:
   - Gemfile
   - Gemfile.lock
