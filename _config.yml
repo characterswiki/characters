@@ -1,17 +1,26 @@
+# ==============================================
+# Characters Wiki - Modern SEO & Mobile-Friendly Config
+# ==============================================
+
+# Site info
 title: "Characters Wiki"
 description: "The ultimate professional anime/manga character database."
 url: "https://characterswiki.github.io"
-baseurl: "/characters"
+baseurl: "/characters"  # Important: matches your GitHub Pages subpath
 twitter_username: "characterswiki"
 github_username: "characterswiki"
-logo: "/assets/images/logo.png"
+logo: "/assets/images/logo.png"    # optional site logo for SEO & social
 favicon: "/assets/images/favicon.ico"
 
-# ================= Build & Layout =================
+# Build & Layout Settings
 markdown: kramdown
 highlighter: rouge
-permalink: "/:categories/:title/"
+theme: null        # custom theme
+sass:
+  style: compressed
+permalink: "/:categories/:title/"  # SEO-friendly permalinks
 
+# Default Layouts
 defaults:
   - scope:
       path: ""
@@ -24,37 +33,44 @@ defaults:
     values:
       layout: "default"
 
-# ================= Collections =================
+# Collections
 collections:
+  posts:
+    output: true
   characters:
     output: true
     permalink: "/characters/:title/"
 
-# ================= Plugins =================
+# Plugins
 plugins:
   - jekyll-seo-tag
   - jekyll-feed
   - jekyll-sitemap
+  - jekyll-paginate
   - jekyll-archives
-  - jekyll-paginate-v2  # modern pagination plugin
 
-# ================= Pagination =================
+# SEO defaults
+seo:
+  title: "Characters Wiki"
+  description: "The ultimate professional anime/manga character database."
+  twitter:
+    card: summary_large_image
+  og:
+    type: website
+    image: "/assets/images/seo-image.png"
+
+# Pagination
 paginate: 10
 paginate_path: "/page/:num/"
 
-# ================= Markdown & Code =================
+# Markdown & code highlighting
 kramdown:
   input: GFM
   syntax_highlighter_opts:
     line_numbers: true
     span: true
 
-# ================= Theme & Styling =================
-theme: null
-sass:
-  style: compressed
-
-# ================= Exclude =================
+# Exclude unnecessary files from build
 exclude:
   - node_modules
   - vendor
@@ -62,6 +78,10 @@ exclude:
   - Gemfile.lock
   - README.md
 
-# ================= Future & Performance =================
+include:
+  - _pages
+
+# Future posts
 future: true
 incremental: true
+lsi: false
