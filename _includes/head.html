@@ -1,21 +1,56 @@
+<head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.title }}</title>
-<meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-<!-- Open Graph / Social Media -->
+<title>
+{% if page.title %}
+{{ page.title }} | {{ site.title }}
+{% else %}
+{{ site.title }}
+{% endif %}
+</title>
+
+<meta name="description" content="{{ page.description | default: site.description }}">
+<meta name="robots" content="index, follow">
+
+<!-- Canonical URL -->
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
+<!-- Open Graph -->
 <meta property="og:title" content="{{ page.title | default: site.title }}">
-<meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 200 }}">
-<meta property="og:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ '/assets/images/default-social.jpg' | absolute_url }}{% endif %}">
+<meta property="og:description" content="{{ page.description | default: site.description }}">
+<meta property="og:type" content="article">
 <meta property="og:url" content="{{ page.url | absolute_url }}">
+
+{% if page.image %}
+<meta property="og:image" content="{{ page.image | absolute_url }}">
+{% else %}
+<meta property="og:image" content="{{ '/assets/images/placeholder.jpg' | absolute_url }}">
+{% endif %}
+
+<!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ page.title | default: site.title }}">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
 
-<!-- Favicon -->
-<link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+{% if page.image %}
+<meta name="twitter:image" content="{{ page.image | absolute_url }}">
+{% endif %}
 
-<!-- CSS -->
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<!-- Main CSS -->
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-<!-- RSS and SEO plugins -->
-{% feed_meta %}
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/rss.xml' | relative_url }}">
+
+<!-- Jekyll SEO -->
 {% seo %}
+
+</head>
