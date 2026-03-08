@@ -1,0 +1,13 @@
+{% assign minHeader = include.html | split: '<h' | size | minus: 1 %}
+{% if minHeader > 0 %}
+  <ul>
+  {% for i in (1..minHeader) %}
+    {% assign header = include.html | split: '<h' | last | split: '>' | first %}
+    {% assign headerLevel = header | split: ' ' | first %}
+    {% assign headerId = header | split: 'id="' | last | split: '"' | first %}
+    {% assign headerText = include.html | split: '<h' | last | split: '>' | last | split: '</h' | first %}
+    <li><a href="#{{ headerId }}">{{ headerText }}</a></li>
+    {% assign include.html = include.html | replace_first: '<h', '<!-- h' %}
+  {% endfor %}
+  </ul>
+{% endif %}
