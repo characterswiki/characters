@@ -1,10 +1,13 @@
-<footer class="footer">
-  <div class="footer-content">
-    <p>© 2026 CharactersWiki | All Rights Reserved</p>
-    <div class="social">
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
+<footer class="site-footer">
+  <div class="footer-wrapper">
+    <div class="footer-info">
+      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+    </div>
+    <div class="footer-links">
+      <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
+      <a href="{{ '/terms/' | relative_url }}">Terms</a>
+      <a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a>
+      <a href="{{ '/rss.xml' | relative_url }}">RSS</a>
     </div>
   </div>
 </footer>
