@@ -1,30 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.title }}</title>
-  <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
-  
-  <!-- Open Graph / Social Media -->
-  <meta property="og:title" content="{{ page.title | default: site.title }}">
-  <meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 200 }}">
-  <meta property="og:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ '/assets/images/default-social.jpg' | absolute_url }}{% endif %}">
-  <meta property="og:url" content="{{ page.url | absolute_url }}">
-  <meta name="twitter:card" content="summary_large_image">
-  
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-  <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
-  {% feed_meta %}
-  {% seo %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }}</title>
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% seo %}
 </head>
 <body>
-  {% include header.html %}
-  
-  <main class="page-content">
+
+{% include header.html %}
+
+<div class="container">
+  <main class="content">
     {{ content }}
   </main>
-  
-  {% include footer.html %}
+
+  <aside class="sidebar">
+    <div class="widget">
+      <h3>Search</h3>
+      <input type="text" id="searchInput" placeholder="Search characters...">
+    </div>
+
+    <div class="widget">
+      <h3>Categories</h3>
+      <ul>
+        {% assign cats = site.categories %}
+        {% for cat in cats %}
+          <li><a href="{{ '/categories/' | relative_url }}">{{ cat[0] }} ({{ cat[1].size }})</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="widget">
+      <h3>Recent Characters</h3>
+      <ul>
+        {% for post in site.posts limit:5 %}
+        <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </aside>
+</div>
+
+{% include footer.html %}
+
+<script src="{{ '/assets/js/script.js' | relative_url }}"></script>
 </body>
 </html>
