@@ -2,7 +2,7 @@
 layout: default
 ---
 
-{% assign featured_img = page.featured_image | default: page.image | default: page.thumbnail %}
+{% assign featured_img = page.image | default: page.thumbnail %}
 {% assign image_alt = page.image_alt | default: page.title %}
 {% assign page_description = page.excerpt | default: page.description | default: '' | strip_html | normalize_whitespace | truncate: 160 %}
 {% assign author_data = site.data.authors[page.author] %}
@@ -24,7 +24,7 @@ layout: default
   {% if featured_img %}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img }}",
+    "url": "{{ featured_img | absolute_url }}",
     "height": 1200,
     "width": 1600
   },
@@ -49,12 +49,12 @@ layout: default
 }
 </script>
 
-<!-- Social & Open Graph meta -->
+<!-- Social & Open Graph meta (already in default layout, but kept for completeness) -->
 <meta property="og:title" content="{{ page.title | escape }}">
 <meta property="og:type" content="article">
 <meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
 {% if featured_img %}
-<meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/{{ featured_img }}">
+<meta property="og:image" content="{{ featured_img | absolute_url }}">
 {% endif %}
 {% if page_description != "" %}
 <meta property="og:description" content="{{ page_description | escape }}">
@@ -69,307 +69,73 @@ layout: default
 <!-- Skip to content link (accessibility) -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
-<div class="wrapper">
-  <main id="main-content" class="post-content" tabindex="-1">
-    <article>
-      <!-- Post meta -->
-      {% if page.date or page.categories or author_name %}
-      <div class="post-meta">
-        {% if page.date %}
-        <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-        {% endif %}
-        {% if author_name %}
-        <span class="author">
-          By {% if author_url %}<a href="{{ author_url }}" rel="author">{{ author_name }}</a>{% else %}{{ author_name }}{% endif %}
-        </span>
-        {% endif %}
-        {% if page.categories.size > 0 %}
-        <span class="categories">
-          {% for category in page.categories %}
-          <a href="{{ site.baseurl }}/categories/{{ category | slugify }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
-          {% endfor %}
-        </span>
-        {% endif %}
-        {% if page.reading_time %}
-        <span class="reading-time">{{ page.content | reading_time }} min read</span>
-        {% endif %}
-      </div>
-      {% endif %}
+<div class="content-wrapper">
+  <main id="main-content" class="main-content post-content" tabindex="-1">
+    <article class="post">
+      <!-- Post header -->
+      <header class="post-header">
+        <h1>{{ page.title }}</h1>
+        <div class="post-meta">
+          {% if page.date %}
+            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+          {% endif %}
+          {% if author_name %}
+            <span class="author">
+              By {% if author_url %}<a href="{{ author_url }}" rel="author">{{ author_name }}</a>{% else %}{{ author_name }}{% endif %}
+            </span>
+          {% endif %}
+          {% if page.categories.size > 0 %}
+            <span class="categories">
+              {% for category in page.categories %}
+                <a href="{{ '/categories/#' | append: category | slugify | relative_url }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+              {% endfor %}
+            </span>
+          {% endif %}
+          {% if page.reading_time %}
+            <span class="reading-time">{{ page.content | reading_time }} min read</span>
+          {% endif %}
+        </div>
+      </header>
 
-      <h1>{{ page.title }}</h1>
+      {% if featured_img %}
+        <div class="post-image">
+          <img src="{{ featured_img }}" alt="{{ image_alt }}" loading="lazy">
+        </div>
+      {% endif %}
 
       <!-- Optional: Table of contents -->
       {% if page.toc %}
-      <details class="toc">
-        <summary>Table of Contents</summary>
-        {% include toc.html html=content %}
-      </details>
+        <details class="toc">
+          <summary>Table of Contents</summary>
+          {% include toc.html html=content %}
+        </details>
       {% endif %}
 
-      <!-- Article body -->
-      <div class="article-body">
-        {{ content | markdownify }}
+      <div class="post-content">
+        {{ content }}
       </div>
 
-      <!-- Share buttons -->
-      <div class="share-buttons">
-        <span>Share this post:</span>
-        <a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}&via={{ author_twitter }}" target="_blank" rel="noopener">Twitter</a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}&title={{ page.title | url_encode }}" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u={{ site.url }}{{ site.baseurl }}{{ page.url | url_encode }}" target="_blank" rel="noopener">Facebook</a>
-      </div>
+      <footer class="post-footer">
+        {% if page.tags.size > 0 %}
+          <div class="post-tags">
+            <strong>Tags:</strong>
+            {% for tag in page.tags %}
+              <a href="{{ '/tags/#' | append: tag | slugify | relative_url }}" class="tag">#{{ tag }}</a>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="post-navigation">
+          {% if page.previous.url %}
+            <a class="prev" href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>
+          {% endif %}
+          {% if page.next.url %}
+            <a class="next" href="{{ page.next.url | relative_url }}">{{ page.next.title }} →</a>
+          {% endif %}
+        </div>
+      </footer>
     </article>
-
-    <!-- Related posts (based on categories/tags) -->
-    {% if site.related_posts and page.related_posts != false %}
-    <aside class="related-posts" aria-label="Related posts">
-      <h2>You might also like</h2>
-      <ul>
-        {% for related in site.related_posts limit:3 %}
-        <li>
-          <a href="{{ related.url | relative_url }}">{{ related.title }}</a>
-          <small>{{ related.date | date: "%b %d, %Y" }}</small>
-        </li>
-        {% endfor %}
-      </ul>
-    </aside>
-    {% endif %}
-
-    <!-- Back to top button -->
-    <a href="#" class="back-to-top">↑ Back to top</a>
   </main>
+
+  {% include sidebar.html %}
 </div>
-
-<style>
-/* ===== TEXT‑FOCUSED POST LAYOUT ===== */
-:root {
-  --accent-color: #1e90ff;
-  --text-color: #333;
-  --light-bg: #fff;
-  --shadow-sm: 0 12px 40px rgba(0,0,0,0.1);
-  --shadow-hover: 0 20px 50px rgba(0,0,0,0.12);
-  --border-radius: 16px;
-  --max-width: 1300px;
-  --content-width: 70ch;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-.skip-link {
-  position: absolute;
-  top: -40px;
-  left: 0;
-  background: #000;
-  color: white;
-  padding: 8px;
-  z-index: 100;
-}
-.skip-link:focus {
-  top: 0;
-}
-
-/* Wrapper */
-.wrapper {
-  max-width: var(--max-width);
-  margin: 0 auto 2rem;
-  padding: 0 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-/* Main content card */
-main.post-content {
-  background: var(--light-bg);
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(0,0,0,0.02);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-main.post-content:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: 2px;
-}
-main.post-content:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
-}
-main.post-content h1 {
-  margin: 0 0 0.5rem 0;
-  font-size: clamp(2rem, 5vw, 2.8rem);
-  color: #111;
-  line-height: 1.2;
-  text-wrap: pretty;
-  text-align: center; /* ← Title centered */
-}
-
-/* Post meta */
-.post-meta {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.9rem;
-  color: #666;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.75rem;
-  margin-bottom: 0.25rem;
-  flex-wrap: wrap;
-}
-.post-meta time,
-.post-meta .author,
-.post-meta .categories a {
-  color: var(--accent-color);
-  text-decoration: none;
-}
-.post-meta .author a:hover,
-.post-meta .categories a:hover {
-  text-decoration: underline;
-}
-
-/* Table of contents */
-.toc {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border-left: 4px solid var(--accent-color);
-}
-.toc summary {
-  font-weight: bold;
-  cursor: pointer;
-}
-.toc ul {
-  margin-top: 1rem;
-  padding-left: 1.5rem;
-}
-
-/* Article body */
-.article-body {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--text-color);
-  max-width: var(--content-width);
-  margin: 2rem auto;
-  width: 100%;
-}
-.article-body a {
-  color: var(--accent-color);
-  text-decoration: underline;
-  text-underline-offset: 0.2em;
-}
-.article-body a:hover {
-  color: #0077cc;
-}
-.article-body h2,
-.article-body h3 {
-  scroll-margin-top: 1rem;
-  text-wrap: balance;
-}
-
-/* Share buttons */
-.share-buttons {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-.share-buttons a {
-  padding: 0.4rem 0.8rem;
-  background: var(--accent-color);
-  color: white;
-  border-radius: 6px;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: background 0.2s;
-}
-.share-buttons a:hover {
-  background: #0077cc;
-}
-
-/* Related posts */
-.related-posts {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: #f5f5f5;
-  border-radius: 12px;
-}
-.related-posts h2 {
-  margin-top: 0;
-  font-size: 1.4rem;
-}
-.related-posts ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.related-posts li {
-  flex: 1 1 200px;
-  background: white;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-.related-posts a {
-  font-weight: 500;
-  text-decoration: none;
-  color: #222;
-}
-.related-posts a:hover {
-  color: var(--accent-color);
-}
-.related-posts small {
-  display: block;
-  color: #666;
-  font-size: 0.8rem;
-}
-
-/* Back to top */
-.back-to-top {
-  display: inline-block;
-  margin-top: 2rem;
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1px solid var(--accent-color);
-  color: var(--accent-color);
-  border-radius: 30px;
-  text-decoration: none;
-  align-self: flex-start;
-  transition: background 0.2s, color 0.2s;
-}
-.back-to-top:hover {
-  background: var(--accent-color);
-  color: white;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  main.post-content {
-    padding: 1.5rem;
-  }
-  main.post-content h1 {
-    font-size: clamp(1.8rem, 4vw, 2.2rem);
-  }
-  .post-meta {
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-  .related-posts ul {
-    flex-direction: column;
-  }
-}
-@media (max-width: 500px) {
-  .wrapper {
-    padding: 0 0.5rem;
-  }
-  .article-body {
-    max-width: 100%;
-  }
-}
-</style>
