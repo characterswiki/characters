@@ -1,209 +1,211 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <meta name="description" content="{{ page.excerpt | strip_html | truncate: 150 | default: page.description }}">
-  <meta name="robots" content="index, follow">
-  {% seo %}
+---
+layout: default
+---
 
-  <!-- Fonts & CSS -->
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+<header class="site-header">
+  <a href="{{ '/' | relative_url }}" class="site-logo">
+    <span class="icon">🏮</span>CharactersWiki
+  </a>
 
-  <style>
-    body { margin:0; font-family:'Outfit',sans-serif; background:#f8fafc; color:#0f172a; line-height:1.6; }
-    .app-container { display:flex; min-height:100vh; }
+  <button class="hamburger" aria-label="Toggle navigation">☰</button>
 
-    /* Sidebar */
-    .sidebar { width:260px; background:#1e293b; color:white; position:sticky; top:0; height:100vh; padding:2rem; box-sizing:border-box; }
-    .sidebar .logo { font-size:2rem; margin-bottom:2rem; font-weight:600; }
-    .sidebar .logo span { color:#ff4757; }
-    .sidebar nav ul { list-style:none; padding:0; }
-    .sidebar nav ul li a { color:#cbd5e1; text-decoration:none; display:block; padding:10px 0; transition:0.3s; }
-    .sidebar nav ul li a:hover { color:#ff4757; padding-left:5px; }
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Search characters...">
+  </div>
+</header>
 
-    /* Header */
-    .site-header { position:sticky; top:0; background:#1e293b; padding:1rem 2rem; z-index:1000; display:flex; justify-content:space-between; align-items:center; box-shadow:0 2px 5px rgba(0,0,0,0.1);}
-    .site-header .site-logo { color:white; font-weight:600; text-decoration:none; font-size:1.5rem; }
-    .site-header .site-logo .icon { margin-right:0.5rem; }
-    .site-header .search-container input { padding:0.5rem 1rem; border-radius:8px; border:none; outline:none; width:250px; max-width:100%; }
 
-    /* Content Area */
-    .content-area { flex:1; padding:2rem; }
+<div class="app-container">
 
-    /* Breadcrumbs */
-    .breadcrumbs { font-size:0.85rem; margin-bottom:1rem; }
-    .breadcrumbs a { text-decoration:none; color:#64748b; }
-    .breadcrumbs a:hover { color:#ff4757; }
-    .breadcrumbs span { margin:0 0.3rem; }
+  <!-- SIDEBAR (same as homepage) -->
+  <aside class="sidebar">
+    <nav>
 
-    /* Post Header */
-    .post-header { margin-bottom:2rem; }
-    .post-header h1 { margin:0; font-size:2rem; color:#1a1a2e; }
-    .post-meta { font-size:0.85rem; color:#64748b; margin-top:0.5rem; }
-    .post-meta span { margin-right:1rem; }
-
-    /* Featured Image */
-    .post-image { width:100%; max-height:500px; overflow:hidden; border-radius:16px; margin-bottom:2rem; }
-    .post-image img { width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease; }
-    .post-image:hover img { transform: scale(1.05); }
-
-    /* Post Content */
-    .post-content { font-size:1rem; color:#1a1a2e; line-height:1.75; }
-    .post-content h2 { font-size:1.5rem; margin-top:2rem; }
-    .post-content img { max-width:100%; border-radius:12px; margin:1rem 0; }
-    .post-content a { color:#ff4757; text-decoration:none; }
-    .post-content a:hover { text-decoration:underline; }
-
-    /* Category Badge */
-    .post-category { display:inline-block; background:#ff4757; color:white; padding:3px 10px; font-size:0.75rem; font-weight:600; border-radius:12px; margin-bottom:1rem; }
-
-    /* Related Posts */
-    .related-posts { margin-top:4rem; }
-    .related-posts h3 { font-size:1.2rem; margin-bottom:1rem; color:#1a1a2e; }
-    .related-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:20px; }
-    .related-card { background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 15px rgba(0,0,0,0.08); transition:0.3s; }
-    .related-card:hover { transform:translateY(-6px); box-shadow:0 10px 25px rgba(0,0,0,0.12); }
-    .related-card img { width:100%; height:150px; object-fit:cover; }
-    .related-card h4 { font-size:1rem; margin:0.5rem 1rem; color:#1a1a2e; }
-    .related-card a { text-decoration:none; }
-
-    /* Footer */
-    .site-footer { background:#1e293b; color:white; padding:2rem; font-size:0.9rem; margin-top:2rem; }
-    .footer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:2rem; margin-bottom:1.5rem; }
-    .footer-section h4 { font-size:1.1rem; margin-bottom:0.8rem; color:#ff4757; }
-    .footer-section p, .footer-section ul li a { color:#cbd5e1; }
-    .footer-section ul { list-style:none; padding:0; margin:0; }
-    .footer-section ul li a { text-decoration:none; margin:0.3rem 0; display:block; transition:color 0.3s; }
-    .footer-section ul li a:hover { color:#ff4757; }
-    .footer-bottom { text-align:center; border-top:1px solid #334155; padding-top:1rem; color:#94a3b8; font-size:0.8rem; }
-
-    /* Responsive */
-    @media (max-width:1024px){.app-container{flex-direction:column;}.sidebar{width:100%;height:auto;position:relative;}}
-    @media (max-width:600px){.site-header{flex-direction:column;align-items:flex-start;gap:0.5rem;}.site-header .search-container input{width:100%;}}
-  </style>
-</head>
-<body>
-
-  <!-- Header -->
-  <header class="site-header">
-    <a href="{{ '/' | relative_url }}" class="site-logo"><span class="icon">🏮</span>CharactersWiki</a>
-    <div class="search-container">
-      <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search characters">
-    </div>
-  </header>
-
-  <div class="app-container">
-    <!-- Sidebar -->
-    <aside class="sidebar">
-      <h1 class="logo"><a href="{{ '/' | relative_url }}">Wiki<span>.</span></a></h1>
-      <nav>
-        <p class="label">Navigation</p>
+      <div class="sidebar-widget">
+        <h3>Categories</h3>
         <ul>
-          <li><a href="{{ '/' | relative_url }}">🏠 Home</a></li>
-          <li><a href="{{ '/categories' | relative_url }}">📂 Categories</a></li>
-        </ul>
-        <p class="label">Top Series</p>
-        <ul>
-          {% assign sorted_categories = site.categories | sort %}
-          {% for category in sorted_categories limit:5 %}
-            <li><a href="{{ '/categories#' | append: category | first | slugify | relative_url }}">🔥 {{ category | first }}</a></li>
+          {% assign sorted_cats = site.categories | sort %}
+          {% for category in sorted_cats limit:10 %}
+          <li>
+            <a href="{{ '/categories/#' | append: category[0] | slugify | relative_url }}">
+              {{ category[0] }} ({{ category[1].size }})
+            </a>
+          </li>
           {% endfor %}
         </ul>
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="content-area">
-      <!-- Breadcrumbs -->
-      <div class="breadcrumbs">
-        <a href="{{ '/' | relative_url }}">Home</a> <span>›</span>
-        {% for cat in page.categories %}
-          <a href="{{ '/categories#' | append: cat | slugify | relative_url }}">{{ cat }}</a>{% unless forloop.last %} <span>›</span> {% endunless %}
-        {% endfor %}
-        <span>›</span> {{ page.title }}
       </div>
 
-      <!-- Post Header -->
-      <header class="post-header">
-        {% if page.categories.size > 0 %}
-          <span class="post-category">{{ page.categories | first }}</span>
-        {% endif %}
-        <h1>{{ page.title }}</h1>
-        <div class="post-meta">
-          <span>Published: {{ page.date | date: "%B %d, %Y" }}</span>
-        </div>
-      </header>
-
-      <!-- Featured Image -->
-      {% if page.image %}
-      <div class="post-image">
-        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" loading="lazy" decoding="async">
-      </div>
-      {% endif %}
-
-      <!-- Post Content -->
-      <div class="post-content">
-        {{ content }}
-      </div>
-
-      <!-- Related Posts -->
-      {% assign related = site.posts | where_exp:"p","p.categories contains page.categories[0]" | where_exp:"p","p.url != page.url" | limit:4 %}
-      {% if related.size > 0 %}
-      <div class="related-posts">
-        <h3>Related Characters</h3>
-        <div class="related-grid">
-          {% for rpost in related %}
-          <a href="{{ rpost.url | relative_url }}" class="related-card">
-            {% if rpost.image %}
-            <img src="{{ rpost.image | relative_url }}" alt="{{ rpost.title }}" loading="lazy" decoding="async">
-            {% else %}
-            <img src="{{ '/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" loading="lazy" decoding="async">
-            {% endif %}
-            <h4>{{ rpost.title }}</h4>
+      <div class="sidebar-widget">
+        <h3>Popular Tags</h3>
+        <div class="tag-cloud">
+          {% assign sorted_tags = site.tags | sort %}
+          {% for tag in sorted_tags limit:15 %}
+          <a href="{{ '/tags/#' | append: tag[0] | slugify | relative_url }}" class="tag">
+            #{{ tag[0] }}
           </a>
           {% endfor %}
         </div>
       </div>
-      {% endif %}
-    </main>
-  </div>
 
-  <!-- Footer -->
-  <footer class="site-footer">
-    <div class="footer-grid">
-      <div class="footer-section">
-        <h4>About Wiki</h4>
-        <p>The largest community-driven database for character lore and statistics.</p>
-      </div>
-      <div class="footer-section">
-        <h4>Quick Links</h4>
+      <div class="sidebar-widget">
+        <h3>Recent Posts</h3>
         <ul>
-          <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
-          <li><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></li>
-          <li><a href="{{ '/rss.xml' | relative_url }}">RSS Feed</a></li>
+          {% for post in site.posts limit:5 %}
+          <li>
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+          </li>
+          {% endfor %}
         </ul>
       </div>
-    </div>
-    <div class="footer-bottom">
-      &copy; {{ site.time | date: '%Y' }} Characters Wiki. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>.
-    </div>
-  </footer>
 
-  <script>
-    // Live Search
-    const searchInput = document.getElementById('search-input');
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      const cards = document.querySelectorAll('.character-card');
-      cards.forEach(card => {
-        const title = card.querySelector('.character-name').textContent.toLowerCase();
-        card.style.display = title.includes(query) ? '' : 'none';
-      });
-    });
-  </script>
+    </nav>
+  </aside>
 
-</body>
-</html>
+
+  <!-- POST CONTENT -->
+  <main class="content-area">
+
+    <article class="post-container">
+
+      <!-- HERO IMAGE -->
+      {% if page.image %}
+      <div class="post-hero">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+      </div>
+      {% endif %}
+
+      <!-- TITLE -->
+      <h1 class="post-title">{{ page.title }}</h1>
+
+      <!-- META -->
+      <div class="post-meta">
+
+        {% if page.categories %}
+        <span class="meta-item">
+          📂 {{ page.categories | first }}
+        </span>
+        {% endif %}
+
+        {% if page.tags %}
+        <span class="meta-item">
+          🏷
+          {% for tag in page.tags %}
+          <a href="{{ '/tags/#' | append: tag | slugify | relative_url }}">
+            #{{ tag }}
+          </a>
+          {% endfor %}
+        </span>
+        {% endif %}
+
+      </div>
+
+
+      <!-- POST CONTENT -->
+      <div class="post-content">
+        {{ content }}
+      </div>
+
+    </article>
+
+
+    <!-- RELATED CHARACTERS -->
+    <section class="related-posts">
+
+      <h2>Related Characters</h2>
+
+      <div class="character-grid">
+
+        {% for post in site.posts limit:4 %}
+        {% if post.url != page.url %}
+
+        <a href="{{ post.url | relative_url }}" class="character-card">
+
+          <div class="card-img-wrapper">
+
+            {% if post.image %}
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+            {% endif %}
+
+            <span class="card-category">
+              {{ post.categories | first }}
+            </span>
+
+          </div>
+
+          <div class="card-info">
+            <h3 class="card-title">{{ post.title }}</h3>
+          </div>
+
+        </a>
+
+        {% endif %}
+        {% endfor %}
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+
+<footer class="site-footer">
+  <div class="footer-grid">
+
+    <div class="footer-section">
+      <h4>About Wiki</h4>
+      <p>The largest community-driven database for character lore and statistics.</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="/about">About</a></li>
+        <li><a href="/sitemap.xml">Sitemap</a></li>
+        <li><a href="/rss.xml">RSS</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © {{ site.time | date: '%Y' }} Characters Wiki
+  </div>
+</footer>
+
+
+
+<script>
+
+/* MOBILE SIDEBAR */
+
+const hamburger = document.querySelector(".hamburger");
+const sidebar = document.querySelector(".sidebar");
+
+hamburger.addEventListener("click", () => {
+  sidebar.classList.toggle("active");
+});
+
+
+/* SEARCH */
+
+const searchInput = document.getElementById("search-input");
+
+searchInput.addEventListener("input", () => {
+
+  const query = searchInput.value.toLowerCase();
+  const cards = document.querySelectorAll(".character-card");
+
+  cards.forEach(card => {
+
+    const title = card.querySelector(".card-title").textContent.toLowerCase();
+
+    card.style.display = title.includes(query) ? "" : "none";
+
+  });
+
+});
+
+</script>
