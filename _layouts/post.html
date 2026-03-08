@@ -15,140 +15,88 @@ layout: default
 </header>
 
 
-<div class="app-container">
+<main class="content-area post-fullwidth">
 
-  <!-- SIDEBAR (same as homepage) -->
-  <aside class="sidebar">
-    <nav>
+  <article class="post-container">
 
-      <div class="sidebar-widget">
-        <h3>Categories</h3>
-        <ul>
-          {% assign sorted_cats = site.categories | sort %}
-          {% for category in sorted_cats limit:10 %}
-          <li>
-            <a href="{{ '/categories/#' | append: category[0] | slugify | relative_url }}">
-              {{ category[0] }} ({{ category[1].size }})
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <!-- HERO IMAGE -->
+    {% if page.image %}
+    <div class="post-hero">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
+    </div>
+    {% endif %}
 
-      <div class="sidebar-widget">
-        <h3>Popular Tags</h3>
-        <div class="tag-cloud">
-          {% assign sorted_tags = site.tags | sort %}
-          {% for tag in sorted_tags limit:15 %}
-          <a href="{{ '/tags/#' | append: tag[0] | slugify | relative_url }}" class="tag">
-            #{{ tag[0] }}
-          </a>
-          {% endfor %}
-        </div>
-      </div>
+    <!-- TITLE -->
+    <h1 class="post-title">{{ page.title }}</h1>
 
-      <div class="sidebar-widget">
-        <h3>Recent Posts</h3>
-        <ul>
-          {% for post in site.posts limit:5 %}
-          <li>
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <!-- META -->
+    <div class="post-meta">
 
-    </nav>
-  </aside>
-
-
-  <!-- POST CONTENT -->
-  <main class="content-area">
-
-    <article class="post-container">
-
-      <!-- HERO IMAGE -->
-      {% if page.image %}
-      <div class="post-hero">
-        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
-      </div>
+      {% if page.categories %}
+      <span class="meta-item">
+        📂 {{ page.categories | first }}
+      </span>
       {% endif %}
 
-      <!-- TITLE -->
-      <h1 class="post-title">{{ page.title }}</h1>
-
-      <!-- META -->
-      <div class="post-meta">
-
-        {% if page.categories %}
-        <span class="meta-item">
-          📂 {{ page.categories | first }}
-        </span>
-        {% endif %}
-
-        {% if page.tags %}
-        <span class="meta-item">
-          🏷
-          {% for tag in page.tags %}
-          <a href="{{ '/tags/#' | append: tag | slugify | relative_url }}">
-            #{{ tag }}
-          </a>
-          {% endfor %}
-        </span>
-        {% endif %}
-
-      </div>
-
-
-      <!-- POST CONTENT -->
-      <div class="post-content">
-        {{ content }}
-      </div>
-
-    </article>
-
-
-    <!-- RELATED CHARACTERS -->
-    <section class="related-posts">
-
-      <h2>Related Characters</h2>
-
-      <div class="character-grid">
-
-        {% for post in site.posts limit:4 %}
-        {% if post.url != page.url %}
-
-        <a href="{{ post.url | relative_url }}" class="character-card">
-
-          <div class="card-img-wrapper">
-
-            {% if post.image %}
-            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-            {% endif %}
-
-            <span class="card-category">
-              {{ post.categories | first }}
-            </span>
-
-          </div>
-
-          <div class="card-info">
-            <h3 class="card-title">{{ post.title }}</h3>
-          </div>
-
+      {% if page.tags %}
+      <span class="meta-item">
+        🏷
+        {% for tag in page.tags %}
+        <a href="{{ '/tags/#' | append: tag | slugify | relative_url }}">
+          #{{ tag }}
         </a>
-
-        {% endif %}
         {% endfor %}
+      </span>
+      {% endif %}
 
-      </div>
+    </div>
 
-    </section>
+    <!-- POST CONTENT -->
+    <div class="post-content">
+      {{ content }}
+    </div>
 
-  </main>
+  </article>
 
-</div>
 
+  <!-- RELATED CHARACTERS -->
+  <section class="related-posts">
+
+    <h2>Related Characters</h2>
+
+    <div class="character-grid">
+
+      {% for post in site.posts limit:4 %}
+      {% if post.url != page.url %}
+
+      <a href="{{ post.url | relative_url }}" class="character-card">
+
+        <div class="card-img-wrapper">
+
+          {% if post.image %}
+          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
+          {% endif %}
+
+          <span class="card-category">
+            {{ post.categories | first }}
+          </span>
+
+        </div>
+
+        <div class="card-info">
+          <h3 class="card-title">{{ post.title }}</h3>
+        </div>
+
+      </a>
+
+      {% endif %}
+      {% endfor %}
+
+    </div>
+
+  </section>
+
+</main>
 
 
 <footer class="site-footer">
@@ -174,38 +122,3 @@ layout: default
     © {{ site.time | date: '%Y' }} Characters Wiki
   </div>
 </footer>
-
-
-
-<script>
-
-/* MOBILE SIDEBAR */
-
-const hamburger = document.querySelector(".hamburger");
-const sidebar = document.querySelector(".sidebar");
-
-hamburger.addEventListener("click", () => {
-  sidebar.classList.toggle("active");
-});
-
-
-/* SEARCH */
-
-const searchInput = document.getElementById("search-input");
-
-searchInput.addEventListener("input", () => {
-
-  const query = searchInput.value.toLowerCase();
-  const cards = document.querySelectorAll(".character-card");
-
-  cards.forEach(card => {
-
-    const title = card.querySelector(".card-title").textContent.toLowerCase();
-
-    card.style.display = title.includes(query) ? "" : "none";
-
-  });
-
-});
-
-</script>
