@@ -9,125 +9,56 @@
 
   {% seo %}
 
-  <!-- Fonts & Styles -->
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-    body {
-      margin: 0;
-      font-family: 'Outfit', sans-serif;
-      background: #f8fafc;
-      color: #0f172a;
-      line-height: 1.6;
-    }
-
-    /* App Container */
+    body { margin: 0; font-family: 'Outfit', sans-serif; background: #f8fafc; color: #0f172a; line-height: 1.6; }
     .app-container { display: flex; min-height: 100vh; }
 
     /* Sidebar */
-    .sidebar {
-      width: 260px;
-      background: #1e293b;
-      color: white;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
+    .sidebar { width: 260px; background: #1e293b; color: white; position: sticky; top: 0; height: 100vh; padding: 2rem; box-sizing: border-box; }
     .sidebar .logo { font-size: 2rem; margin-bottom: 2rem; font-weight: 600; }
     .sidebar .logo span { color: #ff4757; }
     .sidebar nav ul { list-style: none; padding: 0; }
-    .sidebar nav ul li a {
-      color: #cbd5e1;
-      text-decoration: none;
-      display: block;
-      padding: 10px 0;
-      transition: 0.3s;
-    }
+    .sidebar nav ul li a { color: #cbd5e1; text-decoration: none; display: block; padding: 10px 0; transition: 0.3s; }
     .sidebar nav ul li a:hover { color: #ff4757; padding-left: 5px; }
 
-    /* Content Area */
-    .content-area {
-      flex: 1;
-      padding: 2rem;
-    }
-
     /* Header */
-    .site-header {
-      position: sticky;
-      top: 0;
-      background: #1e293b;
-      padding: 1rem 2rem;
-      z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+    .site-header { position: sticky; top: 0; background: #1e293b; padding: 1rem 2rem; z-index: 1000; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     .site-header .site-logo { color: white; font-weight: 600; text-decoration: none; font-size: 1.5rem; }
     .site-header .site-logo .icon { margin-right: 0.5rem; }
-    .site-header .search-container input {
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      width: 250px;
-      max-width: 100%;
-    }
+    .site-header .search-container input { padding: 0.5rem 1rem; border-radius: 8px; border: none; outline: none; width: 250px; max-width: 100%; }
+
+    /* Content Area */
+    .content-area { flex: 1; padding: 2rem; }
 
     /* Character Grid */
-    .character-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
-    }
-    .character-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 1px solid #eee;
-    }
-    .character-card:hover {
-      transform: translateY(-12px);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-      border-color: #ff4757;
-    }
+    .character-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; margin-top: 40px; }
+    .character-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid #eee; }
+    .character-card:hover { transform: translateY(-12px); box-shadow: 0 15px 35px rgba(0,0,0,0.15); border-color: #ff4757; }
     .image-container { height: 380px; overflow: hidden; position: relative; }
     .featured-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .character-card:hover .featured-img { transform: scale(1.1); }
-    .series-badge {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(26,26,46,0.9);
-      color: #fff;
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      backdrop-filter: blur(4px);
-    }
+    .series-badge { position: absolute; top: 15px; left: 15px; background: rgba(26,26,46,0.9); color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; backdrop-filter: blur(4px); }
     .card-details { padding: 20px; }
     .character-name { margin: 0 0 10px 0; font-size: 1.5rem; color: #1a1a2e; }
     .character-excerpt { font-size: 0.9rem; color: #666; line-height: 1.5; margin-bottom: 15px; }
     .read-more { font-weight: 600; color: #ff4757; font-size: 0.85rem; }
 
-    @media (max-width: 1024px) {
-      .character-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-      .app-container { flex-direction: column; }
-      .sidebar { width: 100%; height: auto; position: relative; }
-    }
-    @media (max-width: 600px) {
-      .character-grid { grid-template-columns: 1fr; }
-      .site-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
-      .site-header .search-container input { width: 100%; }
-    }
+    /* Footer */
+    .site-footer { background: #1e293b; color: white; padding: 2rem; font-size: 0.9rem; }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 1.5rem; }
+    .footer-section h4 { font-size: 1.1rem; margin-bottom: 0.8rem; color: #ff4757; }
+    .footer-section p, .footer-section ul li a { color: #cbd5e1; }
+    .footer-section ul { list-style: none; padding: 0; margin: 0; }
+    .footer-section ul li a { text-decoration: none; margin: 0.3rem 0; display: block; transition: color 0.3s; }
+    .footer-section ul li a:hover { color: #ff4757; }
+    .footer-bottom { text-align: center; border-top: 1px solid #334155; padding-top: 1rem; color: #94a3b8; font-size: 0.8rem; }
+
+    /* Responsive */
+    @media (max-width: 1024px) { .character-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); } .app-container { flex-direction: column; } .sidebar { width: 100%; height: auto; position: relative; } }
+    @media (max-width: 600px) { .character-grid { grid-template-columns: 1fr; } .site-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; } .site-header .search-container input { width: 100%; } }
   </style>
 </head>
 <body>
@@ -149,7 +80,6 @@
         <ul>
           <li><a href="{{ '/' | relative_url }}">🏠 Home</a></li>
           <li><a href="{{ '/categories' | relative_url }}">📂 Categories</a></li>
-          <li><a href="{{ '/characters' | relative_url }}">🧑 Characters</a></li>
         </ul>
         <p class="label">Top Series</p>
         <ul>
@@ -172,9 +102,9 @@
           <a href="{{ post.url | relative_url }}" aria-label="View profile of {{ post.title }}">
             <div class="image-container">
               {% if post.image %}
-                <img src="{{ post.image }}" alt="{{ post.title }}" class="featured-img" loading="lazy" decoding="async">
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" class="featured-img" loading="lazy" decoding="async">
               {% else %}
-                <img src="https://via.placeholder.com/400x600?text=No+Image" alt="No image available" class="featured-img" loading="lazy" decoding="async">
+                <img src="{{ '/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" class="featured-img" loading="lazy" decoding="async">
               {% endif %}
               {% if post.categories.size > 0 %}
                 <span class="series-badge">{{ post.categories | first }}</span>
@@ -191,7 +121,6 @@
         </article>
         {% endfor %}
       </div>
-
     </main>
   </div>
 
@@ -217,7 +146,7 @@
   </footer>
 
   <script>
-    // Simple Live Search
+    // Live Search
     const searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', () => {
       const query = searchInput.value.toLowerCase();
