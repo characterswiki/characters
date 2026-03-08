@@ -1,7 +1,6 @@
 ---
 layout: default
 ---
-
 {% assign featured_img = page.image | default: page.thumbnail %}
 {% assign image_alt = page.image_alt | default: page.title %}
 {% assign page_description = page.excerpt | default: page.description | default: '' | strip_html | normalize_whitespace | truncate: 160 %}
@@ -49,30 +48,11 @@ layout: default
 }
 </script>
 
-<!-- Social & Open Graph meta (already in default layout, but kept for completeness) -->
-<meta property="og:title" content="{{ page.title | escape }}">
-<meta property="og:type" content="article">
-<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
-{% if featured_img %}
-<meta property="og:image" content="{{ featured_img | absolute_url }}">
-{% endif %}
-{% if page_description != "" %}
-<meta property="og:description" content="{{ page_description | escape }}">
-{% endif %}
-<meta property="og:site_name" content="{{ site.title }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ page.title | escape }}">
-{% if author_twitter %}
-<meta name="twitter:creator" content="@{{ author_twitter }}">
-{% endif %}
-
-<!-- Skip to content link (accessibility) -->
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <div class="content-wrapper">
   <main id="main-content" class="main-content post-content" tabindex="-1">
     <article class="post">
-      <!-- Post header -->
       <header class="post-header">
         <h1>{{ page.title }}</h1>
         <div class="post-meta">
@@ -91,9 +71,6 @@ layout: default
               {% endfor %}
             </span>
           {% endif %}
-          {% if page.reading_time %}
-            <span class="reading-time">{{ page.content | reading_time }} min read</span>
-          {% endif %}
         </div>
       </header>
 
@@ -103,7 +80,6 @@ layout: default
         </div>
       {% endif %}
 
-      <!-- Optional: Table of contents -->
       {% if page.toc %}
         <details class="toc">
           <summary>Table of Contents</summary>
