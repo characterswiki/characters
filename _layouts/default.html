@@ -5,36 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{{ page.title }}</title>
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-<!-- Header -->
 {% include header.html %}
 
-<!-- Hero Section (optional: show only on homepage) -->
 {% if page.url == "/" %}
 <section class="hero">
   <div class="hero-content">
     <h1>Welcome to Characters Wiki</h1>
-    <p>Discover amazing characters from anime, games, and comics</p>
+    <p>Explore amazing characters from anime, games, comics, and more!</p>
   </div>
 </section>
 {% endif %}
 
 <div class="container">
-  <!-- Main Content -->
   <main class="content">
     {{ content }}
   </main>
 
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="widget">
       <h3>Search</h3>
       <input type="text" placeholder="Search posts..." id="searchInput">
     </div>
-
     <div class="widget">
       <h3>Categories</h3>
       <ul>
@@ -44,7 +39,6 @@
       {% endfor %}
       </ul>
     </div>
-
     <div class="widget">
       <h3>Recent Posts</h3>
       <ul>
@@ -56,27 +50,8 @@
   </aside>
 </div>
 
-<!-- Footer -->
 {% include footer.html %}
 
 <script src="{{ '/assets/js/script.js' | relative_url }}"></script>
-<script>
-  // Live search for posts
-  const searchInput = document.getElementById('searchInput');
-  if(searchInput){
-    searchInput.addEventListener('input', function(){
-      const term = this.value.toLowerCase();
-      const posts = document.querySelectorAll('.post-card');
-      posts.forEach(post => {
-        const title = post.querySelector('h2').innerText.toLowerCase();
-        if(title.includes(term)){
-          post.style.display = 'block';
-        } else {
-          post.style.display = 'none';
-        }
-      });
-    });
-  }
-</script>
 </body>
 </html>
