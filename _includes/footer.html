@@ -6,13 +6,37 @@
       <p>The largest community-driven database for anime, manga, and game character lore, stats, and profiles.</p>
     </div>
 
-    <!-- Quick Links -->
+    <!-- Explore Section -->
     <div class="footer-section">
-      <h4>Quick Links</h4>
+      <h4>Explore</h4>
       <ul>
-        <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
-        <li><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></li>
-        <li><a href="{{ '/rss.xml' | relative_url }}">RSS Feed</a></li>
+        <li><a href="{{ '/characters/' | relative_url }}">Home</a></li>
+        <li><a href="{{ '/characters/categories/' | relative_url }}">Categories</a></li>
+        <li><a href="{{ '/characters/tags/' | relative_url }}">Tags</a></li>
+        <li><a href="{{ '/characters/about/' | relative_url }}">About</a></li>
+        <li><a href="{{ '/characters/sitemap.xml' | relative_url }}">Sitemap</a></li>
+      </ul>
+    </div>
+
+    <!-- Popular Series -->
+    <div class="footer-section">
+      <h4>Popular Series</h4>
+      <ul>
+        <li><a href="{{ '/characters/categories/#naruto' | relative_url }}">Naruto</a></li>
+        <li><a href="{{ '/characters/categories/#one-piece' | relative_url }}">One Piece</a></li>
+        <li><a href="{{ '/characters/categories/#attack-on-titan' | relative_url }}">Attack on Titan</a></li>
+        <li><a href="{{ '/characters/categories/#dragon-ball' | relative_url }}">Dragon Ball</a></li>
+      </ul>
+    </div>
+
+    <!-- Community -->
+    <div class="footer-section">
+      <h4>Community</h4>
+      <ul>
+        <li><a href="{{ '/characters/about/' | relative_url }}">About</a></li>
+        <li><a href="{{ '/characters/contact/' | relative_url }}">Contact</a></li>
+        <li><a href="{{ '/characters/privacy/' | relative_url }}">Privacy Policy</a></li>
+        <li><a href="{{ '/characters/terms/' | relative_url }}">Terms</a></li>
       </ul>
     </div>
   </div>
@@ -23,29 +47,34 @@
 </footer>
 
 <style>
+  :root {
+    --accent: #ff4757;
+    --sidebar-bg: #1e293b;
+  }
+
   .site-footer {
     background: var(--sidebar-bg);
     color: white;
-    padding: 2rem;
+    padding: 3rem 2rem 2rem;
     font-size: 0.9rem;
   }
 
   .footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-bottom: 1.5rem;
+    gap: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   .footer-section h4 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-bottom: 0.8rem;
     color: var(--accent);
   }
 
   .footer-section p {
     margin: 0;
-    line-height: 1.5;
+    line-height: 1.6;
     color: #cbd5e1;
   }
 
@@ -59,7 +88,7 @@
     color: #cbd5e1;
     text-decoration: none;
     display: block;
-    margin: 0.3rem 0;
+    margin: 0.35rem 0;
     transition: color 0.3s ease;
   }
 
@@ -72,7 +101,7 @@
     border-top: 1px solid #334155;
     padding-top: 1rem;
     color: #94a3b8;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
   }
 
   /* Responsive */
