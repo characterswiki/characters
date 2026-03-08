@@ -1,175 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | CharactersWiki</title>
-  <meta name="description" content="{{ page.description | default: site.description }}">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ page.title }} | CharactersWiki</title>
+<meta name="description" content="{{ page.description | default: 'Explore anime, manga, game, and movie characters database.' }}">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
 
-  <style>
-  /* =================== RESET & BODY =================== */
-  body {
-    margin: 0;
-    font-family: 'Outfit', sans-serif;
-    background: #f8fafc;
-    color: #111;
-    line-height: 1.6;
-  }
-  a { text-decoration: none; }
-  img { display: block; max-width: 100%; }
+<style>
+/* =================== HEADER =================== */
+body { margin:0; font-family:'Outfit',sans-serif; background:#f8fafc; color:#111;}
+a {text-decoration:none;}
+.site-header{
+background:linear-gradient(135deg,#111,#1f2937);
+color:white;
+padding:14px 0;
+box-shadow:0 4px 20px rgba(0,0,0,.2);
+position:sticky;
+top:0;
+z-index:1000;
+}
+.header-container{
+max-width:1200px;
+margin:auto;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 20px;
+flex-wrap:wrap;
+}
+.site-logo{font-size:22px;font-weight:700;color:white;display:flex;align-items:center;gap:8px;}
+.main-nav{display:flex;gap:25px;}
+.main-nav a{color:#ddd;font-size:15px;font-weight:500;transition:.2s;}
+.main-nav a:hover{color:#ff4757;}
+.search-box{background:white;border-radius:30px;padding:6px 12px;display:flex;align-items:center;}
+.search-box input{border:none;outline:none;font-size:14px;padding:6px;}
+.menu-toggle{display:none;font-size:22px;background:none;border:none;color:white;cursor:pointer;}
 
-  /* =================== HEADER =================== */
-  .site-header{
-    background:linear-gradient(135deg,#111,#1f2937);
-    color:white;
-    padding:14px 0;
-    box-shadow:0 4px 20px rgba(0,0,0,.2);
-    position:sticky;
-    top:0;
-    z-index:1000;
-  }
-  .header-container{
-    max-width:1200px;
-    margin:auto;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 20px;
-    flex-wrap:wrap;
-  }
-  .site-logo{
-    font-size:22px;
-    font-weight:700;
-    color:white;
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .main-nav{
-    display:flex;
-    gap:25px;
-  }
-  .main-nav a{
-    color:#ddd;
-    font-size:15px;
-    font-weight:500;
-    transition:.2s;
-  }
-  .main-nav a:hover{ color:#ff4757; }
-  .search-box{
-    background:white;
-    border-radius:30px;
-    padding:6px 12px;
-    display:flex;
-    align-items:center;
-  }
-  .search-box input{
-    border:none;
-    outline:none;
-    font-size:14px;
-    padding:6px;
-  }
-  .menu-toggle{
-    display:none;
-    font-size:22px;
-    background:none;
-    border:none;
-    color:white;
-    cursor:pointer;
-  }
+/* =================== CHARACTER GRID =================== */
+.character-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:24px;padding:40px 20px;}
+.character-card{display:block;background:#fff;border-radius:14px;overflow:hidden;color:#222;box-shadow:0 4px 12px rgba(0,0,0,0.08);transition:transform .25s ease, box-shadow .25s ease;}
+.character-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.15);}
+.card-img-wrapper{position:relative;aspect-ratio:4/5;overflow:hidden;background:#f3f3f3;}
+.card-img-wrapper img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease;}
+.character-card:hover img{transform:scale(1.05);}
+.card-category{position:absolute;bottom:10px;left:10px;background:#ff4757;color:#fff;padding:4px 10px;font-size:12px;border-radius:6px;font-weight:600;}
+.card-info{padding:16px;}
+.card-title{margin:0 0 8px;font-size:17px;font-weight:700;line-height:1.3;}
+.card-excerpt{font-size:13px;color:#666;margin-bottom:10px;line-height:1.5;}
+.read-more{font-size:13px;font-weight:600;color:#ff4757;}
 
-  /* =================== CHARACTER GRID =================== */
-  .character-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-    gap:24px;
-    padding:40px 20px;
-  }
-  .character-card{
-    display:block;
-    background:#ffffff;
-    border-radius:14px;
-    overflow:hidden;
-    text-decoration:none;
-    color:#222;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
-    transition:transform .25s ease, box-shadow .25s ease;
-  }
-  .character-card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 30px rgba(0,0,0,0.15);
-  }
-  .card-img-wrapper{
-    position:relative;
-    aspect-ratio:4/5;
-    overflow:hidden;
-    background:#f3f3f3;
-  }
-  .card-img-wrapper img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition:transform .3s ease;
-  }
-  .character-card:hover img{
-    transform:scale(1.05);
-  }
-  .card-category{
-    position:absolute;
-    bottom:10px;
-    left:10px;
-    background:#ff4757;
-    color:#fff;
-    padding:4px 10px;
-    font-size:12px;
-    border-radius:6px;
-    font-weight:600;
-  }
-  .card-info{ padding:16px; }
-  .card-title{ margin:0 0 8px; font-size:17px; font-weight:700; line-height:1.3; }
-  .card-excerpt{ font-size:13px; color:#666; margin-bottom:10px; line-height:1.5; }
-  .read-more{ font-size:13px; font-weight:600; color:#ff4757; }
+/* =================== FOOTER =================== */
+.site-footer{background:#0f172a;color:#cbd5e1;margin-top:60px;padding:50px 20px 20px;}
+.footer-container{max-width:1200px;margin:auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;}
+.footer-section h4{color:white;margin-bottom:12px;font-size:16px;}
+.footer-section p{font-size:14px;line-height:1.6;}
+.footer-section ul{list-style:none;padding:0;margin:0;}
+.footer-section ul li{margin-bottom:8px;}
+.footer-section a{color:#cbd5e1;}
+.footer-section a:hover{color:#ff4757;}
+.footer-bottom{text-align:center;margin-top:40px;border-top:1px solid #1e293b;padding-top:15px;font-size:13px;color:#94a3b8;}
 
-  /* =================== FOOTER =================== */
-  .site-footer{
-    background:#0f172a;
-    color:#cbd5e1;
-    margin-top:60px;
-    padding:50px 20px 20px;
-  }
-  .footer-container{
-    max-width:1200px;
-    margin:auto;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:40px;
-  }
-  .footer-section h4{ color:white; margin-bottom:12px; font-size:16px; }
-  .footer-section p{ font-size:14px; line-height:1.6; }
-  .footer-section ul{ list-style:none; padding:0; margin:0; }
-  .footer-section ul li{ margin-bottom:8px; }
-  .footer-section a{ color:#cbd5e1; text-decoration:none; font-size:14px; }
-  .footer-section a:hover{ color:#ff4757; }
-  .footer-bottom{
-    text-align:center;
-    margin-top:40px;
-    border-top:1px solid #1e293b;
-    padding-top:15px;
-    font-size:13px;
-    color:#94a3b8;
-  }
+/* =================== MOBILE =================== */
+@media (max-width:768px){
+.main-nav{display:none;width:100%;flex-direction:column;margin-top:15px;}
+.main-nav.show{display:flex;}
+.menu-toggle{display:block;}
+.search-box{margin-top:10px;width:100%;}
+.character-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;}
+.card-title{font-size:15px;}
+}
+</style>
 
-  /* =================== MOBILE =================== */
-  @media (max-width:768px){
-    .main-nav{ display:none; width:100%; flex-direction:column; margin-top:15px; }
-    .main-nav.show{ display:flex; }
-    .menu-toggle{ display:block; }
-    .search-box{ margin-top:10px; width:100%; }
-    .character-grid{ grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:16px; }
-    .card-title{ font-size:15px; }
-  }
-  </style>
 </head>
 <body>
 
@@ -189,6 +91,7 @@
     </div>
   </div>
 </header>
+
 <script>
 const toggle=document.querySelector(".menu-toggle");
 const nav=document.querySelector(".main-nav");
@@ -197,47 +100,50 @@ toggle.addEventListener("click",()=>{nav.classList.toggle("show");});
 
 <!-- MAIN CONTENT -->
 <main>
-  {{ content }}
+{{ content }}
 </main>
 
 <!-- FOOTER -->
 <footer class="site-footer">
-  <div class="footer-container">
-    <div class="footer-section">
-      <h4>About CharactersWiki</h4>
-      <p>A community-driven encyclopedia for anime, manga, games and movie characters. Discover abilities, backgrounds and lore of your favorite heroes and villains.</p>
-    </div>
-    <div class="footer-section">
-      <h4>Explore</h4>
-      <ul>
-        <li><a href="{{ '/characters/' | relative_url }}">Home</a></li>
-        <li><a href="{{ '/characters/categories/' | relative_url }}">Categories</a></li>
-        <li><a href="{{ '/characters/tags/' | relative_url }}">Tags</a></li>
-        <li><a href="{{ '/characters/sitemap.xml' | relative_url }}">Sitemap</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h4>Popular Series</h4>
-      <ul>
-        <li><a href="{{ '/characters/categories/#naruto' | relative_url }}">Naruto</a></li>
-        <li><a href="{{ '/characters/categories/#one-piece' | relative_url }}">One Piece</a></li>
-        <li><a href="{{ '/characters/categories/#attack-on-titan' | relative_url }}">Attack on Titan</a></li>
-        <li><a href="{{ '/characters/categories/#dragon-ball' | relative_url }}">Dragon Ball</a></li>
-      </ul>
-    </div>
-    <div class="footer-section">
-      <h4>Community</h4>
-      <ul>
-        <li><a href="{{ '/characters/about/' | relative_url }}">About</a></li>
-        <li><a href="{{ '/characters/contact/' | relative_url }}">Contact</a></li>
-        <li><a href="{{ '/characters/privacy/' | relative_url }}">Privacy Policy</a></li>
-        <li><a href="{{ '/characters/terms/' | relative_url }}">Terms</a></li>
-      </ul>
-    </div>
+<div class="footer-container">
+  <div class="footer-section">
+    <h4>About CharactersWiki</h4>
+    <p>A community driven encyclopedia for anime, manga, game and movie characters. Discover abilities, backgrounds and lore of your favourite heroes and villains.</p>
   </div>
-  <div class="footer-bottom">
-    © {{ site.time | date: "%Y" }} CharactersWiki — All Rights Reserved
+
+  <div class="footer-section">
+    <h4>Explore</h4>
+    <ul>
+      <li><a href="{{ '/characters/' | relative_url }}">Home</a></li>
+      <li><a href="{{ '/characters/categories/' | relative_url }}">Categories</a></li>
+      <li><a href="{{ '/characters/tags/' | relative_url }}">Tags</a></li>
+      <li><a href="{{ '/characters/sitemap.xml' | relative_url }}">Sitemap</a></li>
+    </ul>
   </div>
+
+  <div class="footer-section">
+    <h4>Popular Series</h4>
+    <ul>
+      <li><a href="#">Naruto</a></li>
+      <li><a href="#">One Piece</a></li>
+      <li><a href="#">Attack on Titan</a></li>
+      <li><a href="#">Dragon Ball</a></li>
+    </ul>
+  </div>
+
+  <div class="footer-section">
+    <h4>Community</h4>
+    <ul>
+      <li><a href="{{ '/characters/about/' | relative_url }}">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Privacy Policy</a></li>
+      <li><a href="#">Terms</a></li>
+    </ul>
+  </div>
+</div>
+<div class="footer-bottom">
+© {{ site.time | date: "%Y" }} CharactersWiki — All Rights Reserved
+</div>
 </footer>
 
 </body>
