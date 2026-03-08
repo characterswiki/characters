@@ -1,28 +1,20 @@
 title: "Characters Wiki"
 email: your-email@example.com
-description: "Explore amazing characters from anime, games, and comics!"
-baseurl: "/characters"
+description: >-
+  Explore amazing characters from anime, games, and comics!
+baseurl: "/characters"   # MUST match your repository name
 url: "https://characterswiki.github.io"
 twitter_username: your-twitter
-github_username: characterswiki
+github_username:  characterswiki
 
 # Build settings
 theme: null
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-paginate
 
-paginate: 8  # posts per page
-
-# Default permalink structure
-permalink: /:title/
-
-# Collections for characters
-collections:
-  characters:
-    output: true
-    permalink: /:title/
+# Permalinks – ensure clean URLs without .html
+permalink: pretty
 
 # Default front matter
 defaults:
@@ -31,19 +23,18 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "Admin"
-      image: "/assets/images/default-character.jpg"
-      permalink: /:title/
+      author: "admin"
+      image: "https://via.placeholder.com/800x400?text=Anime+Character"
   - scope:
       path: ""
       type: "pages"
     values:
       layout: "page"
-      permalink: /:title/
 
-# Exclude unnecessary files
+# Exclude from processing
 exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
   - vendor
+  - .gitignore
