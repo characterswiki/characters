@@ -3,192 +3,173 @@ layout: default
 title: Home
 ---
 
-{% assign posts = site.posts %}
-{% assign recent_posts = posts | slice: 0, 10 %}
-
 <main id="main-content" class="home-content">
 
-  <!-- Latest Posts -->
-  <section class="featured-posts" aria-labelledby="latest-heading">
-    <h2 id="latest-heading">Latest Posts</h2>
+<div class="container">
 
-    <div class="posts-grid">
-      {% for post in site.posts limit:6 %}
-      <article class="post-card">
+<!-- =========================
+     HERO SECTION
+========================= -->
+<section class="home-hero">
 
-        <a href="{{ post.url | relative_url }}" class="post-image">
-          <img src="{% if post.image %}{{ post.image | relative_url }}{% else %}{{ '/assets/images/default-post.jpg' | relative_url }}{% endif %}"
-               alt="{{ post.title }}"
-               loading="lazy">
-        </a>
+<h1>{{ site.title }}</h1>
 
-        <div class="post-content">
-          {% if post.date %}
-          <time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">
-            {{ post.date | date: "%B %d, %Y" }}
-          </time>
-          {% endif %}
+<p>
+Explore detailed profiles of your favorite Anime & Manga characters,
+stories, powers, and more.
+</p>
 
-          <h3 class="post-title">
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-          </h3>
+<div class="hero-links">
 
-          <!-- ALWAYS show description text -->
-          <p class="post-excerpt">
-            {{ post.excerpt | strip_html | truncate: 180 }}
-          </p>
+<a href="{{ '/categories/' | relative_url }}">Browse Categories</a>
 
-          <a href="{{ post.url | relative_url }}" class="post-read-more">
-            Read Full Article →
-          </a>
-        </div>
+<a href="{{ '/tags/' | relative_url }}">Explore Tags</a>
 
-      </article>
-      {% endfor %}
-    </div>
-  </section>
+<a href="{{ '/about/' | relative_url }}">About This Site</a>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     LATEST POSTS
+========================= -->
+
+<section class="featured-posts" aria-labelledby="latest-heading">
+
+<h2 id="latest-heading">Latest Posts</h2>
+
+<div class="posts-grid">
+
+{% for post in site.posts limit:6 %}
+
+<article class="post-card">
+
+<a href="{{ post.url | relative_url }}" class="post-image">
+
+<img
+src="{% if post.image %}{{ post.image | relative_url }}{% else %}{{ '/assets/images/default-post.jpg' | relative_url }}{% endif %}"
+alt="{{ post.title }}"
+loading="lazy">
+
+</a>
+
+<div class="post-content">
+
+{% if post.date %}
+<time datetime="{{ post.date | date_to_xmlschema }}" class="post-date">
+{{ post.date | date: "%B %d, %Y" }}
+</time>
+{% endif %}
+
+<h3 class="post-title">
+<a href="{{ post.url | relative_url }}">
+{{ post.title }}
+</a>
+</h3>
+
+<p class="post-excerpt">
+{{ post.excerpt | strip_html | truncate: 160 }}
+</p>
+
+<a href="{{ post.url | relative_url }}" class="post-read-more">
+Read Full Article →
+</a>
+
+</div>
+
+</article>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CATEGORIES
+========================= -->
+
+<section class="home-categories">
+
+<h2>Categories</h2>
+
+<div class="category-grid">
+
+{% for category in site.categories limit:8 %}
+
+<a
+class="category-card"
+href="{{ '/categories/#' | append: category[0] | relative_url }}">
+
+<span class="category-name">
+{{ category[0] }}
+</span>
+
+<span class="category-count">
+{{ category[1].size }} posts
+</span>
+
+</a>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     TAG CLOUD
+========================= -->
+
+<section class="home-tags">
+
+<h2>Popular Tags</h2>
+
+<div class="tag-cloud">
+
+{% for tag in site.tags limit:20 %}
+
+<a
+href="{{ '/tags/#' | append: tag[0] | relative_url }}"
+class="tag">
+
+#{{ tag[0] }}
+
+</a>
+
+{% endfor %}
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SITE PAGES
+========================= -->
+
+<section class="site-pages">
+
+<h2>Explore</h2>
+
+<div class="pages-grid">
+
+<a href="{{ '/about/' | relative_url }}">About</a>
+
+<a href="{{ '/contact/' | relative_url }}">Contact</a>
+
+<a href="{{ '/privacy-policy/' | relative_url }}">Privacy Policy</a>
+
+<a href="{{ '/terms/' | relative_url }}">Terms of Service</a>
+
+</div>
+
+</section>
+
+</div>
 
 </main>
-
-<style>
-
-/* ===== Layout ===== */
-
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
-}
-
-/* ===== Card ===== */
-
-.post-card {
-  background: #ffffff;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-  display: flex;
-  flex-direction: column;
-}
-
-.post-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-}
-
-/* ===== Image Focus ===== */
-
-.post-image {
-  display: block;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-.post-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.post-card:hover .post-image img {
-  transform: scale(1.08);
-}
-
-/* ===== Content ===== */
-
-.post-content {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.post-date {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #777;
-  margin-bottom: 0.75rem;
-}
-
-.post-title {
-  font-size: 1.25rem;
-  margin: 0 0 0.75rem 0;
-  line-height: 1.3;
-}
-
-.post-title a {
-  text-decoration: none;
-  color: #111;
-  transition: color 0.3s ease;
-}
-
-.post-title a:hover {
-  color: #1e90ff;
-}
-
-/* Strong readable text under every post */
-
-.post-excerpt {
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: #555;
-  margin-bottom: 1.25rem;
-  flex-grow: 1;
-}
-
-/* Modern minimal CTA */
-
-.post-read-more {
-  align-self: flex-start;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
-  color: #1e90ff;
-  transition: all 0.3s ease;
-}
-
-.post-read-more:hover {
-  color: #005ecb;
-  transform: translateX(4px);
-}
-
-/* ===== Typography ===== */
-
-.featured-posts h2 {
-  font-size: clamp(2rem, 4vw, 2.5rem);
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #111, #333);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* ===== Responsive ===== */
-
-@media (max-width: 768px) {
-  .posts-grid {
-    gap: 1.5rem;
-  }
-
-  .post-content {
-    padding: 1.2rem;
-  }
-
-  .post-title {
-    font-size: 1.1rem;
-  }
-
-  .post-excerpt {
-    font-size: 0.9rem;
-  }
-}
-
-/* Subtle background */
-body {
-  background: linear-gradient(145deg, #f8f9fb 0%, #ffffff 100%);
-}
-
-</style>
