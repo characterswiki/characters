@@ -1,14 +1,89 @@
 <footer class="site-footer">
-  <div class="footer-wrapper">
-    <div class="footer-info">
-      <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+  <div class="footer-grid">
+    <!-- About Section -->
+    <div class="footer-section">
+      <h4>About Wiki</h4>
+      <p>The largest community-driven database for anime, manga, and game character lore, stats, and profiles.</p>
     </div>
-    <div class="footer-links">
-      <a href="{{ '/privacy-policy/' | relative_url }}">Privacy</a>
-      <a href="{{ '/terms/' | relative_url }}">Terms</a>
-      <a href="{{ '/contact/' | relative_url }}">Contact</a>
-      <a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a>
-      <a href="{{ '/rss.xml' | relative_url }}">RSS</a>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ '/about' | relative_url }}">About Us</a></li>
+        <li><a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a></li>
+        <li><a href="{{ '/rss.xml' | relative_url }}">RSS Feed</a></li>
+      </ul>
     </div>
   </div>
+
+  <div class="footer-bottom">
+    &copy; {{ site.time | date: '%Y' }} Characters Wiki. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>.
+  </div>
 </footer>
+
+<style>
+  .site-footer {
+    background: var(--sidebar-bg);
+    color: white;
+    padding: 2rem;
+    font-size: 0.9rem;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-section h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: var(--accent);
+  }
+
+  .footer-section p {
+    margin: 0;
+    line-height: 1.5;
+    color: #cbd5e1;
+  }
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-section ul li a {
+    color: #cbd5e1;
+    text-decoration: none;
+    display: block;
+    margin: 0.3rem 0;
+    transition: color 0.3s ease;
+  }
+
+  .footer-section ul li a:hover {
+    color: var(--accent);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    border-top: 1px solid #334155;
+    padding-top: 1rem;
+    color: #94a3b8;
+    font-size: 0.8rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      text-align: left;
+    }
+    .footer-bottom {
+      text-align: left;
+      margin-top: 1rem;
+    }
+  }
+</style>
