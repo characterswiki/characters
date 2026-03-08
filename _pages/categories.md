@@ -1,22 +1,18 @@
 ---
-layout: page
+layout: default
 title: Categories
 permalink: /categories/
 ---
 
-<h1>All Categories</h1>
+# Character Categories
 
 <div class="category-list">
-  {% assign categories = site.categories | sort %}
-  {% for category in categories %}
+  {% for category in site.categories %}
     <div class="category-group">
       <h2 id="{{ category[0] | slugify }}">{{ category[0] }}</h2>
-      <ul class="post-list">
+      <ul>
         {% for post in category[1] %}
-          <li>
-            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-            <small>{{ post.date | date: "%b %d, %Y" }}</small>
-          </li>
+          <li><a href="{{ post.url }}">{{ post.title }}</a></li>
         {% endfor %}
       </ul>
     </div>
