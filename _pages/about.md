@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About us
-permalink: /about/
+permalink: characters/about/
 description: Learn about Anime Manga Characters Wiki. Discover detailed anime and manga character biographies, powers, story arcs and affiliations.
 ---
 **Anime Manga Characters Wiki** is a dedicated online encyclopedia focused on delivering detailed, well-structured, and accurate profiles of anime and manga characters from popular and classic series worldwide.
