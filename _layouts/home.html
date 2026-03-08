@@ -7,14 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap" rel="stylesheet">
 
 <style>
-/* =================== GENERAL =================== */
-body {
-margin:0;
-font-family:'Outfit', sans-serif;
-background:#f8fafc;
-color:#1a1a2e;
-line-height:1.6;
-}
 
 /* =================== HEADER =================== */
 .site-header{
@@ -85,7 +77,7 @@ cursor:pointer;
 display:grid;
 grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
 gap:24px;
-padding:10px 0;
+padding:40px 20px;
 }
 .character-card{
 display:block;
@@ -196,35 +188,8 @@ font-size:13px;
 color:#94a3b8;
 }
 
-/* =================== POST & HERO =================== */
-.post-hero img{
-width:100%;
-border-radius:12px;
-margin-bottom:20px;
-}
-.post-container{
-max-width:800px;
-margin:auto;
-padding:40px 20px;
-}
-.post-title{
-font-size:2rem;
-margin-bottom:15px;
-}
-.post-meta{
-color:#64748b;
-font-size:14px;
-margin-bottom:25px;
-display:flex;
-gap:15px;
-}
-.post-content{
-line-height:1.8;
-font-size:1.05rem;
-}
-
-/* =================== RESPONSIVE =================== */
-@media(max-width:768px){
+/* =================== MOBILE =================== */
+@media (max-width:768px){
 .main-nav{
 display:none;
 width:100%;
@@ -245,12 +210,12 @@ width:100%;
 grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
 gap:16px;
 }
-.post-title{
-font-size:1.6rem;
+.card-title{
+font-size:15px;
 }
 }
-
 </style>
+
 </head>
 <body>
 
@@ -277,63 +242,75 @@ const nav=document.querySelector(".main-nav");
 toggle.addEventListener("click",()=>{nav.classList.toggle("show");});
 </script>
 
-<!-- POST / GRID CONTENT -->
-<main class="post-container">
-
-{% if page.image %}
-<div class="post-hero">
-<img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
-</div>
-{% endif %}
-
-<h1 class="post-title">{{ page.title }}</h1>
-
-<div class="post-meta">
-{% if page.categories %}
-<span class="meta-item">📂 {{ page.categories | first }}</span>
-{% endif %}
-{% if page.tags %}
-<span class="meta-item">🏷
-{% for tag in page.tags %}
-<a href="{{ '/tags/#' | append: tag | slugify | relative_url }}">#{{ tag }}</a>
-{% endfor %}
-</span>
-{% endif %}
-</div>
-
-<div class="post-content">
-{{ content }}
-</div>
-
-<h2>Other Characters</h2>
-
+<!-- CHARACTER GRID -->
 <div class="character-grid">
-{% assign posts = site.posts | sort: "title" %}
-{% for post in posts %}
-<a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
-<div class="card-img-wrapper">
-{% if post.image %}
-{% assign img = post.image | remove_first: "/" %}
-<img src="{{ img | relative_url }}" alt="{{ post.title }} character image" loading="lazy" decoding="async" width="400" height="500" onerror="this.src='{{ '/assets/images/placeholder.jpg' | relative_url }}';">
-{% else %}
-<img src="{{ '/assets/images/placeholder.jpg' | relative_url }}" alt="No image available" loading="lazy" width="400" height="500">
-{% endif %}
-{% if post.categories and post.categories.size > 0 %}
-<span class="card-category">{{ post.categories | first }}</span>
-{% endif %}
-</div>
-<div class="card-info">
-<h3 class="card-title">{{ post.title }}</h3>
-{% if post.excerpt %}
-<p class="card-excerpt">{{ post.excerpt | strip_html | truncate:80 }}</p>
-{% endif %}
-<span class="read-more">View Profile →</span>
-</div>
-</a>
-{% endfor %}
-</div>
 
-</main>
+{% assign posts = site.posts | sort: "title" %}
+
+{% for post in posts %}
+
+<a href="{{ post.url | relative_url }}"
+   class="character-card"
+   aria-label="View profile of {{ post.title }}">
+
+  <div class="card-img-wrapper">
+
+    {% if post.image %}
+
+      {% assign img = post.image | remove_first: "/" %}
+
+      <img
+        src="{{ img | relative_url }}"
+        alt="{{ post.title }} character image"
+        loading="lazy"
+        decoding="async"
+        width="400"
+        height="500"
+        onerror="this.src='{{ '/assets/images/placeholder.jpg' | relative_url }}';">
+
+    {% else %}
+
+      <img
+        src="{{ '/assets/images/placeholder.jpg' | relative_url }}"
+        alt="No image available"
+        loading="lazy"
+        width="400"
+        height="500">
+
+    {% endif %}
+
+    {% if post.categories and post.categories.size > 0 %}
+      <span class="card-category">
+        {{ post.categories | first }}
+      </span>
+    {% endif %}
+
+  </div>
+
+
+  <div class="card-info">
+
+    <h3 class="card-title">
+      {{ post.title }}
+    </h3>
+
+    {% if post.excerpt %}
+      <p class="card-excerpt">
+        {{ post.excerpt | strip_html | truncate:80 }}
+      </p>
+    {% endif %}
+
+    <span class="read-more">
+      View Profile →
+    </span>
+
+  </div>
+
+</a>
+
+{% endfor %}
+
+</div>
 
 <!-- FOOTER -->
 <footer class="site-footer">
