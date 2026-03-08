@@ -1,53 +1,21 @@
-<head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.title }}</title>
+<meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
 
-<title>
-{% if page.title %}
-{{ page.title }} | {{ site.title }}
-{% else %}
-{{ site.title }}
-{% endif %}
-</title>
-
-<meta name="description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
-<meta name="robots" content="index, follow">
-<meta name="author" content="{{ site.author }}">
-<link rel="canonical" href="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
-
-<meta property="og:type" content="article">
-<meta property="og:title" content="{{ page.title }}">
-<meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
-<meta property="og:url" content="{{ site.url }}{{ site.baseurl }}{{ page.url }}">
-<meta property="og:image" content="{{ site.url }}{{ site.baseurl }}{{ page.image }}">
-
+<!-- Open Graph / Social Media -->
+<meta property="og:title" content="{{ page.title | default: site.title }}">
+<meta property="og:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 200 }}">
+<meta property="og:image" content="{% if page.image %}{{ page.image | absolute_url }}{% else %}{{ '/assets/images/default-social.jpg' | absolute_url }}{% endif %}">
+<meta property="og:url" content="{{ page.url | absolute_url }}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ page.title }}">
-<meta name="twitter:description" content="{{ page.excerpt | default: site.description | strip_html | truncate: 160 }}">
-<meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}{{ page.image }}">
 
-{% if page.layout == "post" and page.character_name %}
-<script type="application/ld+json">
-{
- "@context": "https://schema.org",
- "@type": "FictionalCharacter",
- "name": "{{ page.character_name }}",
- "alternateName": "{{ page.alias }}",
- "image": "{{ site.url }}{{ site.baseurl }}{{ page.image }}",
- "description": "{{ page.excerpt | strip_html }}",
- "gender": "{{ page.gender }}",
- "creator": {
-   "@type": "Person",
-   "name": "{{ page.creator }}"
- },
- "isPartOf": {
-   "@type": "CreativeWork",
-   "name": "{{ page.series }}"
- },
- "url": "{{ site.url }}{{ site.baseurl }}{{ page.url }}"
-}
-</script>
-{% endif %}
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
 
-<link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-</head>
+<!-- CSS -->
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+<!-- RSS and SEO plugins -->
+{% feed_meta %}
+{% seo %}
