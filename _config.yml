@@ -1,29 +1,12 @@
 title: "Characters Wiki"
-description: "Anime & Manga Character Database"
+description: "A Wiki of Anime, Game, and Manga Characters"
+baseurl: "/characters" # your repo name
 url: "https://characterswiki.github.io"
-baseurl: "/characters"
-
-markdown: kramdown
-permalink: /:title/
-
+author: "Your Name"
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
-
-collections:
-  characters:
-    output: true
-    permalink: /character/:name/
-
-defaults:
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: post
-
-exclude:
-  - README.md
-  - Gemfile
-  - Gemfile.lock
+  - jekyll-paginate
+paginate: 8
