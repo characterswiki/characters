@@ -1,23 +1,40 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function(){
 
-  const searchInput = document.getElementById("sidebarSearch");
-  const recentList = document.getElementById("recentList");
+/* MOBILE MENU */
 
-  if (searchInput && recentList) {
-    searchInput.addEventListener("keyup", function() {
-      const filter = searchInput.value.toLowerCase();
-      const items = recentList.getElementsByTagName("li");
+const menuBtn=document.getElementById("menu-toggle");
+const nav=document.getElementById("main-nav");
 
-      for (let i = 0; i < items.length; i++) {
-        const text = items[i].innerText.toLowerCase();
-        items[i].style.display = text.includes(filter) ? "" : "none";
-      }
-    });
-  }
+if(menuBtn){
+menuBtn.addEventListener("click",function(){
+nav.classList.toggle("show");
+});
+}
+
+/* DARK MODE */
+
+const themeBtn=document.getElementById("theme-toggle");
+
+if(themeBtn){
+
+const savedTheme=localStorage.getItem("theme");
+
+if(savedTheme==="dark"){
+document.body.classList.add("dark-mode");
+}
+
+themeBtn.addEventListener("click",function(){
+
+document.body.classList.toggle("dark-mode");
+
+if(document.body.classList.contains("dark-mode")){
+localStorage.setItem("theme","dark");
+}else{
+localStorage.setItem("theme","light");
+}
 
 });
 
-function toggleSection(element) {
-  const ul = element.nextElementSibling;
-  ul.style.display = ul.style.display === "none" ? "block" : "none";
 }
+
+});
