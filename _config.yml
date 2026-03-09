@@ -1,87 +1,116 @@
-# ==============================================
-# Characters Wiki - Modern SEO & Mobile-Friendly Config
-# ==============================================
-
-# Site info
+# -----------------------------
+# SITE IDENTITY
+# -----------------------------
 title: "Characters Wiki"
-description: "The ultimate professional anime/manga character database."
+description: "A comprehensive database for character profiles, power levels, and lore."
 url: "https://characterswiki.github.io"
-baseurl: "/characters"  # Important: matches your GitHub Pages subpath
-twitter_username: "characterswiki"
-github_username: "characterswiki"
-logo: "/assets/images/logo.png"    # optional site logo for SEO & social
-favicon: "/assets/images/favicon.ico"
+baseurl: "/characters"   # Required for GitHub project pages
 
-# Build & Layout Settings
+author:
+  name: "Characters Wiki"
+  email: "contact@characterswiki.com"
+
+language: "en"
+
+# -----------------------------
+# SEO SETTINGS
+# -----------------------------
+permalink: /:categories/:title/
+
+timezone: Asia/Karachi
+
 markdown: kramdown
 highlighter: rouge
-theme: null        # custom theme
-sass:
-  style: compressed
-permalink: "/:categories/:title/"  # SEO-friendly permalinks
 
-# Default Layouts
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# -----------------------------
+# PLUGINS
+# -----------------------------
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-gist
+  - jekyll-paginate
+
+# -----------------------------
+# PAGINATION
+# -----------------------------
+paginate: 10
+paginate_path: "/page/:num/"
+
+# -----------------------------
+# COLLECTIONS
+# -----------------------------
+collections:
+  characters:
+    output: true
+    permalink: /characters/:name/
+
+# -----------------------------
+# DEFAULT FRONT MATTER
+# -----------------------------
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
+      author: "Characters Wiki"
+
   - scope:
       path: ""
-      type: "pages"
+      type: "characters"
     values:
-      layout: "default"
+      layout: "page"
 
-# Collections
-collections:
-  posts:
-    output: true
-  characters:
-    output: true
-    permalink: "/characters/:title/"
-
-# Plugins
-plugins:
-  - jekyll-seo-tag
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-paginate
-  - jekyll-archives
-
-# SEO defaults
-seo:
-  title: "Characters Wiki"
-  description: "The ultimate professional anime/manga character database."
-  twitter:
-    card: summary_large_image
-  og:
-    type: website
-    image: "/assets/images/seo-image.png"
-
-# Pagination
-paginate: 10
-paginate_path: "/page/:num/"
-
-# Markdown & code highlighting
-kramdown:
-  input: GFM
-  syntax_highlighter_opts:
-    line_numbers: true
-    span: true
-
-# Exclude unnecessary files from build
+# -----------------------------
+# BUILD SETTINGS
+# -----------------------------
 exclude:
+  - README.md
   - node_modules
   - vendor
   - Gemfile
   - Gemfile.lock
-  - README.md
 
 include:
   - _pages
 
-# Future posts
-future: true
-incremental: true
+# -----------------------------
+# SASS / CSS
+# -----------------------------
+sass:
+  style: compressed
+
+# -----------------------------
+# FEED SETTINGS
+# -----------------------------
+feed:
+  path: rss.xml
+
+# -----------------------------
+# SOCIAL (Used by SEO plugin)
+# -----------------------------
+twitter:
+  username: characterswiki
+
+social:
+  name: Characters Wiki
+  links:
+    - https://github.com/characterswiki
+
+# -----------------------------
+# GOOGLE SEARCH CONSOLE
+# -----------------------------
+google_site_verification: ""
+
+# -----------------------------
+# PERFORMANCE
+# -----------------------------
 lsi: false
+safe: true
+incremental: false
