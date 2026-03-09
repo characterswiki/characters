@@ -1,118 +1,15 @@
 <footer class="site-footer">
-  <div class="footer-grid">
-    <!-- About Section -->
-    <div class="footer-section">
-      <h4>About Wiki</h4>
-      <p>The largest community-driven database for anime, manga, and game character lore, stats, and profiles.</p>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-info">
+        <h3>{{ site.title }}</h3>
+        <p>{{ site.description }}</p>
+      </div>
+      <div class="footer-social">
+        <a href="https://github.com/{{ site.github_username }}"><i class="fa-brands fa-github"></i></a>
+        <a href="{{ '/rss.xml' | relative_url }}"><i class="fa-solid fa-rss"></i></a>
+      </div>
     </div>
-
-    <!-- Explore Section -->
-    <div class="footer-section">
-      <h4>Explore</h4>
-      <ul>
-        <li><a href="{{ '/characters/' | relative_url }}">Home</a></li>
-        <li><a href="{{ '/characters/categories/' | relative_url }}">Categories</a></li>
-        <li><a href="{{ '/characters/tags/' | relative_url }}">Tags</a></li>
-        <li><a href="{{ '/characters/about/' | relative_url }}">About</a></li>
-        <li><a href="{{ '/characters/sitemap.xml' | relative_url }}">Sitemap</a></li>
-      </ul>
-    </div>
-
-    <!-- Popular Series -->
-    <div class="footer-section">
-      <h4>Popular Series</h4>
-      <ul>
-        <li><a href="{{ '/characters/categories/#naruto' | relative_url }}">Naruto</a></li>
-        <li><a href="{{ '/characters/categories/#one-piece' | relative_url }}">One Piece</a></li>
-        <li><a href="{{ '/characters/categories/#attack-on-titan' | relative_url }}">Attack on Titan</a></li>
-        <li><a href="{{ '/characters/categories/#dragon-ball' | relative_url }}">Dragon Ball</a></li>
-      </ul>
-    </div>
-
-    <!-- Community -->
-    <div class="footer-section">
-      <h4>Community</h4>
-      <ul>
-        <li><a href="{{ '/characters/about/' | relative_url }}">About</a></li>
-        <li><a href="{{ '/characters/contact/' | relative_url }}">Contact</a></li>
-        <li><a href="{{ '/characters/privacy/' | relative_url }}">Privacy Policy</a></li>
-        <li><a href="{{ '/characters/terms/' | relative_url }}">Terms</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    &copy; {{ site.time | date: '%Y' }} Characters Wiki. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a>.
+    <p class="copyright">&copy; {{ "now" | date: "%Y" }} {{ site.title }}. Built for Speed & SEO.</p>
   </div>
 </footer>
-
-<style>
-  :root {
-    --accent: #ff4757;
-    --sidebar-bg: #1e293b;
-  }
-
-  .site-footer {
-    background: var(--sidebar-bg);
-    color: white;
-    padding: 3rem 2rem 2rem;
-    font-size: 0.9rem;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .footer-section h4 {
-    font-size: 1.2rem;
-    margin-bottom: 0.8rem;
-    color: var(--accent);
-  }
-
-  .footer-section p {
-    margin: 0;
-    line-height: 1.6;
-    color: #cbd5e1;
-  }
-
-  .footer-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .footer-section ul li a {
-    color: #cbd5e1;
-    text-decoration: none;
-    display: block;
-    margin: 0.35rem 0;
-    transition: color 0.3s ease;
-  }
-
-  .footer-section ul li a:hover {
-    color: var(--accent);
-  }
-
-  .footer-bottom {
-    text-align: center;
-    border-top: 1px solid #334155;
-    padding-top: 1rem;
-    color: #94a3b8;
-    font-size: 0.85rem;
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-      text-align: left;
-    }
-    .footer-bottom {
-      text-align: left;
-      margin-top: 1rem;
-    }
-  }
-</style>
