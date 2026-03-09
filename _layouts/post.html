@@ -1,88 +1,136 @@
 ---
 layout: default
 ---
-<article class="post-content">
-  
-  <!-- Post Header -->
+
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <!-- ================= PROGRESS BAR ================= -->
+  <div class="progress-container">
+    <div class="progress-bar" id="readingProgress"></div>
+  </div>
+
+  <!-- ================= BREADCRUMBS ================= -->
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li><a href="{{ '/categories/' | relative_url }}">Categories</a></li>
+      <li><a href="{{ '/categories/#' | append: page.categories.first | relative_url }}">{{ page.categories.first | capitalize }}</a></li>
+      <li aria-current="page">{{ page.title }}</li>
+    </ol>
+  </nav>
+
+  <!-- ================= POST HEADER ================= -->
   <header class="post-header">
-    <h1 class="post-title">{{ page.title }}</h1>
-    <div class="post-meta">
-      <time datetime="{{ page.date | date_to_xmlschema }}">
-        {{ page.date | date: "%B %-d, %Y" }}
-      </time>
-      {% if page.author %} • <span>{{ page.author }}</span>{% endif %}
-      {% if page.categories %}
-        • <span>Category: {{ page.categories | join: ", " }}</span>
+    <h1 class="post-title" itemprop="name headline">{{ page.title | escape }}</h1>
+    <p class="post-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%b %-d, %Y" }}</time>
+      {% if page.author %} • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>{% endif %}
+      • <span class="reading-time" title="Estimated read time">{% include read-time.html %}</span>
+      {% if page.categories.size > 0 %}
+        • <span class="post-categories">
+          {% for category in page.categories %}
+            <a href="{{ '/categories/#' | append: category | relative_url }}">{{ category }}</a>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </span>
       {% endif %}
-    </div>
+    </p>
+    {% include social-share.html %}
   </header>
 
-  <!-- Post Image -->
-  {% if page.image %}
-  <div class="post-image">
-    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
-  </div>
-  {% endif %}
+  <!-- ================= STICKY TOC + CONTENT (2‑COLUMN LAYOUT FOR DESKTOP) ================= -->
+  <div class="post-with-toc">
+    {% if page.toc %}
+    <aside class="toc-sidebar" id="tocSidebar">
+      <details class="toc" open>
+        <summary>Table of Contents</summary>
+        {{ content | toc_only }}
+      </details>
+    </aside>
+    {% endif %}
 
-  <!-- Post Content -->
-  <div class="entry-content">
-    {{ content }}
+    <div class="post-content" itemprop="articleBody">
+      {{ content }}
+    </div>
   </div>
 
-  <!-- Post Tags -->
-  {% if page.tags %}
+  <!-- ================= TAGS ================= -->
+  {% if page.tags.size > 0 %}
   <div class="post-tags">
+    <strong>Tags:</strong>
     {% for tag in page.tags %}
-      <span class="tag">#{{ tag }}</span>
+      <a href="{{ '/tags/#' | append: tag | relative_url }}" class="tag-link">#{{ tag }}</a>
     {% endfor %}
   </div>
   {% endif %}
-  
+
+  <!-- ================= AUTHOR BIO ================= -->
+  {% if page.author %}
+  <div class="author-bio">
+    {% assign author = site.data.authors[page.author] | default: page.author %}
+    <div class="author-avatar">
+      <img src="{{ author.avatar | default: '/assets/images/default-avatar.png' | relative_url }}" alt="{{ author.name }}" loading="lazy">
+    </div>
+    <div class="author-info">
+      <h4>About {{ author.name }}</h4>
+      <p>{{ author.bio | default: "Author of this post." }}</p>
+      {% if author.twitter %}
+        <a href="https://twitter.com/{{ author.twitter }}" target="_blank" rel="noopener">Twitter</a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ================= RELATED POSTS ================= -->
+  {% include related-posts.html %}
+
+  <!-- ================= NEXT / PREVIOUS POSTS ================= -->
+  <nav class="post-navigation">
+    {% if page.previous.url %}
+    <a class="prev" href="{{ page.previous.url | relative_url }}">← {{ page.previous.title }}</a>
+    {% endif %}
+    {% if page.next.url %}
+    <a class="next" href="{{ page.next.url | relative_url }}">{{ page.next.title }} →</a>
+    {% endif %}
+  </nav>
+
+  <!-- ================= SUBSCRIBE PROMPT ================= -->
+  <div class="subscribe-prompt">
+    <p>Enjoyed this? Subscribe to get new posts via <a href="{{ "/feed.xml" | relative_url }}">RSS</a> or follow on <a href="https://twitter.com/{{ site.twitter_username }}" target="_blank">Twitter</a>.</p>
+  </div>
+
+  <!-- ================= COMMENTS ================= -->
+  {% if site.disqus.shortname %}
+    {% include disqus_comments.html %}
+  {% endif %}
+
 </article>
 
-<style>
-/* ================= POST STYLING ================= */
-.post-content{
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: var(--radius);
-  border:1px solid var(--border);
-  margin-bottom: 2rem;
+<!-- ================= SCHEMA.ORG JSON‑LD ================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.excerpt | strip_html | strip_newlines | jsonify }},
+  "author": {
+    "@type": "Person",
+    "name": {{ page.author | default: site.author | jsonify }}
+  },
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "image": {{ page.image | default: "/assets/images/default-social.jpg" | absolute_url | jsonify }},
+  "url": "{{ page.url | absolute_url }}",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.title | jsonify }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ '/assets/images/logo.png' | absolute_url }}"
+    }
+  }
 }
-
-.post-title{
-  font-size:2rem;
-  margin-bottom:0.5rem;
-}
-
-.post-meta{
-  font-size:14px;
-  color:#64748b;
-  margin-bottom:1.5rem;
-}
-
-.post-image img{
-  width:100%;
-  border-radius:var(--radius);
-  margin-bottom:1.5rem;
-}
-
-.entry-content{
-  line-height:1.8;
-  margin-bottom:1.5rem;
-}
-
-.post-tags{
-  margin-top:1rem;
-}
-.post-tags .tag{
-  display:inline-block;
-  background:var(--accent);
-  color:white;
-  font-size:12px;
-  padding:2px 8px;
-  border-radius:6px;
-  margin-right:5px;
-  margin-bottom:5px;
-}
-</style>
+</script>
