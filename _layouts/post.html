@@ -4,7 +4,7 @@ layout: default
 
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <!-- ================= PROGRESS BAR ================= -->
+  <!-- ================= PROGRESS BAR (optional) ================= -->
   <div class="progress-container">
     <div class="progress-bar" id="readingProgress"></div>
   </div>
@@ -37,20 +37,17 @@ layout: default
     {% include social-share.html %}
   </header>
 
-  <!-- ================= STICKY TOC + CONTENT (2‑COLUMN LAYOUT FOR DESKTOP) ================= -->
-  <div class="post-with-toc">
-    {% if page.toc %}
-    <aside class="toc-sidebar" id="tocSidebar">
-      <details class="toc" open>
-        <summary>Table of Contents</summary>
-        {{ content | toc_only }}
-      </details>
-    </aside>
-    {% endif %}
+  <!-- ================= TABLE OF CONTENTS (if enabled) ================= -->
+  {% if page.toc %}
+  <details class="toc" open>
+    <summary>Table of Contents</summary>
+    {{ content | toc_only }}
+  </details>
+  {% endif %}
 
-    <div class="post-content" itemprop="articleBody">
-      {{ content }}
-    </div>
+  <!-- ================= POST CONTENT ================= -->
+  <div class="post-content" itemprop="articleBody">
+    {{ content }}
   </div>
 
   <!-- ================= TAGS ================= -->
