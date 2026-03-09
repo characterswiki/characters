@@ -1,384 +1,63 @@
 <!DOCTYPE html>
-<html lang="{{ site.language | default: 'en' }}">
-
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <title>{{ page.title }} | {{ site.title }}</title>
+  <meta name="description" content="{{ page.excerpt | strip_html | default: site.description }}">
+  
+  <!-- SEO -->
   {% seo %}
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
+  <meta property="og:description" content="{{ page.excerpt | strip_html | default: site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/cloud-security.jpg">
 
-  <style>
-    /* ================= CSS VARIABLES & DARK MODE ================= */
-    :root {
-      --bg: #f6f7fb;
-      --text: #222;
-      --primary: #3b82f6;
-      --primary-dark: #2563eb;
-      --white: #ffffff;
-      --gray-light: #eee;
-      --gray: #777;
-      --shadow: 0 2px 10px rgba(0,0,0,0.05);
-      --radius: 10px;
-      --transition: all 0.3s ease;
-    }
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ page.title }} | {{ site.title }}">
+  <meta name="twitter:description" content="{{ page.excerpt | strip_html | default: site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/cloud-security.jpg">
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #111827;
-        --text: #f3f4f6;
-        --primary: #60a5fa;
-        --primary-dark: #3b82f6;
-        --white: #1f2937;
-        --gray-light: #374151;
-        --gray: #9ca3af;
-        --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+  <!-- CSS -->
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+
+  <!-- JS -->
+  <script src="{{ site.baseurl }}/assets/js/main.js" defer></script>
+
+  <!-- JSON-LD structured data -->
+  {% if page.layout == "post" %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "{{ page.title }}",
+    "datePublished": "{{ page.date | date_to_xmlschema }}",
+    "author": {
+      "@type": "Person",
+      "name": "{{ page.author | default: 'Characters Wiki Team' }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.title }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ site.url }}{{ site.baseurl }}/assets/images/cloud-security.jpg"
       }
     }
-
-    body.dark-mode {
-      --bg: #111827;
-      --text: #f3f4f6;
-      --primary: #60a5fa;
-      --primary-dark: #3b82f6;
-      --white: #1f2937;
-      --gray-light: #374151;
-      --gray: #9ca3af;
-      --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
-    }
-
-    /* ================= GLOBAL ================= */
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      transition: background 0.3s, color 0.3s;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    /* ================= HEADER ================= */
-    .site-header {
-      background: var(--white);
-      border-bottom: 1px solid var(--gray-light);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: background 0.3s;
-    }
-
-    .header-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 22px;
-      font-weight: 700;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .nav {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .nav a:hover {
-      color: var(--primary);
-    }
-
-    /* Dark mode toggle */
-    .dark-toggle {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      cursor: pointer;
-      color: var(--text);
-      padding: 0 5px;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 24px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: var(--text);
-    }
-
-    /* ================= LAYOUT ================= */
-    .site-wrapper {
-      display: grid;
-      grid-template-columns: 3fr 1fr;
-      gap: 40px;
-      margin-top: 30px;
-    }
-
-    /* ================= CONTENT ================= */
-    .content-area {
-      background: var(--white);
-      padding: 25px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: background 0.3s;
-    }
-
-    /* Fade‑in animation for main content */
-    .fade-in {
-      animation: fadeIn 0.5s ease-in;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ================= SIDEBAR ================= */
-    .sidebar .widget {
-      background: var(--white);
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      transition: background 0.3s;
-    }
-
-    .sidebar h3 {
-      margin-top: 0;
-      color: var(--text);
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar li {
-      margin-bottom: 8px;
-    }
-
-    .sidebar a {
-      text-decoration: none;
-      color: var(--text);
-      transition: color 0.2s;
-    }
-
-    .sidebar a:hover {
-      color: var(--primary);
-    }
-
-    /* ================= FOOTER ================= */
-    .site-footer {
-      margin-top: 40px;
-      background: var(--white);
-      padding: 20px;
-      text-align: center;
-      border-top: 1px solid var(--gray-light);
-      transition: background 0.3s;
-    }
-
-    /* ================= POSTS ================= */
-    .post-title {
-      margin-top: 0;
-    }
-
-    .post-meta {
-      color: var(--gray);
-      font-size: 14px;
-      margin-bottom: 15px;
-    }
-
-    /* ================= BACK TO TOP ================= */
-    .back-to-top {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      background: var(--primary);
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      opacity: 0;
-      transition: opacity 0.3s, background 0.2s;
-      pointer-events: none;
-      z-index: 99;
-    }
-
-    .back-to-top.visible {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .back-to-top:hover {
-      background: var(--primary-dark);
-    }
-
-    /* ================= MOBILE ================= */
-    @media (max-width: 900px) {
-      .site-wrapper {
-        grid-template-columns: 1fr;
-      }
-
-      .nav {
-        display: none;
-        flex-direction: column;
-        background: var(--white);
-        position: absolute;
-        top: 60px;
-        right: 20px;
-        padding: 20px;
-        box-shadow: var(--shadow);
-        border-radius: var(--radius);
-        gap: 15px;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- ================= HEADER ================= -->
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="logo" href="{{ '/' | relative_url }}">
-        {{ site.title }}
-      </a>
-
-      <nav class="nav" id="navMenu">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/categories' | relative_url }}">Categories</a>
-        <a href="{{ '/about' | relative_url }}">About</a>
-        <a href="{{ '/search' | relative_url }}">Search</a>
-        <button class="dark-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌓</button>
-      </nav>
-
-      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
-    </div>
-  </header>
-
-  <!-- ================= MAIN ================= -->
-  <div class="site-wrapper container">
-    <!-- ===== CONTENT ===== -->
-    <main class="content-area fade-in" id="mainContent">
-      {{ content }}
-    </main>
-
-    <!-- ===== SIDEBAR ===== -->
-    <aside class="sidebar">
-      <div class="widget">
-        <h3>Recent Posts</h3>
-        <ul>
-          {% for post in site.posts limit:5 %}
-          <li>
-            <a href="{{ post.url | relative_url }}">
-              {{ post.title }}
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div class="widget">
-        <h3>Categories</h3>
-        <ul>
-          {% for category in site.categories %}
-          <li>
-            <a href="{{ '/categories/#' | append: category[0] | relative_url }}">
-              {{ category[0] }} ({{ category[1].size }})
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </aside>
-  </div>
-
-  <!-- ================= FOOTER ================= -->
-  <footer class="site-footer">
-    <div class="container">
-      <p>© {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <!-- ================= BACK TO TOP BUTTON ================= -->
-  <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
-
-  <!-- ================= JS ================= -->
-  <script>
-    // Mobile menu toggle
-    function toggleMenu() {
-      var nav = document.getElementById("navMenu");
-      if (nav.style.display === "flex") {
-        nav.style.display = "none";
-      } else {
-        nav.style.display = "flex";
-      }
-    }
-
-    // Dark mode toggle
-    const darkToggle = document.getElementById('darkModeToggle');
-    const body = document.body;
-
-    // Check for saved preference
-    if (localStorage.getItem('darkMode') === 'true') {
-      body.classList.add('dark-mode');
-    }
-
-    darkToggle.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
-    });
-
-    // Back to top button
-    const backToTop = document.getElementById('backToTop');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) {
-        backToTop.classList.add('visible');
-      } else {
-        backToTop.classList.remove('visible');
-      }
-    });
-
-    backToTop.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Optional: close mobile menu when clicking a link
-    document.querySelectorAll('#navMenu a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (window.innerWidth <= 900) {
-          document.getElementById('navMenu').style.display = 'none';
-        }
-      });
-    });
+  }
   </script>
+  {% endif %}
+</head>
+<body>
+  {% include header.html %}
+  <main>
+    {{ content }}
+  </main>
+  {% include sidebar.html %}
+  {% include footer.html %}
 </body>
 </html>
