@@ -1,15 +1,51 @@
+# Site Info
 title: Characters Wiki
-description: A comprehensive wiki for fictional and real-life characters.
+description: "The ultimate wiki for fictional and real-life characters with detailed info, images, and categories."
 baseurl: "/characters"
 url: "https://characterswiki.github.io"
+language: en
+timezone: "UTC"
 theme: minima
+exclude:
+  - README.md
+  - node_modules
+  - vendor/bundle
+  - Gemfile
+  - Gemfile.lock
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter_opts:
+    line_numbers: true
+
+# Plugins
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-markdown: kramdown
+  - jekyll-paginate
+  - jekyll-archives
 
-# Defaults for posts
+# Pagination
+paginate: 6
+paginate_path: "/page:num/"
+
+# Archives
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive
+    tag: archive
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
+
+# Defaults
 defaults:
   - scope:
       path: ""
@@ -17,8 +53,27 @@ defaults:
     values:
       layout: post
       author: "Characters Wiki Team"
+      image: "/assets/images/default-post.jpg"
 
-# Social profiles (for SEO/Open Graph)
+# Social Profiles (SEO/Open Graph)
 social:
   twitter: characterswiki
   github: characterswiki
+  facebook: characterswiki
+  linkedin: characterswiki
+
+# SEO & Open Graph
+seo:
+  title: "Characters Wiki"
+  description: "A comprehensive wiki for fictional and real-life characters"
+  twitter: 
+    card: summary_large_image
+  opengraph:
+    type: website
+    image: "/assets/images/default-post.jpg"
+
+# Build Settings
+future: true
+lsi: true
+incremental: true
+keep_files: ["assets", ".git"]
