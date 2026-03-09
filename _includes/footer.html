@@ -1,13 +1,7 @@
 <footer class="site-footer">
-  <div class="footer-container">
-    <div class="footer-section">
-      <h4>{{ site.title }}</h4>
-      <p>{{ site.description }}</p>
-    </div>
-    <div class="footer-section">
-      <a href="https://github.com/{{ site.github_username }}"><i class="fa-brands fa-github"></i> GitHub</a>
-      <a href="{{ '/rss.xml' | relative_url }}"><i class="fa-solid fa-rss"></i> RSS</a>
-    </div>
+  <p>&copy; {{ site.time | date: "%Y" }} {{ site.title }}. All rights reserved.</p>
+  <div class="social">
+    <a href="https://twitter.com/{{ site.social.twitter }}">Twitter</a> |
+    <a href="https://github.com/{{ site.social.github }}">GitHub</a>
   </div>
-  <p class="footer-bottom">&copy; {{ "now" | date: "%Y" }} {{ site.title }}. Built for Speed & SEO.</p>
 </footer>
