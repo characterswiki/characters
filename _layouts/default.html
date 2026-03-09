@@ -2,315 +2,383 @@
 <html lang="{{ site.language | default: 'en' }}">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-{% seo %}
+  {% seo %}
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ================= CSS VARIABLES & DARK MODE ================= */
+    :root {
+      --bg: #f6f7fb;
+      --text: #222;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --white: #ffffff;
+      --gray-light: #eee;
+      --gray: #777;
+      --shadow: 0 2px 10px rgba(0,0,0,0.05);
+      --radius: 10px;
+      --transition: all 0.3s ease;
+    }
 
-<style>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111827;
+        --text: #f3f4f6;
+        --primary: #60a5fa;
+        --primary-dark: #3b82f6;
+        --white: #1f2937;
+        --gray-light: #374151;
+        --gray: #9ca3af;
+        --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+      }
+    }
 
-/* ================= GLOBAL ================= */
+    body.dark-mode {
+      --bg: #111827;
+      --text: #f3f4f6;
+      --primary: #60a5fa;
+      --primary-dark: #3b82f6;
+      --white: #1f2937;
+      --gray-light: #374151;
+      --gray: #9ca3af;
+      --shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+    }
 
-body{
-font-family:'Plus Jakarta Sans',sans-serif;
-margin:0;
-background:#f6f7fb;
-color:#222;
-line-height:1.6;
-}
+    /* ================= GLOBAL ================= */
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
 
-.container{
-max-width:1200px;
-margin:auto;
-padding:20px;
-}
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
 
-/* ================= HEADER ================= */
+    /* ================= HEADER ================= */
+    .site-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background 0.3s;
+    }
 
-.site-header{
-background:white;
-border-bottom:1px solid #eee;
-position:sticky;
-top:0;
-z-index:100;
-}
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-.header-inner{
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text);
+    }
 
-.logo{
-font-size:22px;
-font-weight:700;
-text-decoration:none;
-color:#111;
-}
+    .nav {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
 
-.nav{
-display:flex;
-gap:20px;
-}
+    .nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
 
-.nav a{
-text-decoration:none;
-color:#444;
-font-weight:500;
-}
+    .nav a:hover {
+      color: var(--primary);
+    }
 
-.nav a:hover{
-color:#000;
-}
+    /* Dark mode toggle */
+    .dark-toggle {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text);
+      padding: 0 5px;
+    }
 
-.menu-toggle{
-display:none;
-font-size:24px;
-background:none;
-border:none;
-cursor:pointer;
-}
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text);
+    }
 
-/* ================= LAYOUT ================= */
+    /* ================= LAYOUT ================= */
+    .site-wrapper {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      gap: 40px;
+      margin-top: 30px;
+    }
 
-.site-wrapper{
-display:grid;
-grid-template-columns:3fr 1fr;
-gap:40px;
-margin-top:30px;
-}
+    /* ================= CONTENT ================= */
+    .content-area {
+      background: var(--white);
+      padding: 25px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: background 0.3s;
+    }
 
-/* ================= CONTENT ================= */
+    /* Fade‑in animation for main content */
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
 
-.content-area{
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
-/* ================= SIDEBAR ================= */
+    /* ================= SIDEBAR ================= */
+    .sidebar .widget {
+      background: var(--white);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      transition: background 0.3s;
+    }
 
-.sidebar .widget{
-background:white;
-padding:20px;
-margin-bottom:20px;
-border-radius:10px;
-box-shadow:0 2px 10px rgba(0,0,0,0.05);
-}
+    .sidebar h3 {
+      margin-top: 0;
+      color: var(--text);
+    }
 
-.sidebar h3{
-margin-top:0;
-}
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
 
-.sidebar ul{
-list-style:none;
-padding:0;
-}
+    .sidebar li {
+      margin-bottom: 8px;
+    }
 
-.sidebar li{
-margin-bottom:8px;
-}
+    .sidebar a {
+      text-decoration: none;
+      color: var(--text);
+      transition: color 0.2s;
+    }
 
-.sidebar a{
-text-decoration:none;
-color:#333;
-}
+    .sidebar a:hover {
+      color: var(--primary);
+    }
 
-.sidebar a:hover{
-color:#000;
-}
+    /* ================= FOOTER ================= */
+    .site-footer {
+      margin-top: 40px;
+      background: var(--white);
+      padding: 20px;
+      text-align: center;
+      border-top: 1px solid var(--gray-light);
+      transition: background 0.3s;
+    }
 
-/* ================= FOOTER ================= */
+    /* ================= POSTS ================= */
+    .post-title {
+      margin-top: 0;
+    }
 
-.site-footer{
-margin-top:40px;
-background:white;
-padding:20px;
-text-align:center;
-border-top:1px solid #eee;
-}
+    .post-meta {
+      color: var(--gray);
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
 
-/* ================= POSTS ================= */
+    /* ================= BACK TO TOP ================= */
+    .back-to-top {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--primary);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      opacity: 0;
+      transition: opacity 0.3s, background 0.2s;
+      pointer-events: none;
+      z-index: 99;
+    }
 
-.post-title{
-margin-top:0;
-}
+    .back-to-top.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-.post-meta{
-color:#777;
-font-size:14px;
-margin-bottom:15px;
-}
+    .back-to-top:hover {
+      background: var(--primary-dark);
+    }
 
-/* ================= MOBILE ================= */
+    /* ================= MOBILE ================= */
+    @media (max-width: 900px) {
+      .site-wrapper {
+        grid-template-columns: 1fr;
+      }
 
-@media(max-width:900px){
+      .nav {
+        display: none;
+        flex-direction: column;
+        background: var(--white);
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        border-radius: var(--radius);
+        gap: 15px;
+      }
 
-.site-wrapper{
-grid-template-columns:1fr;
-}
-
-.nav{
-display:none;
-flex-direction:column;
-background:white;
-position:absolute;
-top:60px;
-right:20px;
-padding:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
-border-radius:10px;
-}
-
-.menu-toggle{
-display:block;
-}
-
-}
-
-</style>
-
+      .menu-toggle {
+        display: block;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
-<!-- ================= HEADER ================= -->
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="{{ '/' | relative_url }}">
+        {{ site.title }}
+      </a>
 
-<header class="site-header">
+      <nav class="nav" id="navMenu">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <a href="{{ '/categories' | relative_url }}">Categories</a>
+        <a href="{{ '/about' | relative_url }}">About</a>
+        <a href="{{ '/search' | relative_url }}">Search</a>
+        <button class="dark-toggle" id="darkModeToggle" aria-label="Toggle dark mode">🌓</button>
+      </nav>
 
-<div class="container header-inner">
+      <button class="menu-toggle" onclick="toggleMenu()" aria-label="Menu">☰</button>
+    </div>
+  </header>
 
-<a class="logo" href="{{ '/' | relative_url }}">
-{{ site.title }}
-</a>
+  <!-- ================= MAIN ================= -->
+  <div class="site-wrapper container">
+    <!-- ===== CONTENT ===== -->
+    <main class="content-area fade-in" id="mainContent">
+      {{ content }}
+    </main>
 
-<nav class="nav" id="navMenu">
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+      <div class="widget">
+        <h3>Recent Posts</h3>
+        <ul>
+          {% for post in site.posts limit:5 %}
+          <li>
+            <a href="{{ post.url | relative_url }}">
+              {{ post.title }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
 
-<a href="{{ '/' | relative_url }}">Home</a>
-<a href="{{ '/categories' | relative_url }}">Categories</a>
-<a href="{{ '/about' | relative_url }}">About</a>
+      <div class="widget">
+        <h3>Categories</h3>
+        <ul>
+          {% for category in site.categories %}
+          <li>
+            <a href="{{ '/categories/#' | append: category[0] | relative_url }}">
+              {{ category[0] }} ({{ category[1].size }})
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </div>
 
-</nav>
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+    </div>
+  </footer>
 
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  <!-- ================= BACK TO TOP BUTTON ================= -->
+  <a href="#" class="back-to-top" id="backToTop" aria-label="Back to top">↑</a>
 
-</div>
+  <!-- ================= JS ================= -->
+  <script>
+    // Mobile menu toggle
+    function toggleMenu() {
+      var nav = document.getElementById("navMenu");
+      if (nav.style.display === "flex") {
+        nav.style.display = "none";
+      } else {
+        nav.style.display = "flex";
+      }
+    }
 
-</header>
+    // Dark mode toggle
+    const darkToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
 
+    // Check for saved preference
+    if (localStorage.getItem('darkMode') === 'true') {
+      body.classList.add('dark-mode');
+    }
 
+    darkToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
+    });
 
-<!-- ================= MAIN ================= -->
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('visible');
+      } else {
+        backToTop.classList.remove('visible');
+      }
+    });
 
-<div class="site-wrapper container">
+    backToTop.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 
-<!-- ===== CONTENT ===== -->
-
-<main class="content-area">
-
-{{ content }}
-
-</main>
-
-
-
-<!-- ===== SIDEBAR ===== -->
-
-<aside class="sidebar">
-
-<div class="widget">
-
-<h3>Recent Posts</h3>
-
-<ul>
-
-{% for post in site.posts limit:5 %}
-
-<li>
-<a href="{{ post.url | relative_url }}">
-{{ post.title }}
-</a>
-</li>
-
-{% endfor %}
-
-</ul>
-
-</div>
-
-
-
-<div class="widget">
-
-<h3>Categories</h3>
-
-<ul>
-
-{% for category in site.categories %}
-
-<li>
-
-<a href="{{ '/categories/#' | append: category[0] | relative_url }}">
-
-{{ category[0] }} ({{ category[1].size }})
-
-</a>
-
-</li>
-
-{% endfor %}
-
-</ul>
-
-</div>
-
-</aside>
-
-</div>
-
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer class="site-footer">
-
-<div class="container">
-
-<p>
-© {{ site.time | date: '%Y' }} {{ site.title }}  
-All rights reserved.
-</p>
-
-</div>
-
-</footer>
-
-
-
-<!-- ================= JS ================= -->
-
-<script>
-
-function toggleMenu(){
-
-var nav=document.getElementById("navMenu");
-
-if(nav.style.display==="flex"){
-nav.style.display="none";
-}else{
-nav.style.display="flex";
-}
-
-}
-
-</script>
-
+    // Optional: close mobile menu when clicking a link
+    document.querySelectorAll('#navMenu a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 900) {
+          document.getElementById('navMenu').style.display = 'none';
+        }
+      });
+    });
+  </script>
 </body>
 </html>
