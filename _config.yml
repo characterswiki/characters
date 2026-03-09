@@ -1,75 +1,24 @@
-# Site settings
-title: "Characters Wiki"
-email: your-email@example.com
-description: >-
-  A wiki and blog about fictional characters – their stories, traits,
-  and the worlds they inhabit.
-baseurl: "/characters"                  # if your site is in a subdirectory
-url: "https://characterswiki.github.io"  # your GitHub Pages URL
-twitter_username: your-twitter
-github_username:  your-github
-language: en                             # used in <html lang="...">
-
-# Build settings
-theme: null
+title: Characters Wiki
+description: A comprehensive wiki for fictional and real-life characters.
+baseurl: "/characters"
+url: "https://characterswiki.github.io"
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-archives
-  - jekyll-paginate-v2
-  - jekyll-tagging
+markdown: kramdown
 
-# Pagination v2 (for home page and category/tag archives)
-pagination:
-  enabled: true
-  per_page: 5
-  permalink: '/page/:num/'
-  title: ':title – page :num'
-  limit: 0
-  sort_field: 'date'
-  sort_reverse: true
-
-# jekyll-archives – generates category and tag pages
-jekyll-archives:
-  enabled:
-    - categories
-    - tags
-  layouts:
-    category: archive
-    tag: archive
-  permalinks:
-    category: /categories/:name/
-    tag: /tags/:name/
-
-# jekyll-tagging – for tag clouds and tag pages
-tag_page_layout: tag_page
-tag_page_dir: tag
-tag_permalink_style: pretty
-
-# Default front matter
+# Defaults for posts
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
-      layout: "post"
-      author: "Your Name"
-      image: /assets/images/default-social.jpg   # fallback for social cards
-      toc: true                                   # enable table of contents
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "page"
+      layout: post
+      author: "Characters Wiki Team"
 
-# Exclude from processing
-exclude:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - vendor/
-  - README.md
+# Social profiles (for SEO/Open Graph)
+social:
+  twitter: characterswiki
+  github: characterswiki
