@@ -1,14 +1,156 @@
 <header class="site-header">
   <div class="container header-flex">
+
+    <!-- Logo / Brand -->
     <a class="site-brand" href="{{ '/' | relative_url }}">
       <i class="fa-solid fa-dna"></i> {{ site.title }}
     </a>
-    <nav class="site-nav">
+
+    <!-- Navigation -->
+    <nav class="site-nav" id="navMenu">
       <ul class="nav-links">
+        <li><a href="{{ '/' | relative_url }}">Home</a></li>
         <li><a href="{{ '/about' | relative_url }}">About</a></li>
         <li><a href="{{ '/categories' | relative_url }}">Categories</a></li>
         <li><a href="{{ '/search' | relative_url }}"><i class="fa-solid fa-magnifying-glass"></i></a></li>
       </ul>
     </nav>
+
+    <!-- Hamburger Menu -->
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle Menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
   </div>
 </header>
+
+<style>
+/* ================= HEADER STYLING ================= */
+.site-header{
+  width:100%;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background: linear-gradient(90deg, #7c3aed, #a855f7);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  color:white;
+}
+.header-flex{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:1rem 2rem;
+}
+.site-brand{
+  font-weight:700;
+  font-size:1.8rem;
+  display:flex;
+  align-items:center;
+  gap:0.5rem;
+  color:white;
+  text-decoration:none;
+  transition: transform 0.3s;
+}
+.site-brand:hover{
+  transform: scale(1.05);
+}
+
+/* ================= NAVIGATION ================= */
+.site-nav ul{
+  list-style:none;
+  display:flex;
+  gap:2rem;
+  margin:0;
+  padding:0;
+}
+.site-nav a{
+  color:white;
+  font-weight:500;
+  text-decoration:none;
+  position:relative;
+  transition: color 0.3s;
+}
+.site-nav a:hover{
+  color:#ffe600;
+}
+.site-nav a::after{
+  content:'';
+  position:absolute;
+  width:0;
+  height:2px;
+  bottom:-4px;
+  left:0;
+  background:#ffe600;
+  transition:width 0.3s;
+}
+.site-nav a:hover::after{
+  width:100%;
+}
+
+/* ================= HAMBURGER ================= */
+.menu-toggle{
+  display:none;
+  flex-direction:column;
+  justify-content:space-between;
+  width:24px;
+  height:18px;
+  background:none;
+  border:none;
+  cursor:pointer;
+}
+.menu-toggle span{
+  display:block;
+  height:3px;
+  background:white;
+  border-radius:2px;
+  transition: all 0.3s;
+}
+
+/* ================= MOBILE ================= */
+@media(max-width:900px){
+  .site-nav ul{
+    flex-direction:column;
+    position:absolute;
+    top:70px;
+    right:20px;
+    background:#7c3aed;
+    padding:1.5rem;
+    border-radius:12px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
+    display:none;
+    gap:1rem;
+    width:200px;
+  }
+  .site-nav ul.show{
+    display:flex;
+    animation: slideDown 0.3s ease forwards;
+  }
+  .menu-toggle{
+    display:flex;
+  }
+}
+
+@keyframes slideDown{
+  0%{opacity:0; transform: translateY(-10px);}
+  100%{opacity:1; transform: translateY(0);}
+}
+</style>
+
+<script>
+// ================= MOBILE MENU =================
+const menuToggle = document.getElementById('menuToggle');
+const navMenu = document.querySelector('.site-nav ul');
+
+menuToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('show');
+});
+
+// Close menu when clicking outside
+document.addEventListener('click', e => {
+  if(!navMenu.contains(e.target) && !menuToggle.contains(e.target)){
+    navMenu.classList.remove('show');
+  }
+});
+</script>
