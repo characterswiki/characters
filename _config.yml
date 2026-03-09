@@ -15,8 +15,8 @@ plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-archives
-  - jekyll-paginate-v2      # advanced pagination
-  - jekyll-tagging           # tag pages and cloud
+  - jekyll-paginate-v2
+  - jekyll-tagging
 
 # Pagination v2
 pagination:
@@ -28,7 +28,7 @@ pagination:
   sort_field: 'date'
   sort_reverse: true
 
-# jekyll-archives configuration
+# jekyll-archives
 jekyll-archives:
   enabled:
     - categories
@@ -40,7 +40,7 @@ jekyll-archives:
     category: /categories/:name/
     tag: /tags/:name/
 
-# Tag cloud settings (for jekyll-tagging)
+# jekyll-tagging
 tag_page_layout: tag_page
 tag_page_dir: tag
 tag_permalink_style: pretty
@@ -53,7 +53,7 @@ defaults:
     values:
       layout: "post"
       author: "Your Name"
-      image: /assets/images/default-social.jpg   # fallback social image
+      image: /assets/images/default-social.jpg
   - scope:
       path: ""
       type: "pages"
