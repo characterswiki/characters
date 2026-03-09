@@ -1,116 +1,50 @@
-# -----------------------------
-# SITE IDENTITY
-# -----------------------------
 title: "Characters Wiki"
-description: "A comprehensive database for character profiles, power levels, and lore."
-url: "https://characterswiki.github.io"
-baseurl: "/characters"   # Required for GitHub project pages
+email: your-email@example.com
+description: >-
+  A wiki and blog about fictional characters – their stories, traits,
+  and the worlds they inhabit.
+baseurl: "/characters" # the subpath of your site, e.g. /blog
+url: "https://characterswiki.github.io" # the base hostname & protocol
+twitter_username: your-twitter
+github_username:  your-github
 
-author:
-  name: "Characters Wiki"
-  email: "contact@characterswiki.com"
-
-language: "en"
-
-# -----------------------------
-# SEO SETTINGS
-# -----------------------------
-permalink: /:categories/:title/
-
-timezone: Asia/Karachi
-
-markdown: kramdown
-highlighter: rouge
-
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-
-# -----------------------------
-# PLUGINS
-# -----------------------------
+# Build settings
+theme: null # we use custom styles
 plugins:
-  - jekyll-seo-tag
-  - jekyll-sitemap
   - jekyll-feed
-  - jekyll-gist
-  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-archives
 
-# -----------------------------
-# PAGINATION
-# -----------------------------
-paginate: 10
-paginate_path: "/page/:num/"
+# Permalinks
+permalink: /:year/:month/:day/:title/
 
-# -----------------------------
-# COLLECTIONS
-# -----------------------------
-collections:
-  characters:
-    output: true
-    permalink: /characters/:name/
+# Collections (if any)
+# collections:
+#   characters:
+#     output: true
 
-# -----------------------------
-# DEFAULT FRONT MATTER
-# -----------------------------
+# Default front matter
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
-      author: "Characters Wiki"
-
+      author: "Your Name"
   - scope:
       path: ""
-      type: "characters"
+      type: "pages"
     values:
       layout: "page"
 
-# -----------------------------
-# BUILD SETTINGS
-# -----------------------------
+# Exclude from processing
 exclude:
-  - README.md
-  - node_modules
-  - vendor
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
   - Gemfile
   - Gemfile.lock
-
-include:
-  - _pages
-
-# -----------------------------
-# SASS / CSS
-# -----------------------------
-sass:
-  style: compressed
-
-# -----------------------------
-# FEED SETTINGS
-# -----------------------------
-feed:
-  path: rss.xml
-
-# -----------------------------
-# SOCIAL (Used by SEO plugin)
-# -----------------------------
-twitter:
-  username: characterswiki
-
-social:
-  name: Characters Wiki
-  links:
-    - https://github.com/characterswiki
-
-# -----------------------------
-# GOOGLE SEARCH CONSOLE
-# -----------------------------
-google_site_verification: ""
-
-# -----------------------------
-# PERFORMANCE
-# -----------------------------
-lsi: false
-safe: true
-incremental: false
+  - node_modules/
+  - vendor/
+  - README.md
