@@ -1,48 +1,7 @@
 ---
 layout: default
 ---
-<div class="static-page">
-
-  <!-- Page Header -->
-  <header class="page-header">
-    <h1>{{ page.title }}</h1>
-  </header>
-
-  <!-- Page Content -->
-  <div class="page-body">
-    {{ content }}
-  </div>
-
-</div>
-
-<style>
-/* ================= STATIC PAGE STYLING ================= */
-.static-page{
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: var(--radius);
-  border:1px solid var(--border);
-  margin-bottom: 2rem;
-}
-
-.page-header h1{
-  font-size:2rem;
-  margin-bottom:1rem;
-  color: var(--text);
-}
-
-.page-body{
-  line-height:1.8;
-  color: var(--text);
-}
-
-/* ================= MOBILE ================= */
-@media(max-width:640px){
-  .static-page{
-    padding: 1rem;
-  }
-  .page-header h1{
-    font-size:1.75rem;
-  }
-}
-</style>
+<article class="page-detail">
+  <h1>{{ page.title }}</h1>
+  <div>{{ content }}</div>
+</article>
