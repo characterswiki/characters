@@ -3,28 +3,49 @@ email: your-email@example.com
 description: >-
   A wiki and blog about fictional characters – their stories, traits,
   and the worlds they inhabit.
-baseurl: "/characters" # the subpath of your site, e.g. /blog
-url: "https://characterswiki.github.io" # the base hostname & protocol
+baseurl: "/characters"
+url: "https://characterswiki.github.io"
 twitter_username: your-twitter
 github_username:  your-github
 
 # Build settings
-theme: null # we use custom styles
+theme: null
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-archives
+  - jekyll-paginate-v2      # advanced pagination
+  - jekyll-tagging           # tag pages and cloud
 
-# Permalinks
-permalink: /:year/:month/:day/:title/
+# Pagination v2
+pagination:
+  enabled: true
+  per_page: 5
+  permalink: '/page/:num/'
+  title: ':title – page :num'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
 
-# Collections (if any)
-# collections:
-#   characters:
-#     output: true
+# jekyll-archives configuration
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive
+    tag: archive
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
 
-# Default front matter
+# Tag cloud settings (for jekyll-tagging)
+tag_page_layout: tag_page
+tag_page_dir: tag
+tag_permalink_style: pretty
+
+# Defaults
 defaults:
   - scope:
       path: ""
@@ -32,13 +53,14 @@ defaults:
     values:
       layout: "post"
       author: "Your Name"
+      image: /assets/images/default-social.jpg   # fallback social image
   - scope:
       path: ""
       type: "pages"
     values:
       layout: "page"
 
-# Exclude from processing
+# Exclude
 exclude:
   - .sass-cache/
   - .jekyll-cache/
