@@ -1,16 +1,12 @@
 <header class="site-header">
-  <div class="header-container">
-    <a href="{{ '/' | relative_url }}" class="site-logo">🏮 CharactersWiki</a>
-    <button class="menu-toggle">☰</button>
-    <nav class="main-nav">
-      <a href="{{ '/' | relative_url }}">Home</a>
-      <a href="{{ '/categories/' | relative_url }}">Categories</a>
-      <a href="{{ '/tags/' | relative_url }}">Tags</a>
-      <a href="{{ '/about/' | relative_url }}">About</a>
-      <a href="{{ '/contact/' | relative_url }}">Contact</a>
-    </nav>
-    <div class="search-box">
-      <input type="text" placeholder="Search characters...">
-    </div>
-  </div>
+  <div class="logo"><a href="{{ site.baseurl }}/">{{ site.title }}</a></div>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="{{ site.baseurl }}/">Home</a></li>
+      <li><a href="{{ site.baseurl }}/about.html">About</a></li>
+      <li><a href="{{ site.baseurl }}/categories.html">Categories</a></li>
+    </ul>
+  </nav>
+  <button class="menu-toggle" aria-label="Toggle Menu">☰</button>
+  <input type="search" placeholder="Search..." id="search-input">
 </header>
