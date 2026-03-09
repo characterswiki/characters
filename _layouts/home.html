@@ -1,241 +1,81 @@
 ---
 layout: default
-title: Home
 ---
 
-{% include header.html %}
+<div class="home">
 
-<!-- ================= CHARACTER GRID ================= -->
-<div class="character-grid">
-  {% assign posts = site.posts | sort: "title" %}
-  {% for post in posts %}
-  <a href="{{ post.url | relative_url }}" class="character-card" aria-label="View profile of {{ post.title }}">
-    
-    <!-- IMAGE -->
-    <div class="card-img-wrapper">
-      {% if post.image %}
-        {% assign img = post.image | remove_first: "/" %}
-        <img src="{{ img | relative_url }}"
-             alt="{{ post.title }} character image"
-             loading="lazy"
-             decoding="async">
-      {% else %}
-        <img src="{{ '/characters/assets/images/placeholder.jpg' | relative_url }}"
-             alt="No image available"
-             loading="lazy">
-      {% endif %}
-      
-      {% if post.categories and post.categories.size > 0 %}
-        <span class="card-category">{{ post.categories | first }}</span>
-      {% endif %}
+  <!-- ================= HERO / INTRO (optional) ================= -->
+  <section class="hero">
+    <h1 class="hero-title">Welcome to {{ site.title }}</h1>
+    <p class="hero-description">{{ site.description }}</p>
+  </section>
+
+  <!-- ================= FEATURED POSTS (if any) ================= -->
+  {% assign featured = site.posts | where: "featured", true %}
+  {% if featured.size > 0 %}
+  <section class="featured-posts">
+    <h2 class="section-heading">⭐ Featured Posts</h2>
+    <div class="featured-grid">
+      {% for post in featured limit:3 %}
+      <article class="featured-card">
+        {% if post.image %}
+        <div class="card-image">
+          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+        </div>
+        {% endif %}
+        <div class="card-content">
+          <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+          <p class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</p>
+          <p>{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+        </div>
+      </article>
+      {% endfor %}
     </div>
-    
-    <!-- INFO -->
-    <div class="card-info">
-      <h3 class="card-title">{{ post.title }}</h3>
-      <p class="card-excerpt">{{ post.excerpt | strip_html | truncate:100 }}</p>
-      <span class="read-more">Read More →</span>
-    </div>
-  </a>
-  {% endfor %}
+  </section>
+  {% endif %}
+
+  <!-- ================= LATEST POSTS (PAGINATED) ================= -->
+  <section class="latest-posts">
+    <h2 class="section-heading">Latest Thoughts</h2>
+
+    {% if paginator.total_posts == 0 %}
+      <p>No posts yet. Check back soon!</p>
+    {% else %}
+      <ul class="post-list">
+        {% for post in paginator.posts %}
+        <li class="post-item">
+          <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+          <h2>
+            <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a>
+          </h2>
+          <p class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+          {% if post.categories.size > 0 %}
+          <div class="post-categories">
+            {% for category in post.categories %}
+            <a href="{{ '/categories/#' | append: category | relative_url }}" class="category-tag">{{ category }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <!-- ================= PAGINATION LINKS ================= -->
+      {% if paginator.total_pages > 1 %}
+      <nav class="pagination" role="navigation" aria-label="pagination">
+        {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="pagination-previous">← Newer</a>
+        {% endif %}
+        <span class="pagination-page-info">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+        {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="pagination-next">Older →</a>
+        {% endif %}
+      </nav>
+      {% endif %}
+    {% endif %}
+  </section>
+
+  <!-- ================= RSS SUBSCRIBE ================= -->
+  <p class="rss-subscribe">📡 subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+
 </div>
-
-{% include footer.html %}
-
-<!-- ================= INLINE CSS ================= -->
-<style>
-/* ================= RESET + BASE ================= */
-body{
-  margin:0;
-  font-family:'Outfit',sans-serif;
-  background:#f8fafc;
-  color:#1e293b;
-  line-height:1.6;
-}
-
-/* ================= HEADER ================= */
-.site-header{
-  background:linear-gradient(135deg,#7c3aed,#a855f7);
-  color:white;
-  padding:14px 0;
-  box-shadow:0 4px 20px rgba(0,0,0,.2);
-  position:sticky;
-  top:0;
-  z-index:1000;
-}
-.header-container{
-  max-width:1200px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  flex-wrap:wrap;
-  padding:0 20px;
-}
-.site-logo{
-  font-size:22px;
-  font-weight:700;
-  text-decoration:none;
-  color:white;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  transition: transform .3s;
-}
-.site-logo:hover{transform:scale(1.05);}
-.main-nav{
-  display:flex;
-  gap:25px;
-}
-.main-nav a{
-  color:#ddd;
-  text-decoration:none;
-  font-size:15px;
-  font-weight:500;
-  transition:.2s;
-}
-.main-nav a:hover{color:#ffe600;}
-.search-box{
-  background:white;
-  border-radius:30px;
-  padding:6px 12px;
-  display:flex;
-  align-items:center;
-}
-.search-box input{
-  border:none;
-  outline:none;
-  font-size:14px;
-  padding:6px;
-}
-.menu-toggle{
-  display:none;
-  font-size:22px;
-  background:none;
-  border:none;
-  color:white;
-  cursor:pointer;
-}
-
-/* ================= CHARACTER GRID ================= */
-.character-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:24px;
-  padding:40px 20px;
-}
-.character-card{
-  display:block;
-  background:#ffffff;
-  border-radius:14px;
-  overflow:hidden;
-  text-decoration:none;
-  color:#222;
-  box-shadow:0 4px 12px rgba(0,0,0,0.08);
-  transition:transform .25s ease, box-shadow .25s ease;
-}
-.character-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 12px 30px rgba(0,0,0,0.15);
-}
-.card-img-wrapper{
-  position:relative;
-  width:100%;
-  aspect-ratio:4/5; /* Ensures all images same size */
-  overflow:hidden;
-  background:#f3f3f3;
-}
-.card-img-wrapper img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:transform .3s ease;
-}
-.character-card:hover img{transform:scale(1.05);}
-.card-category{
-  position:absolute;
-  bottom:10px;
-  left:10px;
-  background:#ff4757;
-  color:#fff;
-  padding:4px 10px;
-  font-size:12px;
-  border-radius:6px;
-  font-weight:600;
-}
-.card-info{
-  padding:16px;
-}
-.card-title{
-  margin:0 0 8px 0;
-  font-size:17px;
-  font-weight:700;
-  line-height:1.3;
-}
-.card-excerpt{
-  font-size:13px;
-  color:#666;
-  margin-bottom:10px;
-  line-height:1.5;
-}
-.read-more{
-  font-size:13px;
-  font-weight:600;
-  color:#ff4757;
-}
-
-/* ================= FOOTER ================= */
-.site-footer{
-  background:#0f172a;
-  color:#cbd5e1;
-  margin-top:60px;
-  padding:50px 20px 20px;
-}
-.footer-container{
-  max-width:1200px;
-  margin:auto;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:40px;
-}
-.footer-section h4{
-  color:white;
-  margin-bottom:12px;
-  font-size:16px;
-}
-.footer-section p{
-  font-size:14px;
-  line-height:1.6;
-}
-.footer-section a{
-  color:#cbd5e1;
-  text-decoration:none;
-  font-size:14px;
-}
-.footer-section a:hover{color:#ff4757;}
-.footer-bottom{
-  text-align:center;
-  margin-top:40px;
-  border-top:1px solid #1e293b;
-  padding-top:15px;
-  font-size:13px;
-  color:#94a3b8;
-}
-
-/* ================= MOBILE ================= */
-@media(max-width:768px){
-  .main-nav{display:none;width:100%;flex-direction:column;margin-top:15px;}
-  .main-nav.show{display:flex;}
-  .menu-toggle{display:block;}
-  .search-box{margin-top:10px;width:100%;}
-  .character-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;}
-  .card-title{font-size:15px;}
-}
-</style>
-
-<!-- ================= MOBILE MENU TOGGLE ================= -->
-<script>
-const toggle=document.querySelector(".menu-toggle");
-const nav=document.querySelector(".main-nav");
-toggle.addEventListener("click",()=>{nav.classList.toggle("show");});
-</script>
