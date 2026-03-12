@@ -1,13 +1,18 @@
-{% assign minHeader = include.html | split: '<h' | size | minus: 1 %}
-{% if minHeader > 0 %}
-  <ul>
-  {% for i in (1..minHeader) %}
-    {% assign header = include.html | split: '<h' | last | split: '>' | first %}
-    {% assign headerLevel = header | split: ' ' | first %}
-    {% assign headerId = header | split: 'id="' | last | split: '"' | first %}
-    {% assign headerText = include.html | split: '<h' | last | split: '>' | last | split: '</h' | first %}
-    <li><a href="#{{ headerId }}">{{ headerText }}</a></li>
-    {% assign include.html = include.html | replace_first: '<h', '<!-- h' %}
-  {% endfor %}
-  </ul>
-{% endif %}
+{% capture tocWorkspace %}
+    {% assign minHeader = include.minHeader | default: 2 %}
+    {% assign maxHeader = include.maxHeader | default: 3 %}
+    {% assign nodes = include.html | split: '<h' %}
+    {% assign firstHeader = true %}
+    <ul>
+    {% for node in nodes %}
+        {% if node == "" %}{% continue %}{% endif %}
+        {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
+        {% if headerLevel < minHeader or headerLevel > maxHeader %}{% continue %}{% endif %}
+        {% if firstHeader %}{% assign firstHeader = false %}{% endif %}
+        {% assign headerContent = node | split: '</h' | first %}
+        {% assign headerContent = headerContent | replace: '">', '"|' | split: '|' | last %}
+        {% assign headerId = node | split: 'id="' | last | split: '"' | first %}
+        <li><a href="#{{ headerId }}">{{ headerContent | strip_html }}</a></li>
+    {% endfor %}
+    </ul>
+{% endcapture %}{{ tocWorkspace | strip }}
