@@ -87,12 +87,12 @@ layout: default
       <!-- Table of Contents (if more than 3 headings) -->
       {% assign headings = content | split: '<h2' | size %}
       {% if headings > 3 %}
-      <details class="post__toc">
-        <summary class="toc__title">📖 Table of Contents</summary>
+      <div class="post__toc">
+        <h3 class="toc__title">Table of Contents</h3>
         <nav class="toc__nav">
           {% include toc.html html=content %}
         </nav>
-      </details>
+      </div>
       {% endif %}
 
       <!-- Post Content -->
