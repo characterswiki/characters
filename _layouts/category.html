@@ -1,22 +1,20 @@
 ---
 layout: default
 ---
-
-<h1>Category: {{ page.title }}</h1>
-
-<div class="grid">
-
-{% assign posts_in_category = site.categories[page.category] %}
-
-{% for post in posts_in_category %}
-<a href="{{ post.url | relative_url }}" class="card">
-  <img src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}"
-       alt="{{ post.title }}" loading="lazy">
-  <div class="card-content">
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.categories | join: ", " }}</p>
-  </div>
-</a>
-{% endfor %}
-
-</div>
+<section class="category-header">
+  <h1>Category: {{ page.title }}</h1>
+  <p>All characters listed under {{ page.title }} category.</p>
+</section>
+<section class="category-characters grid">
+  {% assign posts_in_category = site.categories[page.category] %}
+  {% for post in posts_in_category %}
+  <a href="{{ post.url | relative_url }}" class="card">
+    <img src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}" 
+         alt="{{ post.title }}" loading="lazy">
+    <div class="card-content">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.categories | join: ", " }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</section>
