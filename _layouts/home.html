@@ -38,23 +38,19 @@ layout: default
         <div class="post-card__meta">
           {{ post.categories | join: ", " }}
         </div>
-        <!-- Excerpt -->
-        <p class="post-card__excerpt">
-          {{ post.excerpt | strip_html | truncatewords: 20 }}
-        </p>
-        <!-- Read more button -->
+        <p class="post-card__excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
         <a href="{{ post.url | relative_url }}" class="post-card__button">Read more</a>
       </div>
     </article>
     {% endfor %}
-    <!-- View All Posts Link -->
-<div class="view-all-container">
-  <a href="{{ '/archive/' | relative_url }}" class="view-all-button">View All Posts →</a>
-</div>
+  </div>
+
+  <!-- View All Posts Link -->
+  <div class="view-all-container">
+    <a href="{{ '/archive/' | relative_url }}" class="view-all-button">View All Posts →</a>
   </div>
 </section>
 
-<!-- SEARCH SCRIPT (filter cards on homepage) -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const searchInput = document.getElementById("hero-search");
