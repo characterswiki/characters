@@ -32,7 +32,7 @@ layout: default
             <header class="post__header">
                 <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
 
-                <!-- Post Meta -->
+                <!-- Post Meta (Author, Date, Reading Time) -->
                 <div class="post__meta">
                     {% if page.author %}
                     <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
@@ -99,7 +99,7 @@ layout: default
             </details>
             {% endif %}
 
-            <!-- Post Content -->
+            <!-- Post Content (centered text) -->
             <section class="post__content" itemprop="articleBody">
                 {{ content }}
             </section>
