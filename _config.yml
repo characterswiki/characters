@@ -32,6 +32,8 @@ defaults:
     values:
       layout: "page"
 
+# Jekyll Archives (Category & Tag pages)
+# Uses :slug to match links with slugify filter
 jekyll-archives:
   enabled:
     - categories
@@ -40,6 +42,7 @@ jekyll-archives:
   permalinks:
     category: '/categories/:slug/'
     tag: '/tags/:slug/'
+
 # Exclude from processing
 exclude:
   - Gemfile
