@@ -24,7 +24,6 @@ defaults:
       type: "posts"
     values:
       layout: "post"
-      author: "Your Name"
       image: "/assets/images/default-character.jpg"
   - scope:
       path: ""
@@ -32,8 +31,7 @@ defaults:
     values:
       layout: "page"
 
-# Jekyll Archives (Category & Tag pages)
-# Uses :slug to match links with slugify filter
+# Jekyll Archives (Category & Tag pages) – using :slug to match links
 jekyll-archives:
   enabled:
     - categories
