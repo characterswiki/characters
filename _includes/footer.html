@@ -1,10 +1,13 @@
-<footer>
-  <div class="footer-top">
-    <p>© {{ site.time | date: "%Y" }} {{ site.title }}</p>
-  </div>
-  <div class="footer-links">
-    <a href="{{ '/privacy/' | relative_url }}">Privacy</a> |
-    <a href="{{ '/terms/' | relative_url }}">Terms</a> |
-    <a href="{{ '/about/' | relative_url }}">About</a>
-  </div>
+<footer class="site-footer">
+    <div class="container site-footer__container">
+        <div class="site-footer__copyright">
+            <p>&copy; {{ site.time | date: '%Y' }} {{ site.title }}. All rights reserved.</p>
+        </div>
+        <nav class="site-footer__nav">
+            <a href="{{ '/privacy/' | relative_url }}">Privacy</a>
+            <a href="{{ '/terms/' | relative_url }}">Terms</a>
+            <a href="{{ '/sitemap.xml' | relative_url }}">Sitemap</a>
+            <a href="{{ '/rss.xml' | relative_url }}">RSS</a>
+        </nav>
+    </div>
 </footer>
