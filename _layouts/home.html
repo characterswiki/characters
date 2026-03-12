@@ -1,23 +1,271 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Characters Wiki</title>
+
+<meta name="description" content="Explore thousands of fictional characters from anime, movies, games and comics.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Poppins',sans-serif;
+background:#0f172a;
+color:white;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 8%;
+background:#020617;
+position:sticky;
+top:0;
+z-index:1000;
+}
+
+.logo{
+font-size:22px;
+font-weight:600;
+}
+
+nav a{
+margin-left:20px;
+text-decoration:none;
+color:white;
+font-size:14px;
+opacity:.8;
+}
+
+nav a:hover{
+opacity:1;
+}
+
+/* HERO */
+
+.hero{
+padding:80px 8%;
+text-align:center;
+background:linear-gradient(120deg,#1e293b,#020617);
+}
+
+.hero h1{
+font-size:40px;
+margin-bottom:10px;
+}
+
+.hero p{
+opacity:.7;
+max-width:700px;
+margin:auto;
+}
+
+/* SEARCH */
+
+.search{
+margin-top:30px;
+}
+
+.search input{
+padding:14px 18px;
+width:320px;
+border:none;
+border-radius:30px;
+outline:none;
+}
+
+/* GRID */
+
+.container{
+padding:60px 8%;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+gap:25px;
+}
+
+/* CARD */
+
+.card{
+background:#1e293b;
+border-radius:14px;
+overflow:hidden;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+box-shadow:0 12px 30px rgba(0,0,0,.5);
+}
+
+.card img{
+width:100%;
+height:260px;
+object-fit:cover;
+}
+
+.card-content{
+padding:14px;
+}
+
+.card-content h3{
+font-size:18px;
+margin-bottom:6px;
+}
+
+.card-content p{
+font-size:13px;
+opacity:.7;
+}
+
+/* FOOTER */
+
+footer{
+padding:30px;
+text-align:center;
+opacity:.6;
+margin-top:60px;
+}
+
+@media(max-width:600px){
+
+.hero h1{
+font-size:28px;
+}
+
+.search input{
+width:100%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">Characters Wiki</div>
+
+<nav>
+
+<a href="/">Home</a>
+<a href="/categories">Categories</a>
+<a href="/tags">Tags</a>
+<a href="/about">About</a>
+
+</nav>
+
+</header>
+
 <section class="hero">
-  <h1>Welcome to {{ site.title }}</h1>
-  <p>{{ site.description }}</p>
+
+<h1>Explore Fictional Characters</h1>
+
+<p>
+Discover characters from anime, movies, games and comics.
+Browse profiles, powers, and storylines.
+</p>
+
+<div class="search">
+<input type="text" placeholder="Search characters...">
+</div>
+
 </section>
 
-<section class="post-grid">
-  {% for post in site.posts %}
-  <article class="post-card">
-    <a href="{{ post.url }}">
-      {% if post.image %}
-      <img src="{{ post.image }}" alt="{{ post.title }}">
-      {% else %}
-      <img src="{{ site.baseurl }}/assets/images/cloud-security.jpg" alt="{{ post.title }}">
-      {% endif %}
-      <h2>{{ post.title }}</h2>
-      <p>{{ post.excerpt | strip_html | truncate: 100 }}</p>
-    </a>
-  </article>
-  {% endfor %}
+<section class="container">
+
+<div class="grid">
+
+<!-- CARD -->
+
+<div class="card">
+
+<img src="images/akira-fudo.jpg" alt="Akira Fudo">
+
+<div class="card-content">
+
+<h3>Akira Fudo</h3>
+
+<p>Devilman series</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="images/legoshi.jpg" alt="Legoshi">
+
+<div class="card-content">
+
+<h3>Legoshi</h3>
+
+<p>Beastars</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="images/shoko-nishimiya.jpg" alt="Shoko Nishimiya">
+
+<div class="card-content">
+
+<h3>Shoko Nishimiya</h3>
+
+<p>A Silent Voice</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="images/yui-hirasawa.jpg" alt="Yui Hirasawa">
+
+<div class="card-content">
+
+<h3>Yui Hirasawa</h3>
+
+<p>K-On!</p>
+
+</div>
+
+</div>
+
+</div>
+
 </section>
+
+<footer>
+
+© 2026 Characters Wiki
+
+</footer>
+
+</body>
+</html>
