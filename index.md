@@ -3,54 +3,68 @@ layout: default
 title: Home
 ---
 
+<!-- HERO SECTION -->
 <section class="hero">
-<h1>{{ site.title }}</h1>
-<p>{{ site.description }}</p>
-<input id="searchInput" placeholder="Search characters...">
+  <h1>{{ site.title }}</h1>
+  <p>{{ site.description }}</p>
+  <input id="searchInput" placeholder="Search characters..." />
 </section>
 
+<!-- LATEST CHARACTERS SECTION -->
 <section class="characters">
-<h2>Latest Characters</h2>
-<div class="grid">
-{% for post in site.posts limit:12 %}
-<a href="{{ post.url | relative_url }}" class="card">
-  <img src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}" alt="{{ post.title }}" loading="lazy">
-  <div class="card-content">
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.categories | join: ", " }}</p>
+  <h2>Latest Characters</h2>
+  <div class="grid">
+    {% for post in site.posts limit:12 %}
+    <a href="{{ post.url | relative_url }}" class="card">
+      <img
+        src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}"
+        alt="{{ post.title }}"
+        loading="lazy"
+      />
+      <div class="card-content">
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.categories | join: ", " }}</p>
+      </div>
+    </a>
+    {% endfor %}
   </div>
-</a>
-{% endfor %}
-</div>
 </section>
 
+<!-- CATEGORIES SECTION -->
 <section class="categories">
-<h2>Categories</h2>
-<div class="category-grid">
-{% for category in site.categories %}
-<a href="/categories/{{ category[0] }}/" class="category-card">
-  <h3>{{ category[0] }}</h3>
-  <span>{{ category[1].size }} characters</span>
-</a>
-{% endfor %}
-</div>
+  <h2>Categories</h2>
+  <div class="category-grid">
+    {% for category in site.categories %}
+    <a href="/categories/{{ category[0] }}/" class="category-card">
+      <h3>{{ category[0] }}</h3>
+      <span>{{ category[1].size }} characters</span>
+    </a>
+    {% endfor %}
+  </div>
 </section>
 
+<!-- TAGS SECTION -->
 <section class="tags">
-<h2>Popular Tags</h2>
-<div class="tags">
-{% for tag in site.tags limit:30 %}
-<a href="/tags/{{ tag[0] }}/" class="tag">{{ tag[0] }}</a>
-{% endfor %}
-</div>
+  <h2>Popular Tags</h2>
+  <div class="tags">
+    {% for tag in site.tags limit:30 %}
+    <a href="/tags/{{ tag[0] }}/" class="tag">{{ tag[0] }}</a>
+    {% endfor %}
+  </div>
 </section>
 
+<!-- SEARCH SCRIPT -->
 <script>
-const searchInput = document.getElementById("searchInput");
-searchInput.addEventListener("keyup", function(){
-  let filter = this.value.toLowerCase();
-  document.querySelectorAll(".card").forEach(card=>{
-    card.style.display = card.innerText.toLowerCase().includes(filter) ? "block" : "none";
-  });
+document.addEventListener("DOMContentLoaded", function() {
+  const searchInput = document.getElementById("searchInput");
+  if(searchInput){
+    searchInput.addEventListener("keyup", function() {
+      const filter = this.value.toLowerCase();
+      document.querySelectorAll(".card").forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(filter) ? "block" : "none";
+      });
+    });
+  }
 });
 </script>
