@@ -14,6 +14,8 @@ image: /assets/images/nakamura.jpg
 permalink: /characters/sawa-nakamura/
 ---
 
+# Introduction 
+
 Sawa Nakamura emerges as one of the most enigmatic and psychologically complex characters in *Ergo Proxy*. Japanese sources, including the *Ergo Proxy Official Complete Book* (Bandai Visual / Movic, 2006), interviews in *Animage* and *Anime Style Magazine*, and official production notes, describe Nakamura as a character intentionally crafted to embody duality: both a manipulator and a catalyst, both enigmatic and narratively pivotal. Unlike the more transparent protagonists such as Re-L Mayer or Vincent Law, Nakamura functions largely in the shadows, her influence felt through indirect intervention, subversion of authority, and the strategic orchestration of events.  
 
 Her role extends beyond narrative mechanics; she is a **psychological mirror** to other characters, particularly Re-L, revealing the latent tensions, suppressed desires, and unresolved conflicts that underpin the world of Romdo and the broader existential landscape of *Ergo Proxy*. Nakamura’s complexity lies not only in her actions but in the interpretive ambiguity of her motivations — a deliberate design choice by creator Dai Sato to reflect the series’ philosophical emphasis on uncertainty and layered identity.
@@ -32,7 +34,7 @@ From her first interactions, Nakamura is characterized by deliberate ambiguity. 
 
 Nakamura’s psychological makeup is marked by **strategic intelligence, emotional resilience, and moral ambiguity**. Japanese sources describe her as highly perceptive, capable of reading others’ intentions and exploiting inconsistencies in their behavior. Unlike characters motivated by direct emotional stakes, Nakamura operates through observation, patience, and subtle manipulation.  
 
-Her intelligence manifests in multiple ways:  
+### Key Traits
 
 1. **Analytical Precision** – She evaluates scenarios with meticulous attention to both detail and broader context.  
 2. **Emotional Subtlety** – She rarely displays overt emotion, instead influencing events through suggestion, omission, or nuanced gestures.  
