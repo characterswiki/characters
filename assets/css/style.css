@@ -118,6 +118,9 @@ a:hover { color: #c53030; }
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0,0,0,0.05);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 .post-card:hover {
     transform: translateY(-5px);
@@ -135,7 +138,12 @@ a:hover { color: #c53030; }
     transition: transform 0.5s ease;
 }
 .post-card:hover .post-card__image { transform: scale(1.05); }
-.post-card__content { padding: 20px; }
+.post-card__content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
 .post-card__title {
     font-size: 1.25rem;
     margin-bottom: 10px;
@@ -151,9 +159,32 @@ a:hover { color: #c53030; }
     color: #4a5568;
     margin-bottom: 15px;
     font-size: 0.95rem;
+    line-height: 1.5;
+    flex: 1;
 }
 .post-card__taxonomies .tag {
     margin-right: 5px;
+}
+.post-card__button {
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 0.5rem 1.2rem;
+    background: #e53e3e;
+    color: white;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    border: 2px solid transparent;
+}
+.post-card__button:hover {
+    background: white;
+    color: #e53e3e;
+    border-color: #e53e3e;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(229,62,62,0.2);
 }
 
 /* ===== Post Page Layout ===== */
@@ -274,7 +305,7 @@ a:hover { color: #c53030; }
     line-height: 1.9;
     max-width: 780px;
     margin: 0 auto 3rem;
-    text-align: center;        /* centered as requested */
+    text-align: center;
     color: #2d3748;
 }
 .post__content p:first-child:first-letter {
@@ -651,6 +682,147 @@ body.dark-mode a { color: #fc8181; }
 body.dark-mode a:hover { color: #feb2b2; }
 body.dark-mode h1, body.dark-mode h2, body.dark-mode h3 { color: #f7fafc; }
 body.dark-mode .share__btn { filter: brightness(0.9); }
+body.dark-mode .post-card__excerpt {
+    color: #cbd5e0;
+}
+body.dark-mode .post-card__button {
+    background: #fc8181;
+    color: #1a202c;
+}
+body.dark-mode .post-card__button:hover {
+    background: transparent;
+    color: #fc8181;
+    border-color: #fc8181;
+}
+
+/* ===== Hero Section ===== */
+.hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    margin-bottom: 40px;
+}
+.hero__title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: white;
+}
+.hero__description {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+.hero__search {
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem 1.5rem;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero__search:focus {
+    outline: none;
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px -10px rgba(0,0,0,0.4);
+}
+
+/* ===== Section Titles ===== */
+.section-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    display: inline-block;
+}
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: #e53e3e;
+    border-radius: 2px;
+}
+
+/* ===== Category Cards ===== */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 25px;
+    margin: 2rem 0;
+}
+.category-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 30px -10px rgba(229,62,62,0.2);
+    background: #e53e3e;
+    color: white;
+}
+.category-card__title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+.category-card__count {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+.category-card:hover .category-card__title,
+.category-card:hover .category-card__count {
+    color: white;
+}
+
+/* ===== Tags Cloud ===== */
+.tags-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 2rem 0;
+}
+.tags-cloud .tag {
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    background: #edf2f7;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+}
+.tags-cloud .tag:hover {
+    background: #e53e3e;
+    color: white;
+    transform: scale(1.05);
+}
+
+/* ===== Dark Mode Adjustments for Hero/Categories ===== */
+body.dark-mode .hero {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+}
+body.dark-mode .category-card {
+    background: #2d3748;
+    color: #e2e8f0;
+}
+body.dark-mode .tags-cloud .tag {
+    background: #2d3748;
+    color: #e2e8f0;
+}
+body.dark-mode .tags-cloud .tag:hover {
+    background: #e53e3e;
+    color: white;
+}
 
 /* ===== Responsive Design ===== */
 @media (max-width: 992px) {
@@ -702,6 +874,13 @@ body.dark-mode .share__btn { filter: brightness(0.9); }
     /* Related posts */
     .related-grid { grid-template-columns: 1fr; }
 
+    /* Hero */
+    .hero { padding: 60px 0; }
+    .hero__title { font-size: 2.2rem; }
+    .hero__description { font-size: 1rem; }
+    .section-title { font-size: 2rem; }
+    .category-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+
     /* Footer */
     .site-footer__container {
         flex-direction: column;
@@ -716,141 +895,4 @@ body.dark-mode .share__btn { filter: brightness(0.9); }
         height: 45px;
         font-size: 1.5rem;
     }
-}
-/* ===== Hero Section ===== */
-.hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 80px 0;
-  text-align: center;
-  margin-bottom: 40px;
-}
-.hero__title {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  color: white;
-}
-.hero__description {
-  font-size: 1.25rem;
-  opacity: 0.9;
-  max-width: 600px;
-  margin: 0 auto 2rem;
-}
-.hero__search {
-  width: 100%;
-  max-width: 500px;
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
-  border: none;
-  border-radius: 50px;
-  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.hero__search:focus {
-  outline: none;
-  transform: scale(1.02);
-  box-shadow: 0 15px 40px -10px rgba(0,0,0,0.4);
-}
-
-/* ===== Section Titles ===== */
-.section-title {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  position: relative;
-  display: inline-block;
-}
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 0;
-  width: 80px;
-  height: 4px;
-  background: #e53e3e;
-  border-radius: 2px;
-}
-
-/* ===== Category Cards ===== */
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 25px;
-  margin: 2rem 0;
-}
-.category-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem 1.5rem;
-  text-align: center;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-.category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 30px -10px rgba(229,62,62,0.2);
-  background: #e53e3e;
-  color: white;
-}
-.category-card__title {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-.category-card__count {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-.category-card:hover .category-card__title,
-.category-card:hover .category-card__count {
-  color: white;
-}
-
-/* ===== Tags Cloud ===== */
-.tags-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 2rem 0;
-}
-.tags-cloud .tag {
-  font-size: 0.95rem;
-  padding: 0.5rem 1rem;
-  background: #edf2f7;
-  border-radius: 30px;
-  transition: all 0.3s ease;
-}
-.tags-cloud .tag:hover {
-  background: #e53e3e;
-  color: white;
-  transform: scale(1.05);
-}
-
-/* ===== Dark Mode Adjustments ===== */
-body.dark-mode .hero {
-  background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-}
-body.dark-mode .category-card {
-  background: #2d3748;
-  color: #e2e8f0;
-}
-body.dark-mode .tags-cloud .tag {
-  background: #2d3748;
-  color: #e2e8f0;
-}
-body.dark-mode .tags-cloud .tag:hover {
-  background: #e53e3e;
-  color: white;
-}
-
-/* ===== Responsive Tweaks ===== */
-@media (max-width: 768px) {
-  .hero { padding: 60px 0; }
-  .hero__title { font-size: 2.2rem; }
-  .hero__description { font-size: 1rem; }
-  .section-title { font-size: 2rem; }
-  .category-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
 }
