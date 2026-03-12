@@ -1,55 +1,109 @@
 ---
 layout: default
 ---
-<article class="post post--full">
+<article class="post post--full" itemscope itemtype="https://schema.org/Article">
+    <!-- Featured Image with Schema -->
     {% if page.image %}
     <div class="post__hero">
-        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="post__featured-image" loading="lazy">
+        <img src="{{ page.image | relative_url }}"
+             alt="{{ page.title }}"
+             class="post__featured-image"
+             loading="lazy"
+             itemprop="image">
+        {% if page.image_caption %}
+        <figcaption class="post__image-caption">{{ page.image_caption }}</figcaption>
+        {% endif %}
     </div>
     {% endif %}
-    
-    <div class="post__header container">
-        <h1 class="post__title">{{ page.title }}</h1>
+
+    <!-- Post Header -->
+    <header class="post__header container">
+        <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
+
+        <!-- Post Meta (Author, Date, Reading Time) -->
         <div class="post__meta">
-            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-            {% if page.author %} <span class="post__author">by {{ page.author }}</span> {% endif %}
+            {% if page.author %}
+            <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name">{{ page.author }}</span>
+            </span>
+            {% endif %}
+
+            <time datetime="{{ page.date | date_to_xmlschema }}"
+                  itemprop="datePublished"
+                  class="post__date">
+                {{ page.date | date: "%B %d, %Y" }}
+            </time>
+
+            {% if page.date != page.last_modified_at %}
+            <time datetime="{{ page.last_modified_at | date_to_xmlschema }}"
+                  itemprop="dateModified"
+                  class="post__date post__date--updated">
+                (Updated: {{ page.last_modified_at | date: "%B %d, %Y" }})
+            </time>
+            {% endif %}
+
+            <!-- Reading Time (calculated from content) -->
+            <span class="post__reading-time">
+                {% assign words = content | number_of_words %}
+                {% if words < 360 %} 1 min read
+                {% else %} {{ words | divided_by:180 }} min read
+                {% endif %}
+            </span>
         </div>
-        
+
+        <!-- Categories & Tags -->
         <div class="post__taxonomies">
             {% if page.categories.size > 0 %}
             <div class="post__categories">
-                <span>Categories:</span>
+                <span class="taxonomy-label">Categories:</span>
                 {% for category in page.categories %}
-                <a href="{{ '/categories/' | append: category | slugify | relative_url }}" class="tag category-tag">{{ category }}</a>
+                <a href="{{ '/categories/' | append: category | slugify | relative_url }}"
+                   class="tag category-tag"
+                   rel="category">{{ category }}</a>
                 {% endfor %}
             </div>
             {% endif %}
-            
+
             {% if page.tags.size > 0 %}
             <div class="post__tags">
-                <span>Tags:</span>
+                <span class="taxonomy-label">Tags:</span>
                 {% for tag in page.tags %}
-                <a href="{{ '/tags/' | append: tag | slugify | relative_url }}" class="tag">{{ tag }}</a>
+                <a href="{{ '/tags/' | append: tag | slugify | relative_url }}"
+                   class="tag"
+                   rel="tag">{{ tag }}</a>
                 {% endfor %}
             </div>
             {% endif %}
         </div>
-    </div>
-    
-    <div class="post__content container">
+    </header>
+
+    <!-- Post Content (with Schema) -->
+    <section class="post__content container" itemprop="articleBody">
         {{ content }}
-    </div>
-    
-    <nav class="post__navigation container">
-        {% if page.previous.url %}
-        <a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}">
-            <span>← Previous</span> {{ page.previous.title }}
-        </a>
-        {% endif %}
-        {% if page.next.url %}
-        <a class="post__nav-link post__nav-link--next" href="{{ page.next.url | relative_url }}">
-            <span>Next →</span> {{ page.next.title }}
-        </a>
-        {% endif %}
-    </nav>
+    </section>
+
+    <!-- Post Footer: Navigation & Back to Top -->
+    <footer class="post__footer container">
+        <!-- Previous / Next Post Navigation -->
+        <nav class="post__navigation" aria-label="Post navigation">
+            {% if page.previous.url %}
+            <a class="post__nav-link post__nav-link--prev"
+               href="{{ page.previous.url | relative_url }}"
+               rel="prev">
+                <span aria-hidden="true">←</span> {{ page.previous.title }}
+            </a>
+            {% endif %}
+
+            {% if page.next.url %}
+            <a class="post__nav-link post__nav-link--next"
+               href="{{ page.next.url | relative_url }}"
+               rel="next">
+                {{ page.next.title }} <span aria-hidden="true">→</span>
+            </a>
+            {% endif %}
+        </nav>
+
+        <!-- Back to Top -->
+        <a href="#top" class="post__back-to-top" aria-label="Back to top">↑ Back to top</a>
+    </footer>
 </article>
