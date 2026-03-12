@@ -1,63 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ page.title }} | {{ site.title }}</title>
-  <meta name="description" content="{{ page.excerpt | strip_html | default: site.description }}">
-  
-  <!-- SEO -->
-  {% seo %}
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="{{ page.title }} | {{ site.title }}">
-  <meta property="og:description" content="{{ page.excerpt | strip_html | default: site.description }}">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
-  <meta property="og:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/cloud-security.jpg">
+<meta charset="UTF-8">
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{{ page.title }} | {{ site.title }}">
-  <meta name="twitter:description" content="{{ page.excerpt | strip_html | default: site.description }}">
-  <meta name="twitter:image" content="{{ site.url }}{{ site.baseurl }}/assets/images/cloud-security.jpg">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+<title>{{ page.title }} | {{ site.title }}</title>
 
-  <!-- JS -->
-  <script src="{{ site.baseurl }}/assets/js/main.js" defer></script>
+<meta name="description" content="{{ page.excerpt | strip_html }}">
 
-  <!-- JSON-LD structured data -->
-  {% if page.layout == "post" %}
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "{{ page.title }}",
-    "datePublished": "{{ page.date | date_to_xmlschema }}",
-    "author": {
-      "@type": "Person",
-      "name": "{{ page.author | default: 'Characters Wiki Team' }}"
-    },
-    "publisher": {
-      "@type": "Organization",
-      "name": "{{ site.title }}",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "{{ site.url }}{{ site.baseurl }}/assets/images/cloud-security.jpg"
-      }
-    }
-  }
-  </script>
-  {% endif %}
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<link rel="canonical" href="{{ page.url | absolute_url }}">
+
 </head>
+
 <body>
-  {% include header.html %}
-  <main>
-    {{ content }}
-  </main>
-  {% include sidebar.html %}
-  {% include footer.html %}
+
+{% include header.html %}
+
+<div class="container">
+
+{{ content }}
+
+</div>
+
+{% include footer.html %}
+
 </body>
 </html>
