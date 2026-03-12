@@ -1,9 +1,24 @@
-<header class="header">
-  <a href="{{ '/' | relative_url }}" class="logo">{{ site.title }}</a>
-  <nav>
-    <a href="{{ '/' | relative_url }}">Home</a>
-    <a href="{{ '/categories/' | relative_url }}">Categories</a>
-    <a href="{{ '/tags/' | relative_url }}">Tags</a>
-    <a href="{{ '/about/' | relative_url }}">About</a>
-  </nav>
+<header class="site-header">
+    <div class="container site-header__container">
+        <div class="site-header__branding">
+            <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+        </div>
+        
+        <nav class="site-nav">
+            <button class="site-nav__toggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="site-nav__menu">
+                <li><a href="{{ '/' | relative_url }}" {% if page.url == '/' %}class="active"{% endif %}>Home</a></li>
+                <li><a href="{{ '/about/' | relative_url }}" {% if page.url == '/about/' %}class="active"{% endif %}>About</a></li>
+                <li><a href="{{ '/categories/' | relative_url }}" {% if page.url contains '/categories/' %}class="active"{% endif %}>Categories</a></li>
+                <li><a href="{{ '/tags/' | relative_url }}" {% if page.url contains '/tags/' %}class="active"{% endif %}>Tags</a></li>
+            </ul>
+        </nav>
+        
+        <div class="site-search">
+            <input type="text" id="search-input" placeholder="Search characters..." aria-label="Search">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
 </header>
