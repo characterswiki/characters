@@ -4,9 +4,8 @@
     line-height: 1.8;
     max-width: 720px;
     margin: 0 auto 3rem;
-    text-align: left; /* text-focused */
+    text-align: left;
 }
-
 .post__content p { margin-bottom: 1.8rem; }
 .post__content img {
     display: block;
