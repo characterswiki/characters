@@ -1,172 +1,144 @@
 ---
 layout: default
 ---
-<article class="post post--full" itemscope itemtype="https://schema.org/Article">
+<article class="post-container" itemscope itemtype="https://schema.org/Article">
 
   <!-- Reading Progress Bar -->
-  <div class="progress-bar" id="reading-progress"></div>
+  <div id="reading-progress-bar" style="position:fixed;top:0;left:0;height:4px;background:#3490dc;width:0;z-index:9999;"></div>
 
-  <div class="post__grid container">
-    <div class="post__main">
+  <div class="post-content-wrapper" style="max-width:800px;margin:0 auto;padding:20px;line-height:1.7;font-family:inter, sans-serif;">
 
-      <header class="post__header">
-        <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
+    <!-- Post Header -->
+    <header class="post-header" style="margin-bottom:2rem;">
+      {% if page.title %}
+      <h1 itemprop="headline" style="font-size:2.25rem;font-weight:700;margin-bottom:0.5rem;">{{ page.title }}</h1>
+      {% endif %}
 
-        <div class="post__meta">
-          <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Organization">
-            <span itemprop="name">{{ site.title }}</span>
-          </span>
+      {% if page.date %}
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished" style="color:#555;font-size:0.875rem;">
+        {{ page.date | date: "%B %d, %Y" }}
+      </time>
+      {% endif %}
 
-          <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished" class="post__date">
-            {{ page.date | date: "%B %d, %Y" }}
-          </time>
+      {% if page.last_modified_at and page.last_modified_at != page.date %}
+      <time datetime="{{ page.last_modified_at | date_to_xmlschema }}" itemprop="dateModified" style="color:#555;font-size:0.875rem;margin-left:1rem;">
+        (Updated: {{ page.last_modified_at | date: "%B %d, %Y" }})
+      </time>
+      {% endif %}
 
-          {% if page.date != page.last_modified_at %}
-          <time datetime="{{ page.last_modified_at | date_to_xmlschema }}"
-                itemprop="dateModified"
-                class="post__date post__date--updated">
-            (Updated: {{ page.last_modified_at | date: "%B %d, %Y" }})
-          </time>
-          {% endif %}
+      <!-- Reading Time -->
+      <span style="display:block;margin-top:0.5rem;color:#777;font-size:0.875rem;">
+        {% assign words = content | number_of_words %}
+        {% if words < 180 %}1 min read{% else %}{{ words | divided_by:180 }} min read{% endif %}
+      </span>
 
-          <span class="post__reading-time">
-            {% assign words = content | number_of_words %}
-            {% if words < 360 %} 1 min read
-            {% else %} {{ words | divided_by:180 }} min read
-            {% endif %}
-          </span>
-        </div>
-
-        <!-- Categories & Tags – only shown if they exist -->
-        <div class="post__taxonomies">
-          {% if page.categories.size > 0 %}
-          <div class="post__categories">
-            <span class="taxonomy-label">Categories:</span>
-            {% for category in page.categories %}
-            <a href="{{ '/categories/' | append: category | slugify | relative_url }}" class="tag category-tag">{{ category }}</a>
-            {% endfor %}
-          </div>
-          {% endif %}
-
-          {% if page.tags.size > 0 %}
-          <div class="post__tags">
-            <span class="taxonomy-label">Tags:</span>
-            {% for tag in page.tags %}
-            <a href="{{ '/tags/' | append: tag | slugify | relative_url }}" class="tag">{{ tag }}</a>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
-      </header>
-
-      <!-- Table of Contents – appears only if there are at least 3 <h2> headings -->
-      {% assign headings = content | split: '<h2' | size %}
-      {% if headings > 3 %}
-      <div class="post__toc">
-        <h3 class="toc__title">Table of Contents</h3>
-        <nav class="toc__nav">
-          {% include toc.html html=content %}
-        </nav>
+      <!-- Categories -->
+      {% if page.categories %}
+      <div class="categories" style="margin-top:0.5rem;">
+        {% for category in page.categories %}
+        <a href="{{ '/categories/' | append: category | slugify | relative_url }}" style="color:#3490dc;text-decoration:none;margin-right:0.5rem;">{{ category }}</a>
+        {% endfor %}
       </div>
       {% endif %}
 
-      <section class="post__content" itemprop="articleBody">
-        {{ content }}
-      </section>
-
-      <!-- Related Posts – only shown if page.related is set to true in front matter -->
-      {% if page.related %}
-      <aside class="post__related">
-        <h3>You Might Also Like</h3>
-        <div class="related-grid">
-          {% assign maxRelated = 3 %}
-          {% assign minCommonTags = 1 %}
-          {% assign relatedPosts = "" | split: "" %}
-          {% for post in site.posts %}
-            {% if post.url != page.url %}
-              {% assign commonTags = 0 %}
-              {% for tag in post.tags %}
-                {% if page.tags contains tag %}
-                  {% assign commonTags = commonTags | plus: 1 %}
-                {% endif %}
-              {% endfor %}
-              {% if commonTags >= minCommonTags %}
-                {% assign relatedPosts = relatedPosts | push: post %}
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-          {% for post in relatedPosts limit: maxRelated %}
-          <article class="related-card">
-            <a href="{{ post.url | relative_url }}">
-              {% if post.image %}
-              <div class="related-card__image">
-                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-              </div>
-              {% endif %}
-              <h4>{{ post.title }}</h4>
-            </a>
-          </article>
-          {% endfor %}
-        </div>
-      </aside>
-      {% endif %}
-
-      <!-- Previous/Next Post Navigation – only shown if previous/next exist -->
-      <nav class="post__navigation" aria-label="Post navigation">
-        {% if page.previous.url %}
-        <a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}" rel="prev">
-          <span class="nav-arrow">←</span>
-          <span class="nav-text">{{ page.previous.title }}</span>
-        </a>
-        {% endif %}
-        {% if page.next.url %}
-        <a class="post__nav-link post__nav-link--next" href="{{ page.next.url | relative_url }}" rel="next">
-          <span class="nav-text">{{ page.next.title }}</span>
-          <span class="nav-arrow">→</span>
-        </a>
-        {% endif %}
-      </nav>
-    </div>
-
-    <!-- Sidebar – always shown (recent posts) -->
-    <aside class="post__sidebar">
-      <div class="sidebar-widget">
-        <h4>Recent Posts</h4>
-        <ul>
-          {% for post in site.posts limit:5 %}
-          <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-          {% endfor %}
-        </ul>
+      <!-- Tags -->
+      {% if page.tags %}
+      <div class="tags" style="margin-top:0.25rem;">
+        {% for tag in page.tags %}
+        <a href="{{ '/tags/' | append: tag | slugify | relative_url }}" style="color:#6c63ff;text-decoration:none;margin-right:0.5rem;font-size:0.875rem;">#{{ tag }}</a>
+        {% endfor %}
       </div>
+      {% endif %}
+    </header>
+
+    <!-- Table of Contents -->
+    {% assign h2_count = content | split:'<h2' | size %}
+    {% if h2_count > 2 %}
+    <nav class="post-toc" style="background:#f4f4f4;padding:1rem;margin-bottom:2rem;border-left:4px solid #3490dc;">
+      <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;">Table of Contents</h2>
+      {% include toc.html html=content %}
+    </nav>
+    {% endif %}
+
+    <!-- Post Body -->
+    <section class="post-body" itemprop="articleBody" style="font-size:1rem;color:#333;">
+      {{ content }}
+    </section>
+
+    <!-- Related Posts (Optional) -->
+    {% if page.related %}
+    <aside class="related-posts" style="margin-top:3rem;">
+      <h2 style="font-size:1.25rem;font-weight:600;margin-bottom:1rem;">You Might Also Like</h2>
+      <ul style="list-style:none;padding-left:0;">
+        {% assign relatedPosts = "" | split: "" %}
+        {% for post in site.posts %}
+          {% if post.url != page.url %}
+            {% assign commonTags = 0 %}
+            {% for tag in post.tags %}
+              {% if page.tags contains tag %}
+                {% assign commonTags = commonTags | plus:1 %}
+              {% endif %}
+            {% endfor %}
+            {% if commonTags > 0 %}
+              {% assign relatedPosts = relatedPosts | push: post %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% for post in relatedPosts limit:3 %}
+        <li style="margin-bottom:0.75rem;">
+          <a href="{{ post.url | relative_url }}" style="color:#3490dc;text-decoration:none;">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
     </aside>
-  </div>
+    {% endif %}
 
-  <a href="#top" class="floating-top" aria-label="Back to top">↑</a>
+    <!-- Previous / Next Navigation -->
+    <nav class="post-navigation" style="display:flex;justify-content:space-between;margin-top:3rem;">
+      {% if page.previous %}
+      <a href="{{ page.previous.url | relative_url }}" style="color:#3490dc;text-decoration:none;">← {{ page.previous.title }}</a>
+      {% endif %}
+      {% if page.next %}
+      <a href="{{ page.next.url | relative_url }}" style="color:#3490dc;text-decoration:none;">{{ page.next.title }} →</a>
+      {% endif %}
+    </nav>
+
+  </div>
 </article>
 
+<!-- Reading Progress + Smooth Scroll -->
 <script>
+  // Progress bar
   window.addEventListener('scroll', function() {
-    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (winScroll / height) * 100;
-    document.getElementById('reading-progress').style.width = scrolled + '%';
-
-    if (window.scrollY > 400) {
-      document.body.classList.add('scrolled');
-    } else {
-      document.body.classList.remove('scrolled');
-    }
+    const progress = document.getElementById('reading-progress-bar');
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    progress.style.width = ((scrollTop / docHeight) * 100) + '%';
   });
 
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+  // Smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      const target = document.querySelector(this.getAttribute('href'));
+      if(target){
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   });
 </script>
+
+<style>
+  /* Mobile-friendly responsive typography */
+  .post-body img { max-width:100%; height:auto; display:block; margin:1rem 0; }
+  .post-body h2 { font-size:1.5rem; margin:1.5rem 0 0.75rem; }
+  .post-body h3 { font-size:1.25rem; margin:1.25rem 0 0.5rem; }
+  .post-body p { margin:1rem 0; line-height:1.75; }
+  .post-body pre { background:#f4f4f4; padding:1rem; overflow-x:auto; }
+  .post-body code { background:#eee; padding:0.2rem 0.4rem; border-radius:3px; }
+  @media (max-width:768px){
+    .post-content-wrapper { padding:15px; }
+    .post-body h2 { font-size:1.35rem; }
+    .post-body h3 { font-size:1.1rem; }
+  }
+</style>
