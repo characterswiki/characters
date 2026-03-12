@@ -1,17 +1,15 @@
 ---
-layout: default
+layout: page
 title: Categories
 permalink: /categories/
 ---
 
-<h1>All Categories</h1>
-<p>Browse all character categories:</p>
-
-<div class="category-grid">
+<ul class="category-list">
   {% for category in site.categories %}
-  <a href="/categories/{{ category[0] }}/" class="category-card">
-    <h3>{{ category[0] }}</h3>
-    <span>{{ category[1].size }} characters</span>
-  </a>
+    <li>
+      <a href="{{ '/categories/' | append: category[0] | slugify | relative_url }}">
+        {{ category[0] }} <span>({{ category[1] | size }})</span>
+      </a>
+    </li>
   {% endfor %}
-</div>
+</ul>
