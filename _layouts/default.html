@@ -2,30 +2,21 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>{{ page.title }} | {{ site.title }}</title>
-
 <meta name="description" content="{{ site.description }}">
-
+{% seo %}
 <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-
 </head>
 
 <body>
-
 {% include header.html %}
 
 <main>
-
 {{ content }}
-
 </main>
 
 {% include footer.html %}
-
 </body>
 </html>
