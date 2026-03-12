@@ -2,106 +2,85 @@
 layout: default
 ---
 
-<article class="character-page">
+<article class="article">
 
-<!-- HERO SECTION -->
+<!-- Reading Progress -->
+<div class="reading-progress" id="reading-progress"></div>
 
-<section class="character-hero">
+<!-- Hero -->
 
-<img src="{{ page.image | relative_url }}" 
-class="character-image"
-alt="{{ page.title }}">
+{% if page.image %}
+<section class="article-hero">
 
-<div class="character-hero-text">
+<img src="{{ page.image | relative_url }}"
+alt="{{ page.title }}"
+loading="lazy"
+class="article-hero-image">
 
-<h1>{{ page.character_name }}</h1>
+</section>
+{% endif %}
 
-<p class="character-alias">
-{{ page.alias }}
-</p>
+<!-- Header -->
+
+<header class="article-header">
+
+<h1 class="article-title">
+{{ page.title }}
+</h1>
+
+<div class="article-meta">
+
+<span class="article-author">
+{{ site.title }}
+</span>
+
+<time datetime="{{ page.date | date_to_xmlschema }}">
+{{ page.date | date: "%B %d, %Y" }}
+</time>
+
+<span class="reading-time">
+{% assign words = content | number_of_words %}
+{% if words < 360 %}
+1 min read
+{% else %}
+{{ words | divided_by:180 }} min read
+{% endif %}
+</span>
 
 </div>
 
-</section>
+</header>
 
+<!-- Content -->
 
-<div class="character-layout">
-
-<!-- INFOBOX -->
-
-<aside class="character-infobox">
-
-<h3>Character Info</h3>
-
-<ul>
-
-<li>
-<strong>Name:</strong>
-{{ page.character_name }}
-</li>
-
-<li>
-<strong>Alias:</strong>
-{{ page.alias }}
-</li>
-
-<li>
-<strong>Gender:</strong>
-{{ page.gender }}
-</li>
-
-<li>
-<strong>Creator:</strong>
-{{ page.creator }}
-</li>
-
-<li>
-<strong>Series:</strong>
-{{ page.series }}
-</li>
-
-</ul>
-
-</aside>
-
-
-<!-- MAIN CONTENT -->
-
-<section class="character-content">
+<section class="article-body">
 
 {{ content }}
 
 </section>
 
-</div>
+<!-- Related -->
 
+<section class="article-related">
 
-<!-- RELATED CHARACTERS -->
+<h3>More Characters</h3>
 
-<section class="related-characters">
+<div class="article-grid">
 
-<h2>Related Characters</h2>
-
-<div class="character-grid">
-
-{% for post in site.posts limit:6 %}
-
+{% for post in site.posts limit:4 %}
 {% if post.url != page.url %}
 
-<a href="{{ post.url | relative_url }}" class="character-card">
+<a href="{{ post.url | relative_url }}" class="article-card">
 
 {% if post.image %}
-
 <img src="{{ post.image | relative_url }}">
-
 {% endif %}
 
-<h4>{{ post.character_name }}</h4>
+<h4>{{ post.title }}</h4>
 
 </a>
 
 {% endif %}
-
 {% endfor %}
 
 </div>
@@ -109,3 +88,20 @@ alt="{{ page.title }}">
 </section>
 
 </article>
+
+
+<script>
+
+window.addEventListener("scroll", function(){
+
+let scrollTop = document.documentElement.scrollTop;
+
+let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+
+let progress = (scrollTop / height) * 100;
+
+document.getElementById("reading-progress").style.width = progress + "%";
+
+});
+
+</script>
