@@ -32,6 +32,7 @@ layout: default
                     <a href="{{ '/categories/' | append: category | slugify | relative_url }}" class="tag category-tag">{{ category }}</a>
                     {% endfor %}
                 </div>
+                <a href="{{ post.url | relative_url }}" class="post-card__button">Read more</a>
             </div>
         </article>
         {% endfor %}
