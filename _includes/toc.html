@@ -1,18 +1,38 @@
 {% capture tocWorkspace %}
-    {% assign minHeader = include.minHeader | default: 2 %}
-    {% assign maxHeader = include.maxHeader | default: 3 %}
-    {% assign nodes = include.html | split: '<h' %}
-    {% assign firstHeader = true %}
-    <ul>
-    {% for node in nodes %}
-        {% if node == "" %}{% continue %}{% endif %}
-        {% assign headerLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
-        {% if headerLevel < minHeader or headerLevel > maxHeader %}{% continue %}{% endif %}
-        {% if firstHeader %}{% assign firstHeader = false %}{% endif %}
-        {% assign headerContent = node | split: '</h' | first %}
-        {% assign headerContent = headerContent | replace: '">', '"|' | split: '|' | last %}
-        {% assign headerId = node | split: 'id="' | last | split: '"' | first %}
-        <li><a href="#{{ headerId }}">{{ headerContent | strip_html }}</a></li>
-    {% endfor %}
-    </ul>
-{% endcapture %}{{ tocWorkspace | strip }}
+{% assign minHeader = include.minHeader | default: 2 %}
+{% assign maxHeader = include.maxHeader | default: 3 %}
+<ul>
+{% assign nodes = include.html | split: '<h' %}
+{% for node in nodes %}
+  {% if node == "" %}{% continue %}{% endif %}
+  
+  {% assign headerLevel = node | slice: 0, 1 | plus: 0 %}
+  {% if headerLevel < minHeader or headerLevel > maxHeader %}{% continue %}{% endif %}
+  
+  {% comment %}
+  Extract header text
+  {% endcomment %}
+  {% assign headerText = node | split: '</h' | first %}
+  
+  {% comment %}
+  Remove possible attributes (like class or id)
+  {% endcomment %}
+  {% assign headerParts = headerText | split: '>' %}
+  {% assign headerContent = headerParts | last | strip %}
+  
+  {% comment %}
+  Extract ID if exists
+  {% endcomment %}
+  {% assign idSplit = node | split: 'id="' %}
+  {% if idSplit.size > 1 %}
+    {% assign headerId = idSplit[1] | split: '"' | first %}
+  {% else %}
+    {% comment %}Fallback: generate ID from text{% endcomment %}
+    {% assign headerId = headerContent | downcase | replace: ' ', '-' | replace: '.', '' | replace: ',', '' %}
+  {% endif %}
+  
+  <li><a href="#{{ headerId }}">{{ headerContent }}</a></li>
+{% endfor %}
+</ul>
+{% endcapture %}
+{{ tocWorkspace | strip }}
