@@ -1,38 +1,10 @@
-{% capture tocWorkspace %}
-{% assign minHeader = include.minHeader | default: 2 %}
-{% assign maxHeader = include.maxHeader | default: 3 %}
-<ul>
-{% assign nodes = include.html | split: '<h' %}
-{% for node in nodes %}
-  {% if node == "" %}{% continue %}{% endif %}
-  
-  {% assign headerLevel = node | slice: 0, 1 | plus: 0 %}
-  {% if headerLevel < minHeader or headerLevel > maxHeader %}{% continue %}{% endif %}
-  
-  {% comment %}
-  Extract header text
-  {% endcomment %}
-  {% assign headerText = node | split: '</h' | first %}
-  
-  {% comment %}
-  Remove possible attributes (like class or id)
-  {% endcomment %}
-  {% assign headerParts = headerText | split: '>' %}
-  {% assign headerContent = headerParts | last | strip %}
-  
-  {% comment %}
-  Extract ID if exists
-  {% endcomment %}
-  {% assign idSplit = node | split: 'id="' %}
-  {% if idSplit.size > 1 %}
-    {% assign headerId = idSplit[1] | split: '"' | first %}
-  {% else %}
-    {% comment %}Fallback: generate ID from text{% endcomment %}
-    {% assign headerId = headerContent | downcase | replace: ' ', '-' | replace: '.', '' | replace: ',', '' %}
-  {% endif %}
-  
-  <li><a href="#{{ headerId }}">{{ headerContent }}</a></li>
-{% endfor %}
+{% assign headings = include.html | split: '<h2' %}
+{% if headings.size > 1 %}
+<ul class="toc-list">
+  {% for heading in headings offset:1 %}
+    {% assign id_part = heading | split: 'id="' | last | split: '"' | first %}
+    {% assign text_part = heading | split: '</h2' | first | strip_html | strip %}
+    <li><a href="#{{ id_part }}">{{ text_part }}</a></li>
+  {% endfor %}
 </ul>
-{% endcapture %}
-{{ tocWorkspace | strip }}
+{% endif %}
