@@ -1,24 +1,10 @@
 title: Characters Wiki
-description: A comprehensive wiki for fictional and real-life characters.
+description: Encyclopedia of anime, manga and game characters
 baseurl: "/characters"
 url: "https://characterswiki.github.io"
-theme: minima
+
+permalink: /:title/
+
 plugins:
-  - jekyll-feed
-  - jekyll-sitemap
-  - jekyll-seo-tag
-markdown: kramdown
-
-# Defaults for posts
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: post
-      author: "Characters Wiki Team"
-
-# Social profiles (for SEO/Open Graph)
-social:
-  twitter: characterswiki
-  github: characterswiki
+ - jekyll-feed
+ - jekyll-sitemap
