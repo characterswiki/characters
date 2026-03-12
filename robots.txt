@@ -1,3 +1,5 @@
 User-agent: *
+
 Allow: /
-Sitemap: https://characterswiki.github.io/characters/sitemap.xml
+
+Sitemap: https://characterswiki.github.io/sitemap.xml
