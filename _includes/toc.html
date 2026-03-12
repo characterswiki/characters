@@ -1,21 +1,21 @@
-{% assign headings = include.html | split: '<h' %}
-{% assign minHeader = 2 %}
-{% assign maxHeader = 3 %}
-{% if headings.size > 1 %}
+{% assign content = include.html %}
 <ul class="toc-list">
-  {% for heading in headings offset:1 %}
-    {% assign headerLevel = heading | slice: 0,1 | plus:0 %}
-    {% if headerLevel >= minHeader and headerLevel <= maxHeader %}
-      {% assign id_split = heading | split: 'id="' %}
-      {% if id_split.size > 1 %}
-        {% assign id_part = id_split[1] | split: '"' | first %}
-      {% else %}
-        {% assign text_part = heading | split: '</h' | first | strip_html | strip %}
-        {% assign id_part = text_part | downcase | replace: ' ', '-' | replace: '.', '' | replace: ',', '' %}
-      {% endif %}
-      {% assign text_part = heading | split: '</h' | first | strip_html | strip %}
-      <li><a href="#{{ id_part }}">{{ text_part }}</a></li>
+{% assign h2s = content | split: '<h2' %}
+{% for h2 in h2s offset:1 %}
+  {% assign h2_id = h2 | split: 'id="' | last | split: '"' | first %}
+  {% assign h2_text = h2 | split: '</h2' | first | strip_html | strip %}
+  <li><a href="#{{ h2_id }}">{{ h2_text }}</a>
+    {% assign h2_content = h2 | split: '</h2>' | last %}
+    {% if h2_content contains '<h3' %}
+      <ul>
+        {% assign h3s = h2_content | split: '<h3' %}
+        {% for h3 in h3s offset:1 %}
+          {% assign h3_id = h3 | split: 'id="' | last | split: '"' | first %}
+          {% assign h3_text = h3 | split: '</h3' | first | strip_html | strip %}
+          <li><a href="#{{ h3_id }}">{{ h3_text }}</a></li>
+        {% endfor %}
+      </ul>
     {% endif %}
-  {% endfor %}
+  </li>
+{% endfor %}
 </ul>
-{% endif %}
