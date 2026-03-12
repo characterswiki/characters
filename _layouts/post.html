@@ -2,225 +2,218 @@
 layout: default
 ---
 <article class="post post--full" itemscope itemtype="https://schema.org/Article">
-    <!-- Reading Progress Bar -->
-    <div class="progress-bar" id="reading-progress"></div>
 
-    <!-- Featured Image with Schema -->
-    {% if page.image %}
-    <div class="post__hero">
-        <img src="{{ page.image | relative_url }}"
-             alt="{{ page.title }}"
-             class="post__featured-image"
-             loading="lazy"
-             itemprop="image"
-             onclick="openLightbox(this.src)">
-        {% if page.image_caption %}
-        <figcaption class="post__image-caption">{{ page.image_caption }}</figcaption>
-        {% endif %}
-    </div>
+  <!-- Reading Progress Bar -->
+  <div class="progress-bar" id="reading-progress"></div>
+
+  <!-- Featured Image -->
+  {% if page.image %}
+  <div class="post__hero">
+    <img src="{{ page.image | relative_url }}"
+         alt="{{ page.title }}"
+         class="post__featured-image"
+         loading="lazy"
+         itemprop="image"
+         onclick="openLightbox(this.src)">
+    {% if page.image_caption %}
+    <figcaption class="post__image-caption">{{ page.image_caption }}</figcaption>
     {% endif %}
+  </div>
+  {% endif %}
 
-    <!-- Lightbox Container (hidden by default) -->
-    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-        <img src="" alt="" class="lightbox__image">
-    </div>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <img src="" alt="" class="lightbox__image">
+  </div>
 
-    <div class="post__grid container">
-        <!-- Main Content Column -->
-        <div class="post__main">
-            <!-- Post Header -->
-            <header class="post__header">
-                <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
+  <div class="post__grid container">
+    <!-- Main Column -->
+    <div class="post__main">
 
-                <!-- Post Meta (Author, Date, Reading Time) -->
-                <div class="post__meta">
-                    {% if page.author %}
-                    <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
-                        <span itemprop="name">{{ page.author }}</span>
-                    </span>
-                    {% endif %}
+      <!-- Post Header -->
+      <header class="post__header">
+        <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
 
-                    <time datetime="{{ page.date | date_to_xmlschema }}"
-                          itemprop="datePublished"
-                          class="post__date">
-                        {{ page.date | date: "%B %d, %Y" }}
-                    </time>
+        <div class="post__meta">
+          {% if page.author %}
+          <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Person">
+            <span itemprop="name">{{ page.author }}</span>
+          </span>
+          {% endif %}
 
-                    {% if page.date != page.last_modified_at %}
-                    <time datetime="{{ page.last_modified_at | date_to_xmlschema }}"
-                          itemprop="dateModified"
-                          class="post__date post__date--updated">
-                        (Updated: {{ page.last_modified_at | date: "%B %d, %Y" }})
-                    </time>
-                    {% endif %}
+          <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished" class="post__date">
+            {{ page.date | date: "%B %d, %Y" }}
+          </time>
 
-                    <span class="post__reading-time">
-                        {% assign words = content | number_of_words %}
-                        {% if words < 360 %} 1 min read
-                        {% else %} {{ words | divided_by:180 }} min read
-                        {% endif %}
-                    </span>
-                </div>
+          {% if page.date != page.last_modified_at %}
+          <time datetime="{{ page.last_modified_at | date_to_xmlschema }}"
+                itemprop="dateModified"
+                class="post__date post__date--updated">
+            (Updated: {{ page.last_modified_at | date: "%B %d, %Y" }})
+          </time>
+          {% endif %}
 
-                <!-- Categories & Tags -->
-                <div class="post__taxonomies">
-                    {% if page.categories.size > 0 %}
-                    <div class="post__categories">
-                        <span class="taxonomy-label">Categories:</span>
-                        {% for category in page.categories %}
-                        <a href="{{ '/categories/' | append: category | slugify | relative_url }}"
-                           class="tag category-tag"
-                           rel="category">{{ category }}</a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-
-                    {% if page.tags.size > 0 %}
-                    <div class="post__tags">
-                        <span class="taxonomy-label">Tags:</span>
-                        {% for tag in page.tags %}
-                        <a href="{{ '/tags/' | append: tag | slugify | relative_url }}"
-                           class="tag"
-                           rel="tag">{{ tag }}</a>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                </div>
-            </header>
-
-            <!-- Table of Contents (auto-generated if more than 3 headings) -->
-            {% assign headings = content | split: '<h2' | size %}
-            {% if headings > 3 %}
-            <details class="post__toc" open>
-                <summary class="toc__title">📖 Table of Contents</summary>
-                <nav class="toc__nav">
-                    {% include toc.html html=content %}
-                </nav>
-            </details>
+          <span class="post__reading-time">
+            {% assign words = content | number_of_words %}
+            {% if words < 360 %} 1 min read
+            {% else %} {{ words | divided_by:180 }} min read
             {% endif %}
-
-            <!-- Post Content (centered text) -->
-            <section class="post__content" itemprop="articleBody">
-                {{ content }}
-            </section>
-
-            <!-- Author Bio -->
-            {% if page.author %}
-            <aside class="post__author-bio">
-                <div class="author-bio__avatar">
-                    <img src="{{ '/assets/images/authors/' | append: page.author | slugify | append: '.jpg' | default: '/assets/images/default-author.jpg' | relative_url }}"
-                         alt="{{ page.author }}"
-                         loading="lazy">
-                </div>
-                <div class="author-bio__info">
-                    <h3>About {{ page.author }}</h3>
-                    <p>{{ site.data.authors[page.author].bio | default: "Author bio goes here. You can define it in _data/authors.yml." }}</p>
-                </div>
-            </aside>
-            {% endif %}
-
-            <!-- Related Posts (based on first category or tag) -->
-            {% if page.related %}
-            <aside class="post__related">
-                <h3>You Might Also Like</h3>
-                <div class="related-grid">
-                    {% assign maxRelated = 3 %}
-                    {% assign minCommonTags = 1 %}
-                    {% assign relatedPosts = "" | split: "" %}
-                    {% for post in site.posts %}
-                        {% if post.url != page.url %}
-                            {% assign commonTags = 0 %}
-                            {% for tag in post.tags %}
-                                {% if page.tags contains tag %}
-                                    {% assign commonTags = commonTags | plus: 1 %}
-                                {% endif %}
-                            {% endfor %}
-                            {% if commonTags >= minCommonTags %}
-                                {% assign relatedPosts = relatedPosts | push: post %}
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    {% for post in relatedPosts limit: maxRelated %}
-                    <article class="related-card">
-                        <a href="{{ post.url | relative_url }}">
-                            {% if post.image %}
-                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-                            {% endif %}
-                            <h4>{{ post.title }}</h4>
-                        </a>
-                    </article>
-                    {% endfor %}
-                </div>
-            </aside>
-            {% endif %}
-
-            <!-- Post Navigation -->
-            <nav class="post__navigation" aria-label="Post navigation">
-                {% if page.previous.url %}
-                <a class="post__nav-link post__nav-link--prev"
-                   href="{{ page.previous.url | relative_url }}"
-                   rel="prev">
-                    <span aria-hidden="true">←</span> {{ page.previous.title }}
-                </a>
-                {% endif %}
-
-                {% if page.next.url %}
-                <a class="post__nav-link post__nav-link--next"
-                   href="{{ page.next.url | relative_url }}"
-                   rel="next">
-                    {{ page.next.title }} <span aria-hidden="true">→</span>
-                </a>
-                {% endif %}
-            </nav>
-
-            <!-- Back to Top -->
-            <a href="#top" class="post__back-to-top">↑ Back to top</a>
+          </span>
         </div>
 
-        <!-- Sidebar Column (optional) -->
-        <aside class="post__sidebar">
-            <!-- You can include widgets here: recent posts, newsletter, etc. -->
-            <div class="sidebar-widget">
-                <h4>Recent Posts</h4>
-                <ul>
-                    {% for post in site.posts limit:5 %}
-                    <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </aside>
+        <!-- Categories & Tags -->
+        <div class="post__taxonomies">
+          {% if page.categories.size > 0 %}
+          <div class="post__categories">
+            <span class="taxonomy-label">Categories:</span>
+            {% for category in page.categories %}
+            <a href="{{ '/categories/' | append: category | slugify | relative_url }}"
+               class="tag category-tag"
+               rel="category">{{ category }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% if page.tags.size > 0 %}
+          <div class="post__tags">
+            <span class="taxonomy-label">Tags:</span>
+            {% for tag in page.tags %}
+            <a href="{{ '/tags/' | append: tag | slugify | relative_url }}"
+               class="tag"
+               rel="tag">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </header>
+
+      <!-- Table of Contents -->
+      {% assign headings = content | split: '<h2' | size %}
+      {% if headings > 3 %}
+      <details class="post__toc" open>
+        <summary class="toc__title">📖 Table of Contents</summary>
+        <nav class="toc__nav">
+          {% include toc.html html=content %}
+        </nav>
+      </details>
+      {% endif %}
+
+      <!-- Post Content -->
+      <section class="post__content" itemprop="articleBody">
+        {{ content }}
+      </section>
+
+      <!-- Author Bio -->
+      {% if page.author %}
+      <aside class="post__author-bio">
+        <div class="author-bio__avatar">
+          <img src="{{ '/assets/images/authors/' | append: page.author | slugify | append: '.jpg' | default: '/assets/images/default-author.jpg' | relative_url }}"
+               alt="{{ page.author }}"
+               loading="lazy">
+        </div>
+        <div class="author-bio__info">
+          <h3>About {{ page.author }}</h3>
+          <p>{{ site.data.authors[page.author].bio | default: "Author bio goes here." }}</p>
+        </div>
+      </aside>
+      {% endif %}
+
+      <!-- Related Posts -->
+      {% if page.related %}
+      <aside class="post__related">
+        <h3>You Might Also Like</h3>
+        <div class="related-grid">
+          {% assign maxRelated = 3 %}
+          {% assign minCommonTags = 1 %}
+          {% assign relatedPosts = "" | split: "" %}
+          {% for post in site.posts %}
+            {% if post.url != page.url %}
+              {% assign commonTags = 0 %}
+              {% for tag in post.tags %}
+                {% if page.tags contains tag %}
+                  {% assign commonTags = commonTags | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+              {% if commonTags >= minCommonTags %}
+                {% assign relatedPosts = relatedPosts | push: post %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% for post in relatedPosts limit: maxRelated %}
+          <article class="related-card">
+            <a href="{{ post.url | relative_url }}">
+              {% if post.image %}
+              <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+              {% endif %}
+              <h4>{{ post.title }}</h4>
+            </a>
+          </article>
+          {% endfor %}
+        </div>
+      </aside>
+      {% endif %}
+
+      <!-- Post Navigation -->
+      <nav class="post__navigation" aria-label="Post navigation">
+        {% if page.previous.url %}
+        <a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}" rel="prev">
+          <span aria-hidden="true">←</span> {{ page.previous.title }}
+        </a>
+        {% endif %}
+        {% if page.next.url %}
+        <a class="post__nav-link post__nav-link--next" href="{{ page.next.url | relative_url }}" rel="next">
+          {{ page.next.title }} <span aria-hidden="true">→</span>
+        </a>
+        {% endif %}
+      </nav>
+
+      <!-- Back to Top -->
+      <a href="#top" class="post__back-to-top">↑ Back to top</a>
     </div>
+
+    <!-- Sidebar -->
+    <aside class="post__sidebar">
+      <div class="sidebar-widget">
+        <h4>Recent Posts</h4>
+        <ul>
+          {% for post in site.posts limit:5 %}
+          <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </div>
 </article>
 
 <script>
-// Reading Progress Bar
-window.addEventListener('scroll', function() {
+  // Reading Progress Bar
+  window.addEventListener('scroll', function() {
     const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
     const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (winScroll / height) * 100;
     document.getElementById('reading-progress').style.width = scrolled + '%';
-});
+  });
 
-// Lightbox
-function openLightbox(src) {
+  // Lightbox
+  function openLightbox(src) {
     document.getElementById('lightbox').style.display = 'flex';
     document.querySelector('.lightbox__image').src = src;
-}
-function closeLightbox() {
+  }
+  function closeLightbox() {
     document.getElementById('lightbox').style.display = 'none';
-}
+  }
 
-// Dark Mode Toggle (if you add a button)
-document.addEventListener('DOMContentLoaded', function() {
+  // Dark Mode Toggle
+  document.addEventListener('DOMContentLoaded', function() {
     const toggle = document.getElementById('dark-mode-toggle');
     if (toggle) {
-        toggle.addEventListener('click', function() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-        });
-        if (localStorage.getItem('theme') === 'dark') {
-            document.body.classList.add('dark-mode');
-        }
+      toggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+      });
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+      }
     }
-});
+  });
 </script>
