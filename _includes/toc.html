@@ -1,21 +1,9 @@
-{% assign content = include.html %}
+{% assign headers = include.html | split: '<h2' %}
 <ul class="toc-list">
-{% assign h2s = content | split: '<h2' %}
-{% for h2 in h2s offset:1 %}
-  {% assign h2_id = h2 | split: 'id="' | last | split: '"' | first %}
-  {% assign h2_text = h2 | split: '</h2' | first | strip_html | strip %}
-  <li><a href="#{{ h2_id }}">{{ h2_text }}</a>
-    {% assign h2_content = h2 | split: '</h2>' | last %}
-    {% if h2_content contains '<h3' %}
-      <ul>
-        {% assign h3s = h2_content | split: '<h3' %}
-        {% for h3 in h3s offset:1 %}
-          {% assign h3_id = h3 | split: 'id="' | last | split: '"' | first %}
-          {% assign h3_text = h3 | split: '</h3' | first | strip_html | strip %}
-          <li><a href="#{{ h3_id }}">{{ h3_text }}</a></li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  </li>
-{% endfor %}
+  {% for header in headers offset:1 %}
+    {% assign header_parts = header | split: '</h2' | first %}
+    {% assign id = header_parts | split: 'id="' | last | split: '"' | first %}
+    {% assign text = header_parts | strip_html | strip %}
+    <li><a href="#{{ id }}">{{ text }}</a></li>
+  {% endfor %}
 </ul>
