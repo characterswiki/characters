@@ -3,24 +3,19 @@ layout: default
 title: Home
 ---
 
-<!-- HERO SECTION -->
 <section class="hero">
   <h1>{{ site.title }}</h1>
   <p>{{ site.description }}</p>
   <input id="searchInput" placeholder="Search characters..." />
 </section>
 
-<!-- LATEST CHARACTERS SECTION -->
 <section class="characters">
   <h2>Latest Characters</h2>
   <div class="grid">
     {% for post in site.posts limit:12 %}
     <a href="{{ post.url | relative_url }}" class="card">
-      <img
-        src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}"
-        alt="{{ post.title }}"
-        loading="lazy"
-      />
+      <img src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}" 
+           alt="{{ post.title }}" loading="lazy" />
       <div class="card-content">
         <h3>{{ post.title }}</h3>
         <p>{{ post.categories | join: ", " }}</p>
@@ -30,7 +25,6 @@ title: Home
   </div>
 </section>
 
-<!-- CATEGORIES SECTION -->
 <section class="categories">
   <h2>Categories</h2>
   <div class="category-grid">
@@ -43,7 +37,6 @@ title: Home
   </div>
 </section>
 
-<!-- TAGS SECTION -->
 <section class="tags">
   <h2>Popular Tags</h2>
   <div class="tags">
@@ -52,19 +45,3 @@ title: Home
     {% endfor %}
   </div>
 </section>
-
-<!-- SEARCH SCRIPT -->
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const searchInput = document.getElementById("searchInput");
-  if(searchInput){
-    searchInput.addEventListener("keyup", function() {
-      const filter = this.value.toLowerCase();
-      document.querySelectorAll(".card").forEach(card => {
-        const text = card.innerText.toLowerCase();
-        card.style.display = text.includes(filter) ? "block" : "none";
-      });
-    });
-  }
-});
-</script>
