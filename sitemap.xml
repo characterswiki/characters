@@ -1,40 +1,29 @@
+---
+layout: null
+---
+
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-  <!-- Pages -->
-  {% for page in site.pages %}
-    {% if page.url != '/sitemap.xml' and page.url != '/404.html' %}
-  <url>
-    <loc>https://characterswiki.github.io/characters{{ page.url | remove: 'index.html' }}</loc>
-    {% if page.date %}
-    <lastmod>{{ page.date | date_to_xmlschema }}</lastmod>
-    {% endif %}
-  </url>
-    {% endif %}
-  {% endfor %}
+{% for page in site.pages %}
 
-  <!-- Posts -->
-  {% for post in site.posts %}
-  <url>
-    <loc>https://characterswiki.github.io/characters{{ post.url }}</loc>
-    <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-  </url>
-  {% endfor %}
+<url>
 
-  <!-- Categories -->
-  {% for category in site.categories %}
-    {% assign cat_name = category[0] %}
-  <url>
-    <loc>https://characterswiki.github.io/characters/categories/{{ cat_name | slugify }}/</loc>
-  </url>
-  {% endfor %}
+<loc>{{ page.url | absolute_url }}</loc>
 
-  <!-- Tags -->
-  {% for tag in site.tags %}
-    {% assign tag_name = tag[0] %}
-  <url>
-    <loc>https://characterswiki.github.io/characters/tags/{{ tag_name | slugify }}/</loc>
-  </url>
-  {% endfor %}
+</url>
+
+{% endfor %}
+
+{% for post in site.posts %}
+
+<url>
+
+<loc>{{ post.url | absolute_url }}</loc>
+
+</url>
+
+{% endfor %}
 
 </urlset>
