@@ -17,11 +17,11 @@ layout: default
   </div>
 </section>
 
-<!-- LATEST CHARACTERS SECTION -->
+<!-- LATEST CHARACTERS SECTION (6 posts) -->
 <section class="latest-characters container">
   <h2 class="section-title">Latest Characters</h2>
   <div class="posts-grid" id="character-grid">
-    {% for post in site.posts limit:12 %}
+    {% for post in site.posts limit:6 %}
     <article class="post-card">
       <a href="{{ post.url | relative_url }}" class="post-card__image-link">
         <img 
@@ -38,6 +38,12 @@ layout: default
         <div class="post-card__meta">
           {{ post.categories | join: ", " }}
         </div>
+        <!-- Excerpt -->
+        <p class="post-card__excerpt">
+          {{ post.excerpt | strip_html | truncatewords: 20 }}
+        </p>
+        <!-- Read more button -->
+        <a href="{{ post.url | relative_url }}" class="post-card__button">Read more</a>
       </div>
     </article>
     {% endfor %}
@@ -57,7 +63,8 @@ layout: default
       cards.forEach(card => {
         const title = card.querySelector(".post-card__title")?.innerText.toLowerCase() || "";
         const meta = card.querySelector(".post-card__meta")?.innerText.toLowerCase() || "";
-        const matches = title.includes(filter) || meta.includes(filter);
+        const excerpt = card.querySelector(".post-card__excerpt")?.innerText.toLowerCase() || "";
+        const matches = title.includes(filter) || meta.includes(filter) || excerpt.includes(filter);
         card.style.display = matches ? "" : "none";
       });
     });
