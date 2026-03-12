@@ -37,6 +37,7 @@ layout: default
           </span>
         </div>
 
+        <!-- Categories & Tags – only shown if they exist -->
         <div class="post__taxonomies">
           {% if page.categories.size > 0 %}
           <div class="post__categories">
@@ -58,7 +59,7 @@ layout: default
         </div>
       </header>
 
-      <!-- Table of Contents (appears if at least 3 <h2> headings) -->
+      <!-- Table of Contents – appears only if there are at least 3 <h2> headings -->
       {% assign headings = content | split: '<h2' | size %}
       {% if headings > 3 %}
       <div class="post__toc">
@@ -73,7 +74,7 @@ layout: default
         {{ content }}
       </section>
 
-      <!-- Related Posts (optional) -->
+      <!-- Related Posts – only shown if page.related is set to true in front matter -->
       {% if page.related %}
       <aside class="post__related">
         <h3>You Might Also Like</h3>
@@ -110,6 +111,7 @@ layout: default
       </aside>
       {% endif %}
 
+      <!-- Previous/Next Post Navigation – only shown if previous/next exist -->
       <nav class="post__navigation" aria-label="Post navigation">
         {% if page.previous.url %}
         <a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}" rel="prev">
@@ -126,6 +128,7 @@ layout: default
       </nav>
     </div>
 
+    <!-- Sidebar – always shown (recent posts) -->
     <aside class="post__sidebar">
       <div class="sidebar-widget">
         <h4>Recent Posts</h4>
