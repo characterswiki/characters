@@ -1,189 +1,104 @@
 ---
 layout: default
 ---
-<article class="post post--full" itemscope itemtype="https://schema.org/Article">
 
-<!-- Reading Progress -->
-<div class="progress-bar" id="reading-progress"></div>
+<article class="character-page">
 
-<!-- Hero Image -->
-{% if page.image %}
-<div class="post__hero">
-  <div class="post__hero-overlay"></div>
+<!-- HERO SECTION -->
 
-  <img src="{{ page.image | relative_url }}"
-       alt="{{ page.title }}"
-       class="post__featured-image"
-       loading="lazy"
-       itemprop="image"
-       onclick="openLightbox(this.src)">
+<section class="character-hero">
 
-  {% if page.image_caption %}
-  <figcaption class="post__image-caption">
-    {{ page.image_caption }}
-  </figcaption>
-  {% endif %}
-</div>
-{% endif %}
+<img src="{{ page.image | relative_url }}" 
+class="character-image"
+alt="{{ page.title }}">
 
-<!-- Lightbox -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-<span class="lightbox-close">&times;</span>
-<img src="" alt="" class="lightbox__image">
-</div>
+<div class="character-hero-text">
 
-<div class="post__container">
+<h1>{{ page.character_name }}</h1>
 
-<header class="post__header">
-
-<h1 class="post__title" itemprop="headline">
-{{ page.title }}
-</h1>
-
-<div class="post__meta">
-
-<span class="post__author"
-      itemprop="author"
-      itemscope
-      itemtype="https://schema.org/Organization">
-
-<span itemprop="name">
-{{ site.title }}
-</span>
-
-</span>
-
-<time datetime="{{ page.date | date_to_xmlschema }}"
-      itemprop="datePublished"
-      class="post__date">
-
-{{ page.date | date: "%B %d, %Y" }}
-
-</time>
-
-<span class="post__reading-time">
-
-{% assign words = content | number_of_words %}
-
-{% if words < 360 %}
-1 min read
-{% else %}
-{{ words | divided_by:180 }} min read
-{% endif %}
-
-</span>
+<p class="character-alias">
+{{ page.alias }}
+</p>
 
 </div>
-</header>
+
+</section>
 
 
-<!-- Table of Contents -->
+<div class="character-layout">
 
-{% assign headings = content | split: '<h2' | size %}
+<!-- INFOBOX -->
 
-{% if headings > 3 %}
+<aside class="character-infobox">
 
-<details class="post__toc">
+<h3>Character Info</h3>
 
-<summary class="toc__title">
-📖 Table of Contents
-</summary>
+<ul>
 
-<nav class="toc__nav">
+<li>
+<strong>Name:</strong>
+{{ page.character_name }}
+</li>
 
-{% include toc.html html=content %}
+<li>
+<strong>Alias:</strong>
+{{ page.alias }}
+</li>
 
-</nav>
+<li>
+<strong>Gender:</strong>
+{{ page.gender }}
+</li>
 
-</details>
+<li>
+<strong>Creator:</strong>
+{{ page.creator }}
+</li>
 
-{% endif %}
+<li>
+<strong>Series:</strong>
+{{ page.series }}
+</li>
+
+</ul>
+
+</aside>
 
 
-<!-- Article Content -->
+<!-- MAIN CONTENT -->
 
-<section class="post__content" itemprop="articleBody">
+<section class="character-content">
 
 {{ content }}
 
 </section>
 
-
-
-<!-- Share Buttons -->
-
-<aside class="post__share">
-
-<h4>Share this article</h4>
-
-<div class="share__buttons">
-
-<a href="https://twitter.com/intent/tweet?text={{ page.title | url_encode }}&url={{ page.url | absolute_url | url_encode }}"
-target="_blank"
-rel="noopener"
-class="share__btn">
-
-Twitter
-
-</a>
-
-
-<a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url | url_encode }}"
-target="_blank"
-rel="noopener"
-class="share__btn">
-
-Facebook
-
-</a>
-
-
-<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ page.url | absolute_url | url_encode }}"
-target="_blank"
-rel="noopener"
-class="share__btn">
-
-LinkedIn
-
-</a>
-
 </div>
 
-</aside>
 
+<!-- RELATED CHARACTERS -->
 
+<section class="related-characters">
 
-<!-- Related Posts -->
+<h2>Related Characters</h2>
 
-<aside class="post__related">
+<div class="character-grid">
 
-<h3>You Might Also Like</h3>
-
-<div class="related-grid">
-
-{% for post in site.posts limit:3 %}
+{% for post in site.posts limit:6 %}
 
 {% if post.url != page.url %}
 
-<article class="related-card">
-
-<a href="{{ post.url | relative_url }}">
+<a href="{{ post.url | relative_url }}" class="character-card">
 
 {% if post.image %}
 
-<img src="{{ post.image | relative_url }}"
-alt="{{ post.title }}"
-loading="lazy">
+<img src="{{ post.image | relative_url }}">
 
 {% endif %}
 
-<h4>
-{{ post.title }}
-</h4>
+<h4>{{ post.character_name }}</h4>
 
 </a>
-
-</article>
 
 {% endif %}
 
@@ -191,41 +106,6 @@ loading="lazy">
 
 </div>
 
-</aside>
+</section>
 
-
-</div>
 </article>
-
-
-
-<script>
-
-window.addEventListener('scroll',function(){
-
-const winScroll=document.body.scrollTop||document.documentElement.scrollTop;
-
-const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-
-const scrolled=(winScroll/height)*100;
-
-document.getElementById('reading-progress').style.width=scrolled+'%';
-
-});
-
-
-function openLightbox(src){
-
-document.getElementById('lightbox').style.display='flex';
-
-document.querySelector('.lightbox__image').src=src;
-
-}
-
-function closeLightbox(){
-
-document.getElementById('lightbox').style.display='none';
-
-}
-
-</script>
