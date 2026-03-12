@@ -1,29 +1,27 @@
 title: Characters Wiki
 description: Encyclopedia of anime, manga and game characters
-baseurl: "/characters"       # leave as is if hosted in a subdirectory
+baseurl: "/characters"
 url: "https://characterswiki.github.io"
 
 permalink: /:title/
 
-# Plugins for SEO, feeds, sitemaps, and archive generation
 plugins:
-  - jekyll-feed          # RSS feed for posts
-  - jekyll-sitemap       # sitemap.xml for search engines
-  - jekyll-seo-tag       # adds SEO meta tags automatically
-  - jekyll-archives      # auto-generates category & tag archive pages
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-archives
 
-# Configuration for jekyll-archives (auto category/tag pages)
+# Auto-generate category & tag pages
 jekyll-archives:
   enabled:
     - categories
     - tags
   layouts:
-    category: category    # use _layouts/category.html
-    tag: tag             # use _layouts/tag.html
+    category: category
+    tag: tag
   permalinks:
     category: /categories/:name/
     tag: /tags/:name/
 
-# Markdown and URL settings
 markdown: kramdown
 highlighter: rouge
