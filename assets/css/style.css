@@ -917,3 +917,28 @@ body.dark-mode .tags-cloud .tag:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 20px rgba(229,62,62,0.2);
 }
+.archive-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.archive-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid #e2e8f0;
+}
+.archive-item a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: inherit;
+}
+.archive-item h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+.archive-item time {
+  color: #718096;
+  font-size: 0.9rem;
+}
+.archive-item:hover h3 {
+  color: #e53e3e;
+}
