@@ -1,7 +1,7 @@
 ---
 layout: default
 title: "Utena Tenjou – The Revolutionary Rose of *Revolutionary Girl Utena*"
-date: 2026-03-05
+date: 2026-03-12
 categories: [Revolutionary Girl Utena]
 tags: [Utena Tenjou, Revolutionary Girl Utena, Anime, Character Analysis, Psychological Drama, Symbolism]
 excerpt: In-depth character analysis of Utena Tenjou from *Revolutionary Girl Utena*. Exploring her psychology, symbolic significance, narrative role, and cultural impact based on Japanese primary sources.
