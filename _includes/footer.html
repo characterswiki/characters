@@ -1,5 +1,7 @@
 <footer>
-
-<p>© {{ site.time | date: "%Y" }} {{ site.title }}</p>
-
+  <p>© {{ site.time | date: "%Y" }} {{ site.title }}</p>
+  <p>
+    <a href="{{ '/privacy/' | relative_url }}">Privacy</a> |
+    <a href="{{ '/terms/' | relative_url }}">Terms</a>
+  </p>
 </footer>
