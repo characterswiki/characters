@@ -1,158 +1,207 @@
 ---
 layout: default
 ---
+<article class="post post--full" itemscope itemtype="https://schema.org/Article">
 
-<article class="article" itemscope itemtype="https://schema.org/Article">
+  <!-- Reading Progress Bar -->
+  <div class="progress-bar" id="reading-progress"></div>
 
-<div class="reading-progress" id="reading-progress"></div>
+  <!-- Featured Image -->
+  {% if page.image %}
+  <div class="post__hero">
+    <div class="post__hero-overlay"></div>
+    <img src="{{ page.image | relative_url }}"
+         alt="{{ page.title }}"
+         class="post__featured-image"
+         loading="lazy"
+         itemprop="image"
+         onclick="openLightbox(this.src)">
+    {% if page.image_caption %}
+    <figcaption class="post__image-caption">{{ page.image_caption }}</figcaption>
+    {% endif %}
+  </div>
+  {% endif %}
 
-<!-- HERO IMAGE -->
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img src="" alt="" class="lightbox__image">
+  </div>
 
-{% if page.image %}
-<div class="article-hero">
+  <div class="post__grid container">
+    <!-- Main Column -->
+    <div class="post__main">
 
-<img src="{{ page.image | relative_url }}"
-alt="{{ page.title }}"
-class="article-hero-image"
-loading="lazy"
-itemprop="image">
+      <!-- Post Header -->
+      <header class="post__header">
+        <h1 class="post__title" itemprop="headline">{{ page.title }}</h1>
 
-</div>
-{% endif %}
+        <div class="post__meta">
+          <!-- Author = site title (Organization) -->
+          <span class="post__author" itemprop="author" itemscope itemtype="https://schema.org/Organization">
+            <span itemprop="name">{{ site.title }}</span>
+          </span>
 
+          <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished" class="post__date">
+            {{ page.date | date: "%B %d, %Y" }}
+          </time>
 
-<!-- HEADER -->
+          {% if page.date != page.last_modified_at %}
+          <time datetime="{{ page.last_modified_at | date_to_xmlschema }}"
+                itemprop="dateModified"
+                class="post__date post__date--updated">
+            (Updated: {{ page.last_modified_at | date: "%B %d, %Y" }})
+          </time>
+          {% endif %}
 
-<header class="article-header">
+          <span class="post__reading-time">
+            {% assign words = content | number_of_words %}
+            {% if words < 360 %} 1 min read
+            {% else %} {{ words | divided_by:180 }} min read
+            {% endif %}
+          </span>
+        </div>
 
-<h1 class="article-title" itemprop="headline">
-{{ page.title }}
-</h1>
+        <!-- Categories & Tags -->
+        <div class="post__taxonomies">
+          {% if page.categories.size > 0 %}
+          <div class="post__categories">
+            <span class="taxonomy-label">Categories:</span>
+            {% for category in page.categories %}
+            <a href="{{ '/categories/' | append: category | slugify | relative_url }}" class="tag category-tag">{{ category }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
 
-<p class="article-excerpt">
-{{ page.excerpt }}
-</p>
+          {% if page.tags.size > 0 %}
+          <div class="post__tags">
+            <span class="taxonomy-label">Tags:</span>
+            {% for tag in page.tags %}
+            <a href="{{ '/tags/' | append: tag | slugify | relative_url }}" class="tag">{{ tag }}</a>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </header>
 
-<div class="article-meta">
+      <!-- Table of Contents (if more than 3 headings) -->
+      {% assign headings = content | split: '<h2' | size %}
+      {% if headings > 3 %}
+      <details class="post__toc">
+        <summary class="toc__title">📖 Table of Contents</summary>
+        <nav class="toc__nav">
+          {% include toc.html html=content %}
+        </nav>
+      </details>
+      {% endif %}
 
-<span class="meta-author">
-{{ site.title }}
-</span>
+      <!-- Post Content -->
+      <section class="post__content" itemprop="articleBody">
+        {{ content }}
+      </section>
 
-<time datetime="{{ page.date | date_to_xmlschema }}">
-{{ page.date | date: "%B %d, %Y" }}
-</time>
+      <!-- Related Posts -->
+      {% if page.related %}
+      <aside class="post__related">
+        <h3>You Might Also Like</h3>
+        <div class="related-grid">
+          {% assign maxRelated = 3 %}
+          {% assign minCommonTags = 1 %}
+          {% assign relatedPosts = "" | split: "" %}
+          {% for post in site.posts %}
+            {% if post.url != page.url %}
+              {% assign commonTags = 0 %}
+              {% for tag in post.tags %}
+                {% if page.tags contains tag %}
+                  {% assign commonTags = commonTags | plus: 1 %}
+                {% endif %}
+              {% endfor %}
+              {% if commonTags >= minCommonTags %}
+                {% assign relatedPosts = relatedPosts | push: post %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% for post in relatedPosts limit: maxRelated %}
+          <article class="related-card">
+            <a href="{{ post.url | relative_url }}">
+              {% if post.image %}
+              <div class="related-card__image">
+                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+              </div>
+              {% endif %}
+              <h4>{{ post.title }}</h4>
+            </a>
+          </article>
+          {% endfor %}
+        </div>
+      </aside>
+      {% endif %}
 
-<span class="meta-reading">
+      <!-- Post Navigation -->
+      <nav class="post__navigation" aria-label="Post navigation">
+        {% if page.previous.url %}
+        <a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}" rel="prev">
+          <span class="nav-arrow">←</span>
+          <span class="nav-text">{{ page.previous.title }}</span>
+        </a>
+        {% endif %}
+        {% if page.next.url %}
+        <a class="post__nav-link post__nav-link--next" href="{{ page.next.url | relative_url }}" rel="next">
+          <span class="nav-text">{{ page.next.title }}</span>
+          <span class="nav-arrow">→</span>
+        </a>
+        {% endif %}
+      </nav>
+    </div>
 
-{% assign words = content | number_of_words %}
+    <!-- Sidebar (Recent Posts) -->
+    <aside class="post__sidebar">
+      <div class="sidebar-widget">
+        <h4>Recent Posts</h4>
+        <ul>
+          {% for post in site.posts limit:5 %}
+          <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </div>
 
-{% if words < 360 %}
-1 min read
-{% else %}
-{{ words | divided_by:180 }} min read
-{% endif %}
-
-</span>
-
-</div>
-
-</header>
-
-
-<!-- CHARACTER CONTEXT LINE -->
-
-<div class="character-context">
-
-{% if page.character_name %}
-<strong>Character:</strong> {{ page.character_name }}
-{% endif %}
-
-{% if page.alias %}
-• <strong>Alias:</strong> {{ page.alias }}
-{% endif %}
-
-{% if page.series %}
-• <strong>Series:</strong> {{ page.series }}
-{% endif %}
-
-{% if page.creator %}
-• <strong>Creator:</strong> {{ page.creator }}
-{% endif %}
-
-</div>
-
-
-<!-- ARTICLE BODY -->
-
-<section class="article-body" itemprop="articleBody">
-
-{{ content }}
-
-</section>
-
-
-<!-- TAGS -->
-
-{% if page.tags %}
-<div class="article-tags">
-
-{% for tag in page.tags %}
-<a href="/tags/{{ tag | slugify }}/">
-{{ tag }}
-</a>
-{% endfor %}
-
-</div>
-{% endif %}
-
-
-
-<!-- RELATED POSTS -->
-
-<section class="article-related">
-
-<h3>More Characters</h3>
-
-<div class="article-grid">
-
-{% for post in site.posts limit:4 %}
-
-{% if post.url != page.url %}
-
-<a href="{{ post.url | relative_url }}" class="article-card">
-
-{% if post.image %}
-<img src="{{ post.image | relative_url }}">
-{% endif %}
-
-<h4>{{ post.title }}</h4>
-
-</a>
-
-{% endif %}
-
-{% endfor %}
-
-</div>
-
-</section>
-
+  <!-- Floating Back to Top -->
+  <a href="#top" class="floating-top" aria-label="Back to top">↑</a>
 </article>
 
-
 <script>
+  window.addEventListener('scroll', function() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById('reading-progress').style.width = scrolled + '%';
 
-window.addEventListener("scroll", function(){
+    if (window.scrollY > 400) {
+      document.body.classList.add('scrolled');
+    } else {
+      document.body.classList.remove('scrolled');
+    }
+  });
 
-let scrollTop = document.documentElement.scrollTop;
+  function openLightbox(src) {
+    document.getElementById('lightbox').style.display = 'flex';
+    document.querySelector('.lightbox__image').src = src;
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
 
-let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-
-let progress = (scrollTop / height) * 100;
-
-document.getElementById("reading-progress").style.width = progress + "%";
-
-});
-
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  });
 </script>
