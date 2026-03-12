@@ -9,11 +9,9 @@
 
 <title>{{ page.title }} | {{ site.title }}</title>
 
-<meta name="description" content="{{ page.excerpt | strip_html }}">
+<meta name="description" content="{{ site.description }}">
 
-<link rel="stylesheet" href="/assets/css/style.css">
-
-<link rel="canonical" href="{{ page.url | absolute_url }}">
+<link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
 </head>
 
@@ -21,11 +19,11 @@
 
 {% include header.html %}
 
-<div class="container">
+<main>
 
 {{ content }}
 
-</div>
+</main>
 
 {% include footer.html %}
 
