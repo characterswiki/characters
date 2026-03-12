@@ -44,29 +44,6 @@ layout: default
   </div>
 </section>
 
-<!-- CATEGORIES SECTION -->
-<section class="categories-section container">
-  <h2 class="section-title">Categories</h2>
-  <div class="category-grid">
-    {% for category in site.categories %}
-    <a href="{{ '/categories/' | append: category[0] | slugify | relative_url }}" class="category-card">
-      <h3 class="category-card__title">{{ category[0] }}</h3>
-      <span class="category-card__count">{{ category[1].size }} characters</span>
-    </a>
-    {% endfor %}
-  </div>
-</section>
-
-<!-- TAGS SECTION -->
-<section class="tags-section container">
-  <h2 class="section-title">Popular Tags</h2>
-  <div class="tags-cloud">
-    {% for tag in site.tags limit:30 %}
-    <a href="{{ '/tags/' | append: tag[0] | slugify | relative_url }}" class="tag">{{ tag[0] }}</a>
-    {% endfor %}
-  </div>
-</section>
-
 <!-- SEARCH SCRIPT (filter cards on homepage) -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
