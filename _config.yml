@@ -32,7 +32,7 @@ defaults:
     values:
       layout: "page"
 
-# Jekyll Archives
+# Jekyll Archives (Category & Tag pages)
 jekyll-archives:
   enabled:
     - categories
