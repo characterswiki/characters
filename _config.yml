@@ -1,26 +1,51 @@
-title: Characters Wiki
-description: Encyclopedia of anime, manga and game characters
+# Site Settings
+title: "Characters Wiki"
+email: "your-email@example.com"
+description: >-
+  Encyclopedia of anime, manga and game characters
 baseurl: "/characters"
 url: "https://characterswiki.github.io"
 
-permalink: /:title/
-
+# Build Settings
+markdown: kramdown
+theme: null
 plugins:
   - jekyll-feed
-  - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-archives
 
+# Permalinks
+permalink: /:title/
+
+# Default Front Matter
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Your Name"
+      image: "/assets/images/default-character.jpg"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Jekyll Archives
 jekyll-archives:
   enabled:
     - categories
     - tags
-  layouts:
-    category: category
-    tag: tag
+  layout: 'archive'
   permalinks:
-    category: /categories/:name/
-    tag: /tags/:name/
+    category: '/categories/:name/'
+    tag: '/tags/:name/'
 
-markdown: kramdown
-highlighter: rouge
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
