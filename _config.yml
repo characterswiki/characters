@@ -17,13 +17,26 @@ plugins:
 # Permalinks
 permalink: /:title/
 
-# Default Front Matter
+# Kramdown Settings – ensures TOC works for all headings
+kramdown:
+  auto_ids: true           # Automatically generates id="" for headings
+  toc_levels: 2..3         # TOC will include h2 and h3
+  hard_wrap: false
+  syntax_highlighter_opts:
+    line_numbers: false
+
+# Default Front Matter – fixes layout issues for all posts
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       layout: "post"
+      tags: []                    # default empty array if missing
+      categories: []              # default empty array
+      related: false              # prevents layout break if missing
+      last_modified_at: null      # for updated date
+      excerpt: ""                 # avoids blank summary issues
       image: "/assets/images/default-character.jpg"
   - scope:
       path: ""
@@ -31,7 +44,7 @@ defaults:
     values:
       layout: "page"
 
-# Jekyll Archives (Category & Tag pages) – using :slug to match links
+# Jekyll Archives (Category & Tag pages)
 jekyll-archives:
   enabled:
     - categories
