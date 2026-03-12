@@ -1,11 +1,55 @@
 ---
 layout: default
 ---
-<article class="post">
-  <h1>{{ page.title }}</h1>
-  <img src="{{ page.image | default: '/assets/images/default-character.jpg' | relative_url }}" 
-       alt="{{ page.title }}" class="feature-image">
-  <div class="post-content">
-    {{ content }}
-  </div>
+<article class="post post--full">
+    {% if page.image %}
+    <div class="post__hero">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" class="post__featured-image" loading="lazy">
+    </div>
+    {% endif %}
+    
+    <div class="post__header container">
+        <h1 class="post__title">{{ page.title }}</h1>
+        <div class="post__meta">
+            <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
+            {% if page.author %} <span class="post__author">by {{ page.author }}</span> {% endif %}
+        </div>
+        
+        <div class="post__taxonomies">
+            {% if page.categories.size > 0 %}
+            <div class="post__categories">
+                <span>Categories:</span>
+                {% for category in page.categories %}
+                <a href="{{ '/categories/' | append: category | slugify | relative_url }}" class="tag category-tag">{{ category }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            
+            {% if page.tags.size > 0 %}
+            <div class="post__tags">
+                <span>Tags:</span>
+                {% for tag in page.tags %}
+                <a href="{{ '/tags/' | append: tag | slugify | relative_url }}" class="tag">{{ tag }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="post__content container">
+        {{ content }}
+    </div>
+    
+    <nav class="post__navigation container">
+        {% if page.previous.url %}
+        <a class="post__nav-link post__nav-link--prev" href="{{ page.previous.url | relative_url }}">
+            <span>← Previous</span> {{ page.previous.title }}
+        </a>
+        {% endif %}
+        {% if page.next.url %}
+        <a class="post__nav-link post__nav-link--next" href="{{ page.next.url | relative_url }}">
+            <span>Next →</span> {{ page.next.title }}
+        </a>
+        {% endif %}
+    </nav>
 </article>
