@@ -1,22 +1,20 @@
 ---
 layout: default
 ---
-
-<h1>Tag: {{ page.title }}</h1>
-
-<div class="grid">
-
-{% assign posts_in_tag = site.tags[page.tag] %}
-
-{% for post in posts_in_tag %}
-<a href="{{ post.url | relative_url }}" class="card">
-  <img src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}"
-       alt="{{ post.title }}" loading="lazy">
-  <div class="card-content">
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.categories | join: ", " }}</p>
-  </div>
-</a>
-{% endfor %}
-
-</div>
+<section class="category-header">
+  <h1>Tag: {{ page.title }}</h1>
+  <p>All characters tagged with {{ page.title }}.</p>
+</section>
+<section class="category-characters grid">
+  {% assign posts_in_tag = site.tags[page.tag] %}
+  {% for post in posts_in_tag %}
+  <a href="{{ post.url | relative_url }}" class="card">
+    <img src="{{ post.image | default: '/assets/images/default-character.jpg' | relative_url }}" 
+         alt="{{ post.title }}" loading="lazy">
+    <div class="card-content">
+      <h3>{{ post.title }}</h3>
+      <p>{{ post.categories | join: ", " }}</p>
+    </div>
+  </a>
+  {% endfor %}
+</section>
