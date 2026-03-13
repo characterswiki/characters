@@ -1,3 +1,0 @@
-{
-  "rewrites": [{ "source": "/characters/(.*)", "destination": "/$1" }]
-}
