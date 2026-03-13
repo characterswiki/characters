@@ -1,6 +1,3 @@
 {
-  "buildCommand": "bundle exec jekyll build",
-  "installCommand": "bundle install",
-  "outputDirectory": "_site",
-  "framework": "jekyll"
+  "rewrites": [{ "source": "/characters/(.*)", "destination": "/$1" }]
 }
