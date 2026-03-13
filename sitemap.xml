@@ -3,38 +3,7 @@ layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  {% for page in site.pages %}
-    {% unless page.url contains 'assets' or page.url contains '.xml' or page.url contains '.txt' or page.url contains '404.html' %}
-    <url>
-      <loc>{{ page.url | absolute_url }}</loc>
-      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-      <changefreq>monthly</changefreq>
-      <priority>0.8</priority>
-    </url>
-    {% endunless %}
-  {% endfor %}
-  {% for post in site.posts %}
-    <url>
-      <loc>{{ post.url | absolute_url }}</loc>
-      <lastmod>{{ post.date | date_to_xmlschema }}</lastmod>
-      <changefreq>yearly</changefreq>
-      <priority>1.0</priority>
-    </url>
-  {% endfor %}
-  {% for category in site.categories %}
-    <url>
-      <loc>{{ '/categories/' | append: category[0] | slugify | absolute_url }}</loc>
-      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.6</priority>
-    </url>
-  {% endfor %}
-  {% for tag in site.tags %}
-    <url>
-      <loc>{{ '/tags/' | append: tag[0] | slugify | absolute_url }}</loc>
-      <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
-      <changefreq>weekly</changefreq>
-      <priority>0.5</priority>
-    </url>
-  {% endfor %}
+  <url>
+    <loc>https://characterswiki.vercel.app/</loc>
+  </url>
 </urlset>
