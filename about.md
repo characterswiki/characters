@@ -18,5 +18,3 @@ This wiki is maintained by fans, for fans. Every character page includes:
 - Personality traits
 - Relationships
 - Fun facts
-
-Want to contribute? Check our [GitHub repository](https://github.com/characterswiki/characters)!
