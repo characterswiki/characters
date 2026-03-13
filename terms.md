@@ -4,8 +4,6 @@ title: Terms and Conditions
 permalink: /terms/
 ---
 
-# Terms and Conditions
-
 Last updated: March 13, 2026
 
 Welcome to **Characters Wiki** (https://characterswiki.github.io/characters/).  
