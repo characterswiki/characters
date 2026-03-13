@@ -4,8 +4,6 @@ title: About
 permalink: /about/
 ---
 
-# About Characters Wiki
-
 Welcome to your ultimate anime character database! We cover characters from:
 
 {% for category in site.categories %}
