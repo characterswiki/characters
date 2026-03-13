@@ -3,7 +3,6 @@ layout: null
 ---
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- Static Pages (excluding assets, xml, txt) -->
   {% for page in site.pages %}
     {% unless page.url contains 'assets' or page.url contains '.xml' or page.url contains '.txt' or page.url contains '404.html' %}
     <url>
@@ -14,8 +13,6 @@ layout: null
     </url>
     {% endunless %}
   {% endfor %}
-
-  <!-- Posts -->
   {% for post in site.posts %}
     <url>
       <loc>{{ post.url | absolute_url }}</loc>
@@ -24,8 +21,6 @@ layout: null
       <priority>1.0</priority>
     </url>
   {% endfor %}
-
-  <!-- Category Pages -->
   {% for category in site.categories %}
     <url>
       <loc>{{ '/categories/' | append: category[0] | slugify | absolute_url }}</loc>
@@ -34,8 +29,6 @@ layout: null
       <priority>0.6</priority>
     </url>
   {% endfor %}
-
-  <!-- Tag Pages -->
   {% for tag in site.tags %}
     <url>
       <loc>{{ '/tags/' | append: tag[0] | slugify | absolute_url }}</loc>
