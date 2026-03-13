@@ -6,7 +6,7 @@ permalink: /privacy/
 
 Last updated: March 13, 2026
 
-Welcome to **Characters Wiki** (https://characterswiki.github.io/characters/).  
+Welcome to **Characters Wiki**
 Your privacy is important to us. This Privacy Policy explains how information is collected, used, and protected when you visit our website.
 
 By using this website, you agree to the practices described in this policy.
