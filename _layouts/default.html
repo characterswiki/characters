@@ -24,5 +24,17 @@
     </main>
     {% include footer.html %}
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    {% include header.html %}
+    
+    <main class="main-content">
+        {{ content }}
+    </main>
+    
+    {% include footer.html %}
+    
+    <!-- Cookies Consent Popup -->
+    {% include cookies-consent.html %}
+    
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 </body>
 </html>
