@@ -45,26 +45,7 @@ layout: default
           </span>
         </div>
 
-        <!-- Categories & Tags (no hashtags) -->
-        <div class="post__taxonomies">
-          {% if page.categories.size > 0 %}
-          <div class="post__categories">
-            <span class="taxonomy-label">Categories:</span>
-            {% for category in page.categories %}
-            <a href="{{ '/categories/' | append: category | slugify | relative_url }}" class="tag category-tag">{{ category }}</a>
-            {% endfor %}
-          </div>
-          {% endif %}
-
-          {% if page.tags.size > 0 %}
-          <div class="post__tags">
-            <span class="taxonomy-label">Tags:</span>
-            {% for tag in page.tags %}
-            <a href="{{ '/tags/' | append: tag | slugify | relative_url }}" class="tag">{{ tag }}</a>
-            {% endfor %}
-          </div>
-          {% endif %}
-        </div>
+        <!-- Categories & Tags removed -->
       </header>
 
       <!-- Table of Contents (if at least 3 <h2> headings) -->
