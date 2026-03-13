@@ -1,23 +1,52 @@
 ---
 layout: page
-title: Terms of Service
+title: Terms and Conditions
 permalink: /terms/
 ---
 
-Welcome to {{ site.title }}.
+# Terms and Conditions
 
-By using this website, you agree to the following terms:
+Last updated: March 13, 2026
 
-## 1. Informational Purpose
-This is a fan-based anime and manga character information website.
+Welcome to **Characters Wiki** (https://characterswiki.github.io/characters/).  
+By using this website, you agree to follow these terms and conditions.
 
-## 2. No Official Affiliation
-We are not affiliated with any anime studios or publishers.
+---
 
-## 3. External Links
-We may link to third-party sites. We are not responsible for their content.
+## Use of the Website
 
-## 4. Changes
-We may update these terms at any time.
+The content on this website is provided for informational and educational purposes about anime, manga, and fictional characters.
 
-For questions, visit our Contact page.
+By using this website, you agree that you will:
+
+- Use the website legally and responsibly  
+- Not attempt to damage or disrupt the website  
+- Not copy or republish large portions of the content without permission  
+
+---
+
+## Content Ownership
+
+All characters, trademarks, and media referenced on this website belong to their respective owners.
+
+The articles and written content on this site are created for informational purposes.
+
+---
+
+## External Links
+
+Our website may include links to other websites.  
+We are not responsible for the content or policies of external websites.
+
+---
+
+## Changes to These Terms
+
+We may update these Terms and Conditions at any time.  
+Any changes will be posted on this page.
+
+---
+
+## Contact
+
+If you have any questions about these Terms and Conditions, you can contact us through the website.
