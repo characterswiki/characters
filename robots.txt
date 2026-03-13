@@ -1,3 +1,6 @@
+---
+# This file is processed by Jekyll to generate the correct sitemap URL
+---
 User-agent: *
 Allow: /
 
